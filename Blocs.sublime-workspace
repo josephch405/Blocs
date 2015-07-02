@@ -1,0 +1,814 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"body",
+				"bodycontainer"
+			],
+			[
+				"strip",
+				"stripeVelocity"
+			],
+			[
+				"background",
+				"backgroundColor"
+			],
+			[
+				"append",
+				"appendAndAttach"
+			],
+			[
+				"onmou",
+				"onmouseout"
+			],
+			[
+				"bro",
+				"browserAction"
+			],
+			[
+				"ou",
+				"outString"
+			],
+			[
+				"input",
+				"inputArray"
+			],
+			[
+				"i",
+				"i"
+			],
+			[
+				"main",
+				"mainIndex"
+			],
+			[
+				"local",
+				"localStorage"
+			],
+			[
+				"create",
+				"createButton"
+			],
+			[
+				"dayOfWe",
+				"dayOfWeek-1"
+			],
+			[
+				"delete",
+				"deleteButton"
+			],
+			[
+				"goo",
+				"goodTasks"
+			],
+			[
+				"task",
+				"taskArray"
+			],
+			[
+				"calcula",
+				"calculateKarma"
+			],
+			[
+				"max",
+				"maxArchiveId"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"cal",
+				"calculateTaskPercentage"
+			],
+			[
+				"get",
+				"getElementById"
+			],
+			[
+				"arch",
+				"archTaskRow"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "Package Control Messages\n========================\n\nPackage Control:\n---------------\n\n  Version 3.0 Release Notes\n  \n  \n  **** Windows Sublime Text 3 Users ****\n  \n  Due to a bug in Package Control 2.0, Windows ST3 users will need to open the\n  Sublime Text console (ctrl+`) and execute the following Python to properly\n  upgrade. All other users may ignore this part of the message.\n  \n  Make sure NOT to copy the leading two spaces, or an \"unexpected indent\" error\n  will occur.\n  \n  import urllib.request,os,sys; exec(\"if sys.version_info < (3,) or os.name != 'nt': raise OSError('This code is for Windows ST3 only!')\"); pr='Preferences.sublime-settings'; ip='ignored_packages'; n='Package Control'; s=sublime.load_settings(pr); ig=s.get(ip); ig.append(n); s.set(ip,ig); sublime.save_settings('Preferences.sublime-settings'); pf=n+'.sublime-package'; urllib.request.install_opener(urllib.request.build_opener(urllib.request.ProxyHandler())); by=urllib.request.urlopen('https://packagecontrol.io/'+pf.replace(' ','%20')).read(); open(os.path.join(sublime.installed_packages_path(),pf),'wb').write(by); ig.remove(n); s.set(ip,ig); sublime.save_settings(pr); print('Package Control: 3.0.0 upgrade successful!')\n  \n  ********\n  \n  \n  Package Control 3.0 adds a bunch of polish, improving the Sublime Text\n  experience for users and package developers:\n  \n   - improved upgrades of themes, color schemes and syntaxes\n   - dependency support\n   - SSL for Linux\n   - new secondary Windows HTTP backend\n   - patches for Python in Sublime Text 2 on Windows\n   - commands to easily remove channels and repositories\n   - an events API for packages\n   - improved documentation\n  \n  \n  As of July 2014, I now work for myself. This has allowed me to spend more time\n  working on open source software, including Package Control. If you appreciate\n  the work I've done, please consider a small donation. If even 5% of regular\n  users donated the price of a coffee or beer, that would cover quite a bit of\n  my development time! See https://packagecontrol.io/about for options.\n  \n  \n  Some recent Package Control stats:\n  \n   - every weekday over 1M JSON requests hit the channel server\n   - in December, the channel server will transmit 4TB+ of compressed JSON\n   - users have installed, upgraded or removed 85M+ packages since late 2011\n  \n  \n  Read more about the release at:\n  \n  https://packagecontrol.io/news#2014-12-23-Package_Control_30_Released\n  \n",
+			"settings":
+			{
+				"buffer_size": 2443,
+				"line_ending": "Windows",
+				"name": "Package Control Messages",
+				"scratch": true
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 375.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"packa",
+				"Package Control: Discover Packages"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"reomve",
+				"Package Control: Remove Package"
+			]
+		],
+		"width": 386.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs"
+	],
+	"file_history":
+	[
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Blocs.sublime-project",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Blocs.pde",
+		"/C/xampp/htdocs/modeling.php",
+		"/C/xampp/htdocs/wetlab.php",
+		"/C/xampp/htdocs/project.php",
+		"/C/xampp/htdocs/navigation.php",
+		"/C/Users/Administrator/Desktop/home.rms",
+		"/C/xampp/htdocs/auto list",
+		"/C/xampp/htdocs/human_practice.php",
+		"/C/xampp/htdocs/compiled.css",
+		"/C/xampp/htdocs/project_overview.php",
+		"/C/xampp/htdocs/achievements.php",
+		"/C/xampp/htdocs/safety.php",
+		"/C/xampp/htdocs/notebook.php",
+		"/C/xampp/htdocs/head.php",
+		"/C/xampp/htdocs/pic list",
+		"/C/xampp/htdocs/homepage.php",
+		"/C/xampp/htdocs/team.php",
+		"/C/Users/Administrator/Desktop/all but css and hp.rms",
+		"/C/Users/Administrator/Desktop/achievements.rms",
+		"/C/Users/Administrator/Desktop/all but css and hp",
+		"/C/Users/Administrator/Desktop/team.rms",
+		"/C/Users/Administrator/Desktop/safety.rms",
+		"/C/Users/Administrator/Desktop/project.rms",
+		"/C/Users/Administrator/Desktop/wetlab.rms",
+		"/C/Users/Administrator/Desktop/modeling.rms",
+		"/C/Users/Administrator/Desktop/notebook.rms",
+		"/C/xampp/htdocs/project_abstract.php",
+		"/C/Users/Administrator/Google Drive/12grade/Brawl/Brawl/Brawl.sublime-project",
+		"/C/xampp/htdocs/style.less",
+		"/C/xampp/htdocs/homepage.less",
+		"/C/xampp/htdocs/style.css",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap",
+		"/C/xampp/htdocs/footer.php",
+		"/C/Users/Administrator/Desktop/temp.html",
+		"/C/Users/Administrator/Desktop/fieldb.js",
+		"/C/xampp/htdocs/static/field.js",
+		"/C/xampp/htdocs/igem_server_reset.less",
+		"/C/Users/Administrator/Desktop/field.js",
+		"/C/xampp/htdocs/static/compiled.css",
+		"/C/xampp/htdocs/todc-bootstrap/css/todc-bootstrap.min.css",
+		"/C/xampp/htdocs/bootstrap.min.js",
+		"/C/xampp/htdocs/static/bootstrap.min.css",
+		"/C/Users/Administrator/Desktop/TAS Taipei iGEM Wiki.html",
+		"/C/xampp/htdocs/static/field_homepage_squares.js",
+		"/C/Users/Administrator/Desktop/TAS Taipei iGEM Wiki.htm",
+		"/C/Users/Administrator/Desktop/Modeling - TAS Taipei iGEM Wiki.html",
+		"/C/Users/Administrator/Desktop/temp_files/css",
+		"/C/xampp/htdocs/static/field_homepage.js",
+		"/C/xampp/htdocs/static/field_homepage_triangle.js",
+		"/C/xampp/htdocs/static/SlideShowCSS.css",
+		"/C/xampp/htdocs/tile.js",
+		"/C/xampp/htdocs/test.html",
+		"/C/xampp/phpMyAdmin/config.inc.php",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/popup.js",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/html/popup.html",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/background.js",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/advisor.js",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/html/tut.html",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/html/settings.html",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/css/options.css",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/css/tut.css",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/main.js",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/html/options.html",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/css/main.css",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/Habivator.sublime-project",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/task.js",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/roadmap.txt",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/manifest.json",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/css/popup.css",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/settings.js",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/Chart.min.js",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/css/options1.css",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/css/advisor.css",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/html/advisor.html",
+		"/C/Users/Administrator/AppData/Local/Google/Chrome/User Data/Default/Extensions/iojcopdigjlclknoioleamdbmfhjeedb/0.3_0/js/popup.js",
+		"/C/Users/Administrator/AppData/Local/Google/Chrome/User Data/Default/Extensions/jkhopfdenimipdamjmfpijifmmpnakpc/8.2_0/manifest.json",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/options.js",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/options1.js",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/html/options1.html",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/smiley.js",
+		"/C/Users/Administrator/AppData/Local/Temp/7zO83AE61AF/manifest.json",
+		"/C/Users/Administrator/AppData/Local/Temp/7zO8988203E/manifest.json",
+		"/C/Users/Administrator/AppData/Local/Temp/7zO898EE57E/manifest.json",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/archivedTaskGroup.js",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/archivedTask.js",
+		"/C/Users/Administrator/AppData/Local/Google/Chrome/User Data/Default/Extensions/nidmklgpplnfghikfnkbdgldlkdgddcn/0.55_0/js/archivedTaskGroup.js",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/popup1.js",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/html/popup1.html",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/css/popup1.css",
+		"/C/Users/Administrator/Desktop/sa.txt",
+		"/C/Users/Administrator/Google Drive/11grade/code/lisp/main.js",
+		"/C/Users/Administrator/Google Drive/11grade/code/lisp/sampleInput.txt",
+		"/C/Users/Administrator/Google Drive/11grade/code/lisp/openThis.html",
+		"/C/Users/Administrator/AppData/Local/Google/Chrome/User Data/chrome_debug.log",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/roadmap",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Administrator/Google Drive/11grade/code/cityTravel/main.js",
+		"/C/Users/Administrator/Documents/GitHub/2014-Aerial-Assist/src/com/team1160/assistant/OI.java",
+		"/C/Users/Administrator/Videos/4K Video Downloader/The skill of self confidence   Dr. Ivan Joseph   TEDxRyersonU.srt",
+		"/C/Users/Administrator/Desktop/Chart.js/Chart.min.js",
+		"/C/Users/Administrator/Desktop/Chart1.js",
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/Chart.js",
+		"/C/Users/Administrator/Desktop/Chart.js/Chart.js",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/D/Student_Data/MAI/index.html",
+		"/D/Student_Data/MAI/mai.sublime-project"
+	],
+	"find":
+	{
+		"height": 26.0
+	},
+	"find_in_files":
+	{
+		"height": 100.0,
+		"where_history":
+		[
+			"<current file>",
+			"<current file>,C:\\xampp\\htdocs",
+			"<current file>",
+			"C:\\xampp\\htdocs"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"spotli",
+			"bio_data",
+			"talent",
+			"wetlab",
+			"abstrac",
+			"achie",
+			"human",
+			"Roboto",
+			"nav",
+			"px",
+			"260",
+			"Railway",
+			"back",
+			"bodyconta",
+			"container",
+			"24px",
+			"24",
+			"24px",
+			"h3",
+			"red",
+			"h4",
+			"10px",
+			"important",
+			"categor",
+			"intro_larg",
+			"50px ",
+			"spotligh",
+			"container",
+			"160",
+			"consol",
+			"context",
+			"counter",
+			"field",
+			"youtube",
+			"bodycont",
+			"bodycontainer",
+			"css",
+			"import",
+			"fe",
+			"34",
+			"jquery",
+			"less",
+			"png",
+			"team",
+			"card",
+			"bootstrap.min.js",
+			"field",
+			"15hs",
+			"hs",
+			"2014",
+			"color",
+			"head.php",
+			"homepage.less",
+			";\n",
+			"css",
+			"less",
+			"back",
+			"font",
+			"backgroun",
+			"sscr",
+			"canvas",
+			"field",
+			"canvas",
+			"color",
+			"!important",
+			"color",
+			"dropdow",
+			"field",
+			"220px",
+			"category_navbar",
+			"type=\"text/c",
+			"style",
+			"navb",
+			"navbar",
+			"background-im",
+			"back",
+			"backgr",
+			"row",
+			"width",
+			"row",
+			"col-lg",
+			"contain",
+			"width",
+			"white",
+			"background-colo",
+			"back",
+			"navbar",
+			"nav",
+			"border",
+			"70px",
+			"border",
+			"row",
+			"z",
+			"index",
+			"z-index",
+			"over",
+			"display: blo",
+			"display",
+			"none",
+			"dropdown-men",
+			"display",
+			"font-family",
+			"font-famil",
+			"font",
+			"background",
+			"dropdown",
+			"width",
+			"slides",
+			"slide",
+			"canvas",
+			"particle",
+			"dropdow",
+			"41",
+			"dropdown",
+			"dropdo",
+			"subcatego",
+			"shadow",
+			"white",
+			"dropdown",
+			"nav",
+			"child",
+			"blue",
+			"color",
+			"NUM",
+			"js",
+			"sketch",
+			"fx",
+			"pushamoun"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"Lato",
+			"stripeCount",
+			"ctx",
+			"15",
+			"2015",
+			"week2",
+			"dayMode",
+			"weekMode"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2443,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								51,
+								50
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 100.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "Blocs.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"team",
+				"team.php"
+			],
+			[
+				"nav",
+				"navigation.php"
+			],
+			[
+				"wet",
+				"wetlab.php"
+			],
+			[
+				"home",
+				"homepage.php"
+			],
+			[
+				"projec",
+				"project.php"
+			],
+			[
+				"navi",
+				"navigation.php"
+			],
+			[
+				"practic",
+				"human_practice.php"
+			],
+			[
+				"project",
+				"project.php"
+			],
+			[
+				"auto",
+				"auto list"
+			],
+			[
+				"pro",
+				"project.php"
+			],
+			[
+				"mode",
+				"modeling.php"
+			],
+			[
+				"hom",
+				"homepage.php"
+			],
+			[
+				"medals",
+				"medals.php"
+			],
+			[
+				"css",
+				"compiled.css"
+			],
+			[
+				"pic",
+				"pic list"
+			],
+			[
+				"head",
+				"head.php"
+			],
+			[
+				"note",
+				"notebook.php"
+			],
+			[
+				"medal",
+				"medals.php"
+			],
+			[
+				"noteb",
+				"notebook.php"
+			],
+			[
+				"sa",
+				"safety.php"
+			],
+			[
+				"hum",
+				"human_practice.php"
+			],
+			[
+				"model",
+				"modeling.php"
+			],
+			[
+				"modelin",
+				"modeling.php"
+			],
+			[
+				"huma",
+				"human_practice.php"
+			],
+			[
+				"compi",
+				"compiled.css"
+			],
+			[
+				"safet",
+				"safety.php"
+			],
+			[
+				"com",
+				"compiled.css"
+			],
+			[
+				"navig",
+				"navigation.php"
+			],
+			[
+				"homepa",
+				"homepage.php"
+			],
+			[
+				"homep",
+				"homepage.less"
+			],
+			[
+				"naviga",
+				"navigation.php"
+			],
+			[
+				"style",
+				"style.less"
+			],
+			[
+				"notebook",
+				"notebook.php"
+			],
+			[
+				"safety",
+				"safety.php"
+			],
+			[
+				"safe",
+				"safety.php"
+			],
+			[
+				"hope",
+				"homepage.php"
+			],
+			[
+				"compil",
+				"compiled.css"
+			],
+			[
+				"compiled",
+				"compiled.css"
+			],
+			[
+				"",
+				"C:\\Users\\Administrator\\Desktop\\fieldb.js"
+			],
+			[
+				"field",
+				"C:\\Users\\Administrator\\Desktop\\field.js"
+			],
+			[
+				"modeli",
+				"modeling.php"
+			],
+			[
+				"footer",
+				"footer.php"
+			],
+			[
+				"compile",
+				"compiled.css"
+			],
+			[
+				"human",
+				"human_practice.php"
+			],
+			[
+				"less",
+				"style.less"
+			],
+			[
+				"todc",
+				"todc-bootstrap\\css\\todc-bootstrap.min.css"
+			],
+			[
+				"bootstrapmin.css",
+				"static\\bootstrap.min.css"
+			],
+			[
+				"bootstra",
+				"bootstrap.min.js"
+			],
+			[
+				"boots",
+				"bootstrap.min.js"
+			],
+			[
+				"find",
+				"Find Results"
+			],
+			[
+				"modeling",
+				"modeling.php"
+			],
+			[
+				"head.",
+				"head.php"
+			],
+			[
+				"homepage.php",
+				"homepage.php"
+			],
+			[
+				"homepage.less",
+				"homepage.less"
+			],
+			[
+				"project_a",
+				"project_abstract.php"
+			],
+			[
+				"js",
+				"static\\field_homepage.js"
+			],
+			[
+				"homepage",
+				"homepage.php"
+			],
+			[
+				"les",
+				"homepage.less"
+			],
+			[
+				"navia",
+				"navigation.php"
+			],
+			[
+				".less",
+				"homepage.less"
+			],
+			[
+				"project_over",
+				"project_overview.php"
+			],
+			[
+				"head.php",
+				"head.php"
+			],
+			[
+				".js",
+				"tile.js"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"C:\\Users\\Administrator\\Google Drive\\11grade\\Habivator\\Habivator.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 222.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
