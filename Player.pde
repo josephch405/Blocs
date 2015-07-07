@@ -36,10 +36,12 @@ class Player extends Thing {
     powerPool -= powerPool_missile;
   }
 
+  //calculates player events during loop
   void calculate(){
     if (HP <= 0){
       gameEnd();
     }
+    //incrementing cooldowns
     if (coolDown > 0){
       coolDown -= coolDown_rate();
     }
@@ -51,11 +53,11 @@ class Player extends Thing {
     }
   	//movement
   	for (int i = 0; i < 4; i++){
-  	  if (downKeys[i]){
-  	    xVel += moveDirs[i][0];
-  	    yVel += moveDirs[i][1];
-  	  }
-  	}
+     if (downKeys[i]){
+       xVel += moveDirs[i][0];
+       yVel += moveDirs[i][1];
+     }
+    }
 
     //fire
     if (powerPool <= 0){
@@ -76,10 +78,11 @@ class Player extends Thing {
       };
     };
 
+    //upgrading handler
     if (upgradeCoolDown == 0){
       for (int i = 0; i < 3; i++){
         if (downKeys[i+8]){
-          //pseudocode for upgrade
+          //TODO: pseudocode for upgrade
           if(agility < 7){
             agility += 1;
           }
@@ -97,14 +100,16 @@ class Player extends Thing {
     if (powerPool >= powerPool_max()){
       locked = false;
     }
-	  cap();
-	  xPos += xVel;
-	  yPos += yVel;
-	  xVel *= .8;
-	  yVel *= .8;
-   }
+    cap();
+    xPos += xVel;
+    yPos += yVel;
+    xVel *= .8;
+    yVel *= .8;
+  }
 
+  //draws out player square
   void drawOut(){
+    //drawing main square - red if locked, black if not
     strokeWeight(playerSize()/8);
     if (!locked){
       stroke(0);
@@ -114,8 +119,9 @@ class Player extends Thing {
       stroke(255,0,0);
       fill(255,0,0);
     }
-  	rect(xPos, yPos, playerSize(), playerSize());
+    rect(xPos, yPos, playerSize(), playerSize());
 
+    //drawing four colored sides
     strokeWeight(2);
     fill(missileColors[0][0],missileColors[0][1],missileColors[0][2]);
     rect(xPos, yPos - playerSize()*3/5, playerSize(), playerSize()/6);
@@ -126,11 +132,13 @@ class Player extends Thing {
     fill(missileColors[3][0],missileColors[3][1],missileColors[3][2]);
     rect(xPos + playerSize()*3/5, yPos, playerSize()/6, playerSize());
 
+    //drawing power pool
     fill(255);
     int temp = playerSize()*powerPool / powerPool_max();
     rect(xPos, yPos, temp, temp);
   }
 
+  //caps player within display boundaries, considering UI clipping
   void cap(){
   	if (xPos > displayWidth - playerSize()/2){
   		xPos = displayWidth - playerSize()/2;
@@ -153,6 +161,7 @@ class Player extends Thing {
   	}
   }
 
+  //functions that return stats based on agl, pow etc.
   int maxVel(){
     return maxVel[agility];
   }

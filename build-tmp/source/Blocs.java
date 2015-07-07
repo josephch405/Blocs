@@ -27,10 +27,11 @@ BgSprite[] bgSprites;
 boolean[] downKeys;
 ArrayList<Missile> missiles = new ArrayList<Missile>();
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+ArrayList<Enemy_Sticky> enemies_sticky = new ArrayList<Enemy_Sticky>();
 ArrayList<Missile_kill> missiles_kill = new ArrayList<Missile_kill>();
 ArrayList<Enemy_kill> enemies_kill = new ArrayList<Enemy_kill>();
 int marginSize = 20;
-float maxEnemies = 5;
+float maxEnemies = 20;
 
 public void setup(){
   sWidth = displayWidth;
@@ -65,7 +66,7 @@ public void step(){
   playerCam.update(floor(player.xPos)-displayWidth/2, floor(player.yPos)-displayHeight/2);
   enemyController.update();
   player.calculate();
-    for (int i = bgSprites.length-1; i >= 0; i--){
+  for (int i = bgSprites.length-1; i >= 0; i--){
     bgSprites[i].wiggle();
   }
   for(int i = 0; i < missiles.size(); i++){
@@ -86,6 +87,15 @@ public void step(){
       enemies.get(i).calculate();
     }
   }
+  for(int i = 0; i < enemies_sticky.size(); i++){
+    if (!enemies_sticky.get(i).active){
+      enemies_sticky.remove(i);
+      i--;
+    }
+    else{
+      enemies_sticky.get(i).calculate();
+    }
+  }
 
   for(int i = 0; i < enemies_kill.size(); i++){
     if (!enemies_kill.get(i).active){
@@ -99,6 +109,7 @@ public void step(){
 }
 
 public void drawCanvas(){
+  fill(255);
   for (int i = bgSprites.length-1; i >= 0; i--){
     bgSprites[i].paint();
   }
@@ -107,6 +118,9 @@ public void drawCanvas(){
   }
   for(int i = 0; i < enemies.size(); i++){
     enemies.get(i).drawOut();
+  }
+  for(int i = 0; i < enemies_sticky.size(); i++){
+    enemies_sticky.get(i).drawOut();
   }
   for(int i = 0; i < missiles.size(); i++){
     missiles.get(i).drawOut();
@@ -239,10 +253,13 @@ class Enemy extends Thing {
   int path = 0;
   int[] fillColor;
   float xVel = 0, yVel = 0;
-  int size = 40;
-  int goldWorth = 10;
+  int size = 32;
+  int[] stickyCoords = {0,0};
+  Enemy_Sticky parent;
+
 
   Enemy(int _xPos, int _yPos, int _HP, int _dir){
+    goldWorth = 10;
     xPos = _xPos;
     yPos = _yPos;
     dir = _dir;
@@ -256,28 +273,21 @@ class Enemy extends Thing {
   }
 
   public void calculate(){
-	  xPos += xVel;
-	  yPos += yVel;
-    if (xPos < -50 || xPos > displayWidth + 50 ||yPos < -50 || yPos > displayHeight + 50){
-      destroy();
+    if(isStickied()){
+      xPos = parent.xPos + parent.size/2 + (stickyCoords[0]-.5f)*size;
+      yPos = parent.yPos + parent.size/2 + (stickyCoords[1]-.5f)*size;
+      collisionCheck_enemies();
     }
-    float[] playerPos = {player.xPos,player.yPos};
-    if(isCollided(playerPos,player.playerSize())){
-      damagePlayer(10);
-      destroyWithAnim();
-    }
-    for (int i = 0; i < missiles.size(); i++){
-      Missile missile = missiles.get(i);
-      float[] missilePos = {missile.xPos,missile.yPos};
-      if(isCollided(missilePos,missile.size)){
-        missiles.get(i).destroy();
-        if (missile.type == type){
-          addGold(goldWorth);
-          destroyWithAnim();
-          //TEMP
-          maxEnemies += .2f;
-        }
+    else{
+	     xPos += xVel;
+	     yPos += yVel;
+      //destroy on leaving active area
+      if (xPos < -50 || xPos > displayWidth + 50 ||yPos < -50 || yPos > displayHeight + 50){
+        destroy();
       }
+    }
+    if(!collisionCheck_player()){
+      collisionCheck_missiles();
     }
   }
 
@@ -293,11 +303,88 @@ class Enemy extends Thing {
   	rect(xPos, yPos, size, size);
   }
 
+  //checks if within contact with a position and distance
   public boolean isCollided(float[] position, int _width){
     if (abs(xPos-position[0]) < (_width+size)/2 && abs(yPos-position[1]) < (_width+size)/2){
       return true;
     }
     return false;
+  }
+
+  //checks and handles collision with player
+  public boolean collisionCheck_player(){
+    float[] playerPos = {player.xPos,player.yPos};
+    if(isCollided(playerPos,player.playerSize())){
+      damagePlayer(10);
+      destroyWithAnim();
+      return true;
+    }
+    return false;
+  }
+
+  //checks and handles collision with missiles
+  public boolean collisionCheck_missiles(){
+    for (int i = 0; i < missiles.size(); i++){
+      Missile missile = missiles.get(i);
+      float[] missilePos = {missile.xPos,missile.yPos};
+      if(isCollided(missilePos,missile.size)){
+        missiles.get(i).destroy();
+        if (missile.type == type){
+          addGold(goldWorth);
+          destroyWithAnim();
+          maxEnemies += .4f;
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  //checks if enemy if stickied to enemy_sticky
+  public boolean isStickied(){
+    if (stickyCoords[0] == 0 && stickyCoords[1] == 0){
+      return false;
+    }
+    return true;
+  }
+  
+  public void stickTo(Enemy_Sticky _parent, int[] finalCoords){
+    parent = _parent;
+    stickyCoords = finalCoords;
+  }
+
+  public int collisionCheck_enemies(){
+    int counter = 0;
+    for (int i = 0; i < enemies.size(); i++){
+      Enemy _minion = enemies.get(i);
+      float[] _minion_pos = {_minion.xPos,_minion.yPos};
+      if(isCollided(_minion_pos, _minion.size)){
+        parent.childList.add(enemies.get(i));
+        int[] finalCoords = collision_position(round(_minion.xPos), round(_minion.yPos));
+        finalCoords[0] += stickyCoords[0];
+        finalCoords[1] += stickyCoords[1];
+        parent.childList.get(parent.childList.size()-1).stickTo(parent, finalCoords);
+        //parent.childList.get(parent.childList.size()-1).type = type;
+        //parent.childList.get(parent.childList.size()-1).fillColor = missileColors[type];;
+        enemies.remove(i);
+        i--;
+        counter += 1;
+      }
+    }
+    return counter;
+  }
+
+  public int[] collision_position(int _x, int _y){
+    int[] result = {0,0};
+    int deltaX = _x - round(xPos);
+    int deltaY = _y - round(yPos);
+    if(abs(deltaY)<abs(deltaX)){
+      result[0] = deltaX/abs(deltaX);
+    }
+    else{
+      result[1] = deltaY/abs(deltaY);
+    }
+    return result;
   }
 }
 class EnemyController {
@@ -317,11 +404,19 @@ class EnemyController {
 		if (enemies.size() < floor(maxEnemies)){
 			release(floor(random(0,4)));
 		}
+		if (enemies_sticky.size() < floor(maxEnemies/7)){
+			release_sticky(floor(random(0,4)));
+		}
 	}
 
 	public void release(int dir){
 		int[] position = randomCoord(dir);
 		enemies.add(new Enemy(position[0],position[1],100,dir));
+	}
+
+	public void release_sticky(int dir){
+		int[] position = randomCoord(dir);
+		enemies_sticky.add(new Enemy_Sticky(position[0],position[1],100,dir));
 	}
 
 	public int[] randomCoord(int dir){
@@ -336,12 +431,13 @@ class Enemy_Sticky extends Thing {
   int type = 0;
   int dir = 0;
   int path = 0;
-  int[] fillColor = {255, 255, 255};
+  int[] fillColor = {0, 0, 0};
+  int[] stickyCoords = {0,0};
   float xVel = 0, yVel = 0;
-  int size = 40;
-  int goldWorth = 30;
+  ArrayList<Enemy> childList = new ArrayList<Enemy>();
 
   Enemy_Sticky(int _xPos, int _yPos, int _HP, int _dir){
+    size = 32;
     xPos = _xPos;
     yPos = _yPos;
     dir = _dir;
@@ -355,26 +451,25 @@ class Enemy_Sticky extends Thing {
 
   public void calculate(){
 	  xPos += xVel;
-	  yPos += yVel;
+	  yPos += yVel;   
+
     if (xPos < -50 || xPos > displayWidth + 50 ||yPos < -50 || yPos > displayHeight + 50){
-      destroy();
+      shufflePosition();
     }
-    float[] playerPos = {player.xPos,player.yPos};
-    if(isCollided(playerPos,player.playerSize())){
-      damagePlayer(10);
-      destroy();
+    
+    if(!collisionCheck_player()){
+      collisionCheck_missiles();
     }
-    for (int i = 0; i < missiles.size(); i++){
-      Missile missile = missiles.get(i);
-      float[] missilePos = {missile.xPos,missile.yPos};
-      if(isCollided(missilePos,missile.size)){
-        missiles.get(i).destroy();
-        if (missile.type == type){
-          addGold(goldWorth);
-          destroy();
-          //TEMP
-          maxEnemies += .2f;
-        }
+    collisionCheck_enemies();
+
+    for (int i = 0; i < childList.size(); i++){
+      Enemy child = childList.get(i);
+      if (!child.active){
+        childList.remove(i);
+        i--;
+      }
+      else{
+        child.calculate();
       }
     }
   }
@@ -384,6 +479,21 @@ class Enemy_Sticky extends Thing {
     stroke(0);
     fill(fillColor[0],fillColor[1],fillColor[2]);
   	rect(xPos, yPos, size, size);
+    for (int i = 0; i < childList.size(); i++){
+      Enemy child = childList.get(i);
+      child.drawOut();
+    }
+  }
+
+  public void shufflePosition(){
+    int dir = floor(random(0,4));
+    int[] temp = enemyController.randomCoord(dir);
+    xPos = temp[0];
+    yPos = temp[1];
+    xVel = (-dir+2)%2;
+    yVel = (-dir+1)%2;
+    xVel *= random(2,3);
+    yVel *= random(2,3);
   }
 
   public boolean isCollided(float[] position, int _width){
@@ -391,6 +501,71 @@ class Enemy_Sticky extends Thing {
       return true;
     }
     return false;
+  }
+
+  public boolean collisionCheck_player(){
+    float[] playerPos = {player.xPos,player.yPos};
+    if(isCollided(playerPos,player.playerSize())){
+      damagePlayer(10);
+      destroy();
+      return true;
+    }
+    return false;
+  }
+
+  public boolean collisionCheck_missiles(){
+    for (int i = 0; i < missiles.size(); i++){
+      Missile missile = missiles.get(i);
+      float[] missilePos = {missile.xPos,missile.yPos};
+      if(isCollided(missilePos,missile.size)){
+        missiles.get(i).destroy();
+        addGold(goldWorth);
+        destroy();
+        maxEnemies += .2f;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public void destroy(){
+    active = false;
+    for (int i = 0; i < childList.size(); i++){
+      Enemy child = childList.get(i);
+      child.destroyWithAnim();
+    }
+  }
+
+  public int collisionCheck_enemies(){
+    int counter = 0;
+    for (int i = 0; i < enemies.size(); i++){
+      Enemy _minion = enemies.get(i);
+      float[] _minion_pos = {_minion.xPos,_minion.yPos};
+      if(isCollided(_minion_pos, _minion.size)){
+        childList.add(enemies.get(i));
+        int[] finalCoords = collision_position(round(_minion.xPos), round(_minion.yPos));
+        finalCoords[0] += stickyCoords[0];
+        finalCoords[1] += stickyCoords[1];
+        childList.get(childList.size()-1).stickTo(this, finalCoords);
+        enemies.remove(i);
+        i--;
+        counter += 1;
+      }
+    }
+    return counter;
+  }
+
+  public int[] collision_position(int _x, int _y){
+    int[] result = {0,0};
+    int deltaX = _x - round(xPos);
+    int deltaY = _y - round(yPos);
+    if(abs(deltaY)<abs(deltaX)){
+      result[0] = deltaX/abs(deltaX);
+    }
+    else{
+      result[1] = deltaY/abs(deltaY);
+    }
+    return result;
   }
 }
 class Enemy_kill extends Thing {
@@ -433,7 +608,7 @@ class Missile extends Thing{
 
 	int type = 0;
 	int[] dir;
-	int size = 20;
+	int size = 16;
 	int[] fillColor;
 	//dir: up, left, down, right
 
@@ -573,10 +748,12 @@ class Player extends Thing {
     powerPool -= powerPool_missile;
   }
 
+  //calculates player events during loop
   public void calculate(){
     if (HP <= 0){
       gameEnd();
     }
+    //incrementing cooldowns
     if (coolDown > 0){
       coolDown -= coolDown_rate();
     }
@@ -588,11 +765,11 @@ class Player extends Thing {
     }
   	//movement
   	for (int i = 0; i < 4; i++){
-  	  if (downKeys[i]){
-  	    xVel += moveDirs[i][0];
-  	    yVel += moveDirs[i][1];
-  	  }
-  	}
+     if (downKeys[i]){
+       xVel += moveDirs[i][0];
+       yVel += moveDirs[i][1];
+     }
+    }
 
     //fire
     if (powerPool <= 0){
@@ -613,10 +790,11 @@ class Player extends Thing {
       };
     };
 
+    //upgrading handler
     if (upgradeCoolDown == 0){
       for (int i = 0; i < 3; i++){
         if (downKeys[i+8]){
-          //pseudocode for upgrade
+          //TODO: pseudocode for upgrade
           if(agility < 7){
             agility += 1;
           }
@@ -634,14 +812,16 @@ class Player extends Thing {
     if (powerPool >= powerPool_max()){
       locked = false;
     }
-	  cap();
-	  xPos += xVel;
-	  yPos += yVel;
-	  xVel *= .8f;
-	  yVel *= .8f;
-   }
+    cap();
+    xPos += xVel;
+    yPos += yVel;
+    xVel *= .8f;
+    yVel *= .8f;
+  }
 
+  //draws out player square
   public void drawOut(){
+    //drawing main square - red if locked, black if not
     strokeWeight(playerSize()/8);
     if (!locked){
       stroke(0);
@@ -651,8 +831,9 @@ class Player extends Thing {
       stroke(255,0,0);
       fill(255,0,0);
     }
-  	rect(xPos, yPos, playerSize(), playerSize());
+    rect(xPos, yPos, playerSize(), playerSize());
 
+    //drawing four colored sides
     strokeWeight(2);
     fill(missileColors[0][0],missileColors[0][1],missileColors[0][2]);
     rect(xPos, yPos - playerSize()*3/5, playerSize(), playerSize()/6);
@@ -663,11 +844,13 @@ class Player extends Thing {
     fill(missileColors[3][0],missileColors[3][1],missileColors[3][2]);
     rect(xPos + playerSize()*3/5, yPos, playerSize()/6, playerSize());
 
+    //drawing power pool
     fill(255);
     int temp = playerSize()*powerPool / powerPool_max();
     rect(xPos, yPos, temp, temp);
   }
 
+  //caps player within display boundaries, considering UI clipping
   public void cap(){
   	if (xPos > displayWidth - playerSize()/2){
   		xPos = displayWidth - playerSize()/2;
@@ -690,6 +873,7 @@ class Player extends Thing {
   	}
   }
 
+  //functions that return stats based on agl, pow etc.
   public int maxVel(){
     return maxVel[agility];
   }
@@ -716,6 +900,8 @@ class Thing{
 	
 	float xPos = 0, yPos = 0;
 	boolean active = false;
+  	int goldWorth = 30;
+  	int size = 40;
 
 	public void move(int dx, int dy){
 	  	xPos += dx;

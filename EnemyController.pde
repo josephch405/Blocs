@@ -15,11 +15,19 @@ class EnemyController {
 		if (enemies.size() < floor(maxEnemies)){
 			release(floor(random(0,4)));
 		}
+		if (enemies_sticky.size() < floor(maxEnemies/7)){
+			release_sticky(floor(random(0,4)));
+		}
 	}
 
 	void release(int dir){
 		int[] position = randomCoord(dir);
 		enemies.add(new Enemy(position[0],position[1],100,dir));
+	}
+
+	void release_sticky(int dir){
+		int[] position = randomCoord(dir);
+		enemies_sticky.add(new Enemy_Sticky(position[0],position[1],100,dir));
 	}
 
 	int[] randomCoord(int dir){

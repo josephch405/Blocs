@@ -11,10 +11,11 @@ BgSprite[] bgSprites;
 boolean[] downKeys;
 ArrayList<Missile> missiles = new ArrayList<Missile>();
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+ArrayList<Enemy_Sticky> enemies_sticky = new ArrayList<Enemy_Sticky>();
 ArrayList<Missile_kill> missiles_kill = new ArrayList<Missile_kill>();
 ArrayList<Enemy_kill> enemies_kill = new ArrayList<Enemy_kill>();
 int marginSize = 20;
-float maxEnemies = 5;
+float maxEnemies = 20;
 
 void setup(){
   sWidth = displayWidth;
@@ -49,7 +50,7 @@ void step(){
   playerCam.update(floor(player.xPos)-displayWidth/2, floor(player.yPos)-displayHeight/2);
   enemyController.update();
   player.calculate();
-    for (int i = bgSprites.length-1; i >= 0; i--){
+  for (int i = bgSprites.length-1; i >= 0; i--){
     bgSprites[i].wiggle();
   }
   for(int i = 0; i < missiles.size(); i++){
@@ -70,6 +71,15 @@ void step(){
       enemies.get(i).calculate();
     }
   }
+  for(int i = 0; i < enemies_sticky.size(); i++){
+    if (!enemies_sticky.get(i).active){
+      enemies_sticky.remove(i);
+      i--;
+    }
+    else{
+      enemies_sticky.get(i).calculate();
+    }
+  }
 
   for(int i = 0; i < enemies_kill.size(); i++){
     if (!enemies_kill.get(i).active){
@@ -83,6 +93,7 @@ void step(){
 }
 
 void drawCanvas(){
+  fill(255);
   for (int i = bgSprites.length-1; i >= 0; i--){
     bgSprites[i].paint();
   }
@@ -91,6 +102,9 @@ void drawCanvas(){
   }
   for(int i = 0; i < enemies.size(); i++){
     enemies.get(i).drawOut();
+  }
+  for(int i = 0; i < enemies_sticky.size(); i++){
+    enemies_sticky.get(i).drawOut();
   }
   for(int i = 0; i < missiles.size(); i++){
     missiles.get(i).drawOut();

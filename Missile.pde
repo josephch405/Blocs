@@ -2,7 +2,7 @@ class Missile extends Thing{
 
 	int type = 0;
 	int[] dir;
-	int size = 20;
+	int size = 16;
 	int[] fillColor;
 	//dir: up, left, down, right
 
