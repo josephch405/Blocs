@@ -28,7 +28,7 @@ class Missile_kill extends Thing{
 			xPos += dir[0];
 			yPos += dir[1];
 		}
-		if (xPos < -10 || xPos > displayWidth + 10 ||yPos < -10 || yPos > displayHeight + 10){
+		if (xPos < -10 || xPos > sWidth + 10 ||yPos < -10 || yPos > sHeight + 10){
 			destroy();
 		}
 	}

@@ -1,0 +1,35 @@
+things to fix
+
+performance dip
+	addressed by limiting objects
+bugtest enemy counting and streamline process
+	right now, variables normalEnemies and stickyEnemies
+		change to enemyCount and stickyCount
+	add to count when release
+	increase margins for spawning
+	remove when 
+		destroyed by boundary
+			FIX: simply reroll vs creating new entity
+		destroyed by missile
+		destroyed by player
+		*make sure also removed when normal is consumed by sticky OR when sticky is destroyed
+buggy overlapping children under stickies
+
+unify more processes
+	can we move more things to thing? methods, etc.
+consider array-fying position and velocity?
+
+features
+	bomb mechanism
+		ammo system?
+	light beam
+	jump mechanism/stealth mode
+	own minions/towers etc
+	swarm vs sticky
+	slow mo
+	refactor upgrades
+		self upgrade
+		bomb
+		light beam
+		jumping/stealth
+		etc

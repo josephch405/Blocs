@@ -1,81 +1,93 @@
-//objects
-int sWidth = 800;
-int sHeight = 600;
-Player player;// = new Player(sWidth/2, sHeight/2, 100);;
+Player player;
+int sWidth, sHeight;
 EnemyController enemyController = new EnemyController();
-InputController inputController;// = new InputController();
 Camera playerCam;
-
-//lists of objects
+boolean gameIsEnd = false;
+char[] keyMapping = {'w','a','s','d','i','j','k','l','z','x','c'};
+int[][] moveDirs = {{0,-2},{-2,0},{0,2},{2,0}};
+int[][] missileDirs = {{0,-18},{-18,0},{0,18},{18,0}};
+int[][] missileColors = {{0,0,255}, {255,0,0}, {255,255,0}, {0,255,0}};
+BgSprite[] bgSprites;
+boolean[] downKeys;
 ArrayList<Missile> missiles = new ArrayList<Missile>();
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 ArrayList<Enemy_Sticky> enemies_sticky = new ArrayList<Enemy_Sticky>();
+ArrayList<Missile_kill> missiles_kill = new ArrayList<Missile_kill>();
 ArrayList<Enemy_kill> enemies_kill = new ArrayList<Enemy_kill>();
-BgSprite[] bgSprites;
-
-//variables
-int status = 0; //status: 0 is playing, 1 is paused, 2 is endgame, -1 is main menu?
-boolean gameIsEnd = false;
-int spritesPerLayer = 10;
 int marginSize = 20;
-float maxEnemies = 10;
-int normalEnemies, stickyEnemies = 0;
-
-//lists of variables
-char[] keyMapping = {'w','a','s','d','i','j','k','l','z','x','c',' ', 'p'};    //movement 4x, shooting 4x, upgrade 3x, bomb(alt 1), pause
-int[][] moveDirs = {{0,-4},{-4,0},{0,4},{4,0}};
-int[][] missileDirs = {{0,-1},{-1,0},{0,1},{1,0}};
-int[][] missileColors = {{0,0,255}, {255,0,0}, {255,255,0}, {0,255,0}};
-boolean[] downKeys;
+float maxEnemies = 20;
 
 void setup(){
-  //init variables
-  frameRate(30);
-  size(800,600);
+  sWidth = sWidth;
+  sHeight = sHeight;
   rectMode(CENTER);
-  strokeWeight(10);
-  //init objects
+  enemyController = new EnemyController();
   playerCam = new Camera(0,0);
-  player = new Player(sWidth/2, sHeight/2, 10000);
-  inputController = new InputController();
-  //init lists
   bgSprites = new BgSprite[40];
-  for (int i = 0; i < bgSprites.length; i++){
-    bgSprites[i] = new BgSprite(-floor(1+i/spritesPerLayer));
+  for (int i = 0; i < 40; i++){
+    bgSprites[i] = new BgSprite(floor(random(sWidth)),floor(random(sHeight)),-floor(1+i/8));
   }
-  downKeys = new boolean[13];
+  downKeys = new boolean[11];
   for (int i = 0; i < downKeys.length; i++){
     downKeys[i] = false;
   }
+  size(sWidth, sHeight);
+  strokeWeight(10);
+  player = new Player(sWidth/2, sHeight/2, 100);
 }
 
 void draw(){
   background(255);
   stroke(120);
-  inputController.update();
-  if (status < 1){
-    calculations();
+  if (!gameIsEnd){
+    step();
   }
   drawCanvas();
   fill(255);
 }
 
-void calculations(){
-  player.calculate();
-
-  //calculate distance from center of player, feeds to camera thus updating bgsprites
+void step(){
   playerCam.update(floor(player.xPos)-sWidth/2, floor(player.yPos)-sHeight/2);
+  enemyController.update();
+  player.calculate();
   for (int i = bgSprites.length-1; i >= 0; i--){
     bgSprites[i].wiggle();
   }
-  
-  enemyController.update();
-  for (int i = 0; i < missiles.size (); i++) {
-    if (!missiles.get(i).active) {
+  for(int i = 0; i < missiles.size(); i++){
+    if (!missiles.get(i).active){
       missiles.remove(i);
       i--;
-    } else {
+    }
+    else{
       missiles.get(i).calculate();
+    }
+  }
+  for(int i = 0; i < enemies.size(); i++){
+    if (!enemies.get(i).active){
+      enemies.remove(i);
+      i--;
+    }
+    else{
+      enemies.get(i).calculate();
+    }
+  }
+  for(int i = 0; i < enemies_sticky.size(); i++){
+    if (!enemies_sticky.get(i).active){
+      enemies_sticky.remove(i);
+      i--;
+    }
+    else{
+      enemies_sticky.get(i).calculate();
+    }
+  }
+
+  for(int i = 0; i < enemies_kill.size(); i++){
+    if (!enemies_kill.get(i).active){
+      enemies_kill.remove(i);
+      i--;
+    }
+    else{
+      enemies_kill.get(i).calculate();
     }
   }
 }
@@ -110,6 +122,7 @@ int findInKeyMapping(char input){
   return -1;
 }
 
+
 void keyPressed() {
   if (findInKeyMapping(key) >= 0){
     downKeys[findInKeyMapping(key)] = true;
@@ -123,7 +136,7 @@ void keyReleased() {
 }
 
 void gameEnd(){
-  status = 2;
+  gameIsEnd = true;
 }
 
 void damagePlayer(int points){
@@ -172,31 +185,6 @@ void drawUI(){
   }
   text(tempText, 300, sHeight-10);
 
-  //paused
-  if (status == 1){
-    fill(0);
-    text("PAUSED", 40, 40);
-  }
-  text(frameRate, 40, 80);
-  text(maxEnemies, 40, 120);
-
   rectMode(CENTER);
-}
 
-void pause(){
-  status = 1;
-}
-
-void unpause(){
-  status = 0;
-}
-
-void togglePause(){
-  if (status == 0 || status == 1){
-    status = (status + 1) %2;
-  }
-}
-
-void fillWithArray(int[] temp){
-  fill(temp[0], temp[1], temp[2]);
 }

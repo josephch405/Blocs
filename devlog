@@ -1,0 +1,23 @@
+devlog
+
+7/9
+-started devlog (yay)
+-fixed sticky shuffling bug
+-moved controls to new object - inputcontroller
+-added pause function - press p
+-added new fill function - takes array as parameter
+-implemented health regen
+-set limit for sticky childlist size
+
+tomorrow:
+-implement proper upgrading - batch upgrading for now
+	-add new function() that handles upgrading
+	-subtract from gold
+-implement connectCheck for sticky on destroy
+	-on enemy destruction, toggle parent function/flag
+	-build findMinionAtLocation(), returns object
+	-parent toggles all connected via a bool array
+	-for each in array, remove object
+		-go backwards
+-bomb mechanism
+-restart mechanism

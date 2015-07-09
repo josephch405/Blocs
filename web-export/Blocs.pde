@@ -1,19 +1,3 @@
-import processing.core.*; 
-import processing.data.*; 
-import processing.event.*; 
-import processing.opengl.*; 
-
-import java.util.HashMap; 
-import java.util.ArrayList; 
-import java.io.File; 
-import java.io.BufferedReader; 
-import java.io.PrintWriter; 
-import java.io.InputStream; 
-import java.io.OutputStream; 
-import java.io.IOException; 
-
-public class Blocs extends PApplet {
-
 //objects
 int sWidth = 800;
 int sHeight = 600;
@@ -44,7 +28,7 @@ int[][] missileDirs = {{0,-1},{-1,0},{0,1},{1,0}};
 int[][] missileColors = {{0,0,255}, {255,0,0}, {255,255,0}, {0,255,0}};
 boolean[] downKeys;
 
-public void setup(){
+void setup(){
   //init variables
   frameRate(30);
   size(800,600);
@@ -65,7 +49,7 @@ public void setup(){
   }
 }
 
-public void draw(){
+void draw(){
   background(255);
   stroke(120);
   inputController.update();
@@ -76,7 +60,7 @@ public void draw(){
   fill(255);
 }
 
-public void calculations(){
+void calculations(){
   player.calculate();
 
   //calculate distance from center of player, feeds to camera thus updating bgsprites
@@ -96,8 +80,9 @@ public void calculations(){
   }
 }
 
-public void drawCanvas(){
+void drawCanvas(){
   fill(255);
+  console.log(bgSprites);
   for (int i = bgSprites.length-1; i >= 0; i--){
     bgSprites[i].paint();
   }
@@ -117,7 +102,7 @@ public void drawCanvas(){
   drawUI();
 }
 
-public int findInKeyMapping(char input){
+int findInKeyMapping(char input){
   for (int i = 0; i < keyMapping.length; i++){
     if (keyMapping[i] == input){
       return i;
@@ -126,31 +111,31 @@ public int findInKeyMapping(char input){
   return -1;
 }
 
-public void keyPressed() {
+void keyPressed() {
   if (findInKeyMapping(key) >= 0){
     downKeys[findInKeyMapping(key)] = true;
   }
 }
 
-public void keyReleased() {
+void keyReleased() {
   if (findInKeyMapping(key) >= 0){
     downKeys[findInKeyMapping(key)] = false;
   }
 }
 
-public void gameEnd(){
+void gameEnd(){
   status = 2;
 }
 
-public void damagePlayer(int points){
+void damagePlayer(int points){
   player.HP -= points;
 }
 
-public void addGold(int addThis){
+void addGold(int addThis){
   player.gold += addThis;
 }
 
-public void drawUI(){
+void drawUI(){
   //player health bar
   rectMode(CORNER);
   stroke(0);
@@ -199,21 +184,21 @@ public void drawUI(){
   rectMode(CENTER);
 }
 
-public void pause(){
+void pause(){
   status = 1;
 }
 
-public void unpause(){
+void unpause(){
   status = 0;
 }
 
-public void togglePause(){
+void togglePause(){
   if (status == 0 || status == 1){
     status = (status + 1) %2;
   }
 }
 
-public void fillWithArray(int[] temp){
+void fillWithArray(int[] temp){
   fill(temp[0], temp[1], temp[2]);
 }
 class BgSprite extends Thing {
@@ -228,7 +213,7 @@ class BgSprite extends Thing {
   
   BgSprite(){}
   
-  public void paint(){
+  void paint(){
     int displayX = (int)xPos;
     int displayY = (int)yPos;
     displayX += (playerCam.xPos - (xPos - sWidth/2))/(depth-1);
@@ -237,14 +222,14 @@ class BgSprite extends Thing {
     rect(displayX, displayY, 2*xLength/(-depth+1),2*yLength/(-depth+1));
   }
   
-  public void wiggle(){
+  void wiggle(){
     xPos -= 2;
     if (xPos < -xLength*2){
       shuffle();
     }
   }
 
-  public void shuffle(){
+  void shuffle(){
     xPos = sWidth + random(3*xLength);
     yPos = random(sHeight);
   }
@@ -258,7 +243,7 @@ class Camera extends Thing{
   
   Camera(){}
   
-  public void update (int _xPos, int _yPos){
+  void update (int _xPos, int _yPos){
     xPos = (_xPos - sWidth)/3;
     yPos = (_yPos - sWidth)/3;;
   }
@@ -290,10 +275,10 @@ class Enemy extends Thing {
     active = true;
   }
 
-  public void calculate() {
+  void calculate() {
     if (isStickied()) {
-      xPos = parent.xPos + parent.size/2 + (stickyCoords[0]-.5f)*size;
-      yPos = parent.yPos + parent.size/2 + (stickyCoords[1]-.5f)*size;
+      xPos = parent.xPos + parent.size/2 + (stickyCoords[0]-.5)*size;
+      yPos = parent.yPos + parent.size/2 + (stickyCoords[1]-.5)*size;
       if (!parent.saturated) {
         collisionCheck_enemies();
       }
@@ -311,12 +296,12 @@ class Enemy extends Thing {
     }
   }
 
-  public void destroyWithAnim() {
+  void destroyWithAnim() {
     active = false;
     enemies_kill.add(new Enemy_kill(floor(xPos), floor(yPos), fillColor, size));
   }
 
-  public void drawOut() {
+  void drawOut() {
     strokeWeight(2);
     stroke(0);
     fill(fillColor[0], fillColor[1], fillColor[2]);
@@ -324,7 +309,7 @@ class Enemy extends Thing {
   }
 
   //checks if within contact with a position and distance
-  public boolean isCollided(float[] position, int _width) {
+  boolean isCollided(float[] position, int _width) {
     if (abs(xPos-position[0]) < (_width+size)/2 && abs(yPos-position[1]) < (_width+size)/2) {
       return true;
     }
@@ -332,7 +317,7 @@ class Enemy extends Thing {
   }
 
   //checks and handles collision with player
-  public boolean collisionCheck_player() {
+  boolean collisionCheck_player() {
     float[] playerPos = {
       player.xPos, player.yPos
     };
@@ -346,7 +331,7 @@ class Enemy extends Thing {
   }
 
   //checks and handles collision with missiles
-  public boolean collisionCheck_missiles() {
+  boolean collisionCheck_missiles() {
     for (int i = 0; i < missiles.size (); i++) {
       Missile missile = missiles.get(i);
       float[] missilePos = {
@@ -357,7 +342,7 @@ class Enemy extends Thing {
         if (missile.type == type) {
           addGold(goldWorth);
           destroyWithAnim();
-          maxEnemies += .4f;
+          maxEnemies += .4;
           normalEnemies -= 1;
           return true;
         }
@@ -367,19 +352,19 @@ class Enemy extends Thing {
   }
 
   //checks if enemy if stickied to enemy_sticky
-  public boolean isStickied() {
+  boolean isStickied() {
     if (stickyCoords[0] == 0 && stickyCoords[1] == 0) {
       return false;
     }
     return true;
   }
 
-  public void stickTo(Enemy_Sticky _parent, int[] finalCoords) {
+  void stickTo(Enemy_Sticky _parent, int[] finalCoords) {
     parent = _parent;
     stickyCoords = finalCoords;
   }
 
-  public int collisionCheck_enemies() {
+  int collisionCheck_enemies() {
     int counter = 0;
     for (int i = 0; i < enemies.size (); i++) {
       Enemy _minion = enemies.get(i);
@@ -403,7 +388,7 @@ class Enemy extends Thing {
     return counter;
   }
 
-  public int[] collision_position(int _x, int _y) {
+  int[] collision_position(int _x, int _y) {
     int[] result = {
       0, 0
     };
@@ -443,7 +428,7 @@ class EnemyController {
     };
   }
 
-  public void update() {
+  void update() {
     if (maxEnemies > enemyLimit) {
       maxEnemies = enemyLimit;
     }
@@ -481,19 +466,19 @@ class EnemyController {
     }
   }
 
-  public void release(int dir) {
+  void release(int dir) {
     int[] position = randomCoord(dir);
     enemies.add(new Enemy(position[0], position[1], 100, dir));
     normalEnemies += 1;
   }
 
-  public void release_sticky(int dir) {
+  void release_sticky(int dir) {
     int[] position = randomCoord(dir);
     enemies_sticky.add(new Enemy_Sticky(position[0], position[1], 100, dir));
     stickyEnemies += 1;
   }
 
-  public int[] randomCoord(int dir) {
+  int[] randomCoord(int dir) {
     int tempX = floor(random(releaseZones[dir][0], releaseZones[dir][2]));
     int tempY = floor(random(releaseZones[dir][1], releaseZones[dir][3]));
     int[] bob = {
@@ -525,7 +510,7 @@ class Enemy_Sticky extends Thing {
     active = true;
   }
 
-  public void setVels() {
+  void setVels() {
     xVel = (-dir+2)%2;
     yVel = (-dir+1)%2;
     if (xVel == 0) {
@@ -537,7 +522,7 @@ class Enemy_Sticky extends Thing {
     }
   }
 
-  public void calculate() {
+  void calculate() {
     xPos += xVel;
     yPos += yVel;   
 
@@ -566,7 +551,7 @@ class Enemy_Sticky extends Thing {
     }
   }
 
-  public void drawOut() {
+  void drawOut() {
     strokeWeight(2);
     stroke(0);
     fill(fillColor[0], fillColor[1], fillColor[2]);
@@ -577,7 +562,7 @@ class Enemy_Sticky extends Thing {
     }
   }
 
-  public void shufflePosition() {
+  void shufflePosition() {
     dir = floor(random(0, 4));
     int[] temp = enemyController.randomCoord(dir);
     xPos = temp[0];
@@ -585,14 +570,14 @@ class Enemy_Sticky extends Thing {
     setVels();
   }
 
-  public boolean isCollided(float[] position, int _width) {
+  boolean isCollided(float[] position, int _width) {
     if (abs(xPos-position[0]) < (_width+size)/2 && abs(yPos-position[1]) < (_width+size)/2) {
       return true;
     }
     return false;
   }
 
-  public boolean collisionCheck_player() {
+  boolean collisionCheck_player() {
     float[] playerPos = {
       player.xPos, player.yPos
     };
@@ -604,7 +589,7 @@ class Enemy_Sticky extends Thing {
     return false;
   }
 
-  public boolean collisionCheck_missiles() {
+  boolean collisionCheck_missiles() {
     for (int i = 0; i < missiles.size (); i++) {
       Missile missile = missiles.get(i);
       float[] missilePos = {
@@ -614,14 +599,14 @@ class Enemy_Sticky extends Thing {
         missiles.get(i).destroy();
         addGold(goldWorth);
         destroy();
-        maxEnemies += .2f;
+        maxEnemies += .2;
         return true;
       }
     }
     return false;
   }
 
-  public void destroy() {
+  void destroy() {
     active = false;
     for (int i = 0; i < childList.size (); i++) {
       Enemy child = childList.get(i);
@@ -630,7 +615,7 @@ class Enemy_Sticky extends Thing {
     stickyEnemies -= 1;
   }
 
-  public int collisionCheck_enemies() {
+  int collisionCheck_enemies() {
     int counter = 0;
     for (int i = 0; i < enemies.size (); i++) {
       Enemy _minion = enemies.get(i);
@@ -652,7 +637,7 @@ class Enemy_Sticky extends Thing {
     return counter;
   }
 
-  public int[] collision_position(int _x, int _y) {
+  int[] collision_position(int _x, int _y) {
     int[] result = {
       0, 0
     };
@@ -680,7 +665,7 @@ class Enemy_kill extends Thing {
     size = _size;
   }
 
-  public void calculate(){
+  void calculate(){
     timer -= 1;
     size += 4;
     if(timer <= 0){
@@ -688,7 +673,7 @@ class Enemy_kill extends Thing {
     }
   }
 
-  public void drawOut(){
+  void drawOut(){
     strokeWeight(4);
     stroke(0, 255*timer/10);
     fill(fillColor[0],fillColor[1],fillColor[2], timer*255/10);
@@ -711,7 +696,7 @@ class InputController{
 
 	}
 
-	public void update(){
+	void update(){
 		arrayCopy(downKeys, 0, _movementArray, 0, 4);
 		arrayCopy(downKeys, 4, _shootingArray, 0, 4);
 		arrayCopy(downKeys, 8, _upgradesArray, 0, 3);
@@ -719,7 +704,7 @@ class InputController{
 		checkPause();
 	}
 
-	public void checkPause(){
+	void checkPause(){
 		if (!downKeys[12]){
 			pauseBuffer = false;
 		}
@@ -753,7 +738,7 @@ class Missile extends Thing{
   		setType();
 	}
 
-	public void drawOut(){
+	void drawOut(){
 		strokeWeight(2);
 		stroke(0);
 		fill(fillColor[0], fillColor[1], fillColor[2]);
@@ -762,7 +747,7 @@ class Missile extends Thing{
   		}
 	}
 
-	public void calculate(){
+	void calculate(){
 		if (active){
 			xPos += dir[0]*size*2;
 			yPos += dir[1]*size*2;
@@ -772,11 +757,11 @@ class Missile extends Thing{
 		}
 	}
 
-	public void destroy(){
+	void destroy(){
 		active = false;
 	}
 
-	public void setType(){
+	void setType(){
 		type = 3;
 		if (dir[1] == 0 && dir[0] < 0){
 			type = 1;
@@ -806,7 +791,7 @@ class Missile_kill extends Thing{
   		setType();
 	}
 
-	public void drawOut(){
+	void drawOut(){
 		strokeWeight(2);
 		stroke(0);
 		fill(fillColor[0], fillColor[1], fillColor[2]);
@@ -815,7 +800,7 @@ class Missile_kill extends Thing{
   		}
 	}
 
-	public void calculate(){
+	void calculate(){
 		if (active){
 			xPos += dir[0];
 			yPos += dir[1];
@@ -825,11 +810,11 @@ class Missile_kill extends Thing{
 		}
 	}
 
-	public void destroy(){
+	void destroy(){
 		active = false;
 	}
 
-	public void setType(){
+	void setType(){
 		type = 3;
 		if (dir[1] == 0 && dir[0] < 0){
 			type = 1;
@@ -897,13 +882,13 @@ class Player extends Thing {
     HP = _HP;
   }
 
-  public void fire(int[] dir) {
+  void fire(int[] dir) {
     missiles.add(new Missile((int)xPos, (int)yPos, dir));
     powerPool -= powerPool_missile;
   }
 
   //calculates player events during loop
-  public void calculate() {
+  void calculate() {
     if (HP <= 0) {
       gameEnd();
     }
@@ -976,12 +961,12 @@ class Player extends Thing {
     cap();
     xPos += xVel;
     yPos += yVel;
-    xVel *= .8f;
-    yVel *= .8f;
+    xVel *= .8;
+    yVel *= .8;
   }
 
   //draws out player square
-  public void drawOut() {
+  void drawOut() {
     //drawing main square - red if locked, black if not
     strokeWeight(playerSize()/8);
     if (!locked) {
@@ -1011,7 +996,7 @@ class Player extends Thing {
   }
 
   //caps player within display boundaries, considering UI clipping
-  public void cap() {
+  void cap() {
     if (xPos > sWidth - playerSize()/2) {
       xPos = sWidth - playerSize()/2;
     } else if (xPos < playerSize()/2) {
@@ -1032,37 +1017,37 @@ class Player extends Thing {
   }
 
   //functions that return stats based on agl, pow etc.
-  public int maxVel() {
+  int maxVel() {
     return maxVels[agility];
   }
-  public int playerSize() {
+  int playerSize() {
     return playerSizes[agility]*sHeight/800;
   }
-  public int powerPool_restore() {
+  int powerPool_restore() {
     return powerPool_restores[power];
   }
-  public int powerPool_max() {
+  int powerPool_max() {
     return powerPool_maxs[power];
   }
-  public int coolDown_rate() {
+  int coolDown_rate() {
     return coolDown_rates[power];
   }
-  public int agilityCost() {
+  int agilityCost() {
     return agilityCosts[agility];
   }
-  public int powerCost() {
+  int powerCost() {
     return powerCosts[power];
   }
-  public void updateMovements(boolean[] input) {
+  void updateMovements(boolean[] input) {
     movement = input;
   }
-  public void updateShooting(boolean[] input) {
+  void updateShooting(boolean[] input) {
     shooting = input;
   }
-  public void updateUpgrades(boolean[] input) {
+  void updateUpgrades(boolean[] input) {
     upgrades = input;
   }
-  public void updateAbilities(boolean[] input) {
+  void updateAbilities(boolean[] input) {
     abilities = input;
   }
 }
@@ -1074,27 +1059,19 @@ class Thing{
   	int goldWorth = 30;
   	int size = 40;
 
-	public void move(int dx, int dy){
+	void move(int dx, int dy){
 	  	xPos += dx;
 	  	yPos += dy;
   	}
 
-  	public void setPosition(int _x, int _y){
+  	void setPosition(int _x, int _y){
 	  	xPos = _x;
 	  	yPos = _y;
   	}
 
-	public void destroy(){
+	void destroy(){
 		active = false;
 	}
 
 }
-  static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "--full-screen", "--bgcolor=#666666", "--hide-stop", "Blocs" };
-    if (passedArgs != null) {
-      PApplet.main(concat(appletArgs, passedArgs));
-    } else {
-      PApplet.main(appletArgs);
-    }
-  }
-}
+

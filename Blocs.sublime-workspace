@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"paus",
+				"pauseButton"
+			],
+			[
 				"stick",
 				"stickyCoords"
 			],
@@ -112,52 +116,35 @@
 	"buffers":
 	[
 		{
-			"file": "Enemy_Sticky.pde",
-			"settings":
-			{
-				"buffer_size": 3432,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Thing.pde",
-			"settings":
-			{
-				"buffer_size": 288,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Missile.pde",
-			"settings":
-			{
-				"buffer_size": 838,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "Package Control Messages\n========================\n\nPackage Control:\n---------------\n\n  Version 3.0 Release Notes\n  \n  \n  **** Windows Sublime Text 3 Users ****\n  \n  Due to a bug in Package Control 2.0, Windows ST3 users will need to open the\n  Sublime Text console (ctrl+`) and execute the following Python to properly\n  upgrade. All other users may ignore this part of the message.\n  \n  Make sure NOT to copy the leading two spaces, or an \"unexpected indent\" error\n  will occur.\n  \n  import urllib.request,os,sys; exec(\"if sys.version_info < (3,) or os.name != 'nt': raise OSError('This code is for Windows ST3 only!')\"); pr='Preferences.sublime-settings'; ip='ignored_packages'; n='Package Control'; s=sublime.load_settings(pr); ig=s.get(ip); ig.append(n); s.set(ip,ig); sublime.save_settings('Preferences.sublime-settings'); pf=n+'.sublime-package'; urllib.request.install_opener(urllib.request.build_opener(urllib.request.ProxyHandler())); by=urllib.request.urlopen('https://packagecontrol.io/'+pf.replace(' ','%20')).read(); open(os.path.join(sublime.installed_packages_path(),pf),'wb').write(by); ig.remove(n); s.set(ip,ig); sublime.save_settings(pr); print('Package Control: 3.0.0 upgrade successful!')\n  \n  ********\n  \n  \n  Package Control 3.0 adds a bunch of polish, improving the Sublime Text\n  experience for users and package developers:\n  \n   - improved upgrades of themes, color schemes and syntaxes\n   - dependency support\n   - SSL for Linux\n   - new secondary Windows HTTP backend\n   - patches for Python in Sublime Text 2 on Windows\n   - commands to easily remove channels and repositories\n   - an events API for packages\n   - improved documentation\n  \n  \n  As of July 2014, I now work for myself. This has allowed me to spend more time\n  working on open source software, including Package Control. If you appreciate\n  the work I've done, please consider a small donation. If even 5% of regular\n  users donated the price of a coffee or beer, that would cover quite a bit of\n  my development time! See https://packagecontrol.io/about for options.\n  \n  \n  Some recent Package Control stats:\n  \n   - every weekday over 1M JSON requests hit the channel server\n   - in December, the channel server will transmit 4TB+ of compressed JSON\n   - users have installed, upgraded or removed 85M+ packages since late 2011\n  \n  \n  Read more about the release at:\n  \n  https://packagecontrol.io/news#2014-12-23-Package_Control_30_Released\n  \n",
-			"settings":
-			{
-				"buffer_size": 2443,
-				"line_ending": "Windows",
-				"name": "Package Control Messages",
-				"scratch": true
-			}
-		},
-		{
-			"file": "Enemy.pde",
-			"settings":
-			{
-				"buffer_size": 3735,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "Blocs.pde",
 			"settings":
 			{
-				"buffer_size": 4332,
+				"buffer_size": 4527,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "InputController.pde",
+			"settings":
+			{
+				"buffer_size": 835,
+				"line_ending": "Windows",
+				"name": "class InputController{"
+			}
+		},
+		{
+			"file": "Player.pde",
+			"settings":
+			{
+				"buffer_size": 5394,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Camera.pde",
+			"settings":
+			{
+				"buffer_size": 230,
 				"line_ending": "Unix"
 			}
 		},
@@ -165,22 +152,128 @@
 			"file": "EnemyController.pde",
 			"settings":
 			{
-				"buffer_size": 913,
-				"line_ending": "Windows"
+				"buffer_size": 1864,
+				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "Player.pde",
+			"file": "BgSprite.pde",
 			"settings":
 			{
-				"buffer_size": 4854,
+				"buffer_size": 732,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Missile.pde",
+			"settings":
+			{
+				"buffer_size": 849,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Enemy_Sticky.pde",
+			"settings":
+			{
+				"buffer_size": 3742,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "things to fix",
+			"settings":
+			{
+				"buffer_size": 841,
+				"line_ending": "Windows",
+				"name": "things to fix"
+			}
+		},
+		{
+			"file": "devlog",
+			"settings":
+			{
+				"buffer_size": 665,
+				"line_ending": "Windows",
+				"name": "devlog"
 			}
 		}
 	],
-	"build_system": "Packages/Processing/Processing 3.sublime-build",
+	"build_system": "Packages/Processing/Build Systems/Processing.sublime-build",
 	"build_system_choices":
 	[
+		[
+			[
+				[
+					"Packages/Processing/Build Systems/Processing.sublime-build",
+					""
+				],
+				[
+					"Packages/Processing/Build Systems/Processing.sublime-build",
+					"Re-run sketch"
+				],
+				[
+					"Packages/Processing/Build Systems/Processing.sublime-build",
+					"Run sketch (Processing 3 only)"
+				],
+				[
+					"Packages/Processing/Build Systems/Processing.sublime-build",
+					"Run sketch fullscreen"
+				],
+				[
+					"Packages/Processing/Build Systems/Processing.sublime-build",
+					"Export sketch as application"
+				]
+			],
+			[
+				"Packages/Processing/Build Systems/Processing.sublime-build",
+				"Run sketch fullscreen"
+			]
+		],
+		[
+			[
+				[
+					"Packages/Processing/Processing 3.sublime-build",
+					""
+				],
+				[
+					"Packages/Processing/Processing 3.sublime-build",
+					"Run sketch fullscreen"
+				],
+				[
+					"Packages/Processing/Processing 3.sublime-build",
+					"Build & run sketch"
+				],
+				[
+					"Packages/Processing/Processing 3.sublime-build",
+					"Build & run sketch fullscreen"
+				],
+				[
+					"Packages/Processing/Processing 3.sublime-build",
+					"Export sketch as a 32-bit linux application"
+				],
+				[
+					"Packages/Processing/Processing 3.sublime-build",
+					"Export sketch as a 64-bit linux application"
+				],
+				[
+					"Packages/Processing/Processing 3.sublime-build",
+					"Export sketch as a macosx application"
+				],
+				[
+					"Packages/Processing/Processing 3.sublime-build",
+					"Export sketch as a 32-bit windows application"
+				],
+				[
+					"Packages/Processing/Processing 3.sublime-build",
+					"Export sketch as a 64-bit windows application"
+				]
+			],
+			[
+				"Packages/Processing/Processing 3.sublime-build",
+				"Build & run sketch fullscreen"
+			]
+		],
 		[
 			[
 				[
@@ -250,17 +343,65 @@
 			],
 			[
 				"Packages/Processing/Processing 3.sublime-build",
-				"Build & run sketch fullscreen"
+				"Run sketch fullscreen"
+			]
+		],
+		[
+			[
+				[
+					"Packages/Processing/Processing.sublime-build",
+					""
+				],
+				[
+					"Packages/Processing/Processing.sublime-build",
+					"Run sketch fullscreen"
+				],
+				[
+					"Packages/Processing/Processing.sublime-build",
+					"Export sketch as a 32-bit linux application"
+				],
+				[
+					"Packages/Processing/Processing.sublime-build",
+					"Export sketch as a 64-bit linux application"
+				],
+				[
+					"Packages/Processing/Processing.sublime-build",
+					"Export sketch as a macosx application"
+				],
+				[
+					"Packages/Processing/Processing.sublime-build",
+					"Export sketch as a 32-bit windows application"
+				],
+				[
+					"Packages/Processing/Processing.sublime-build",
+					"Export sketch as a 64-bit windows application"
+				]
+			],
+			[
+				"Packages/Processing/Processing.sublime-build",
+				"Run sketch fullscreen"
 			]
 		]
 	],
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 375.0,
-		"last_filter": "packa",
+		"height": 381.0,
+		"last_filter": "ins",
 		"selected_items":
 		[
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
 			[
 				"packa",
 				"Package Control: Install Package"
@@ -274,7 +415,7 @@
 				"Package Control: Remove Package"
 			]
 		],
-		"width": 570.0
+		"width": 438.0
 	},
 	"console":
 	{
@@ -298,9 +439,30 @@
 	],
 	"file_history":
 	[
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Player.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Blocs.sublime-project",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Enemy.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Blocs.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/BgSprite.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Blocs.java",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Blocs.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Enemy.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Enemy_Sticky.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Missile.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Missile_kill.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Player.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/BgSprite.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/build-tmp/source/Blocs.java",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Enemy_Sticky.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Missile.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Missile_kill.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Player.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/web-export/Blocs.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Camera.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Camera.pde",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/EnemyController.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Thing.pde",
+		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/User/Processing (Windows).sublime-build",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Blocs.sublime-project",
 		"/C/xampp/htdocs/modeling.php",
 		"/C/xampp/htdocs/wetlab.php",
 		"/C/xampp/htdocs/project.php",
@@ -403,19 +565,19 @@
 		"/C/Users/Administrator/Desktop/Chart1.js",
 		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/Chart.js",
 		"/C/Users/Administrator/Desktop/Chart.js/Chart.js",
-		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
 		"/D/Student_Data/MAI/index.html",
 		"/D/Student_Data/MAI/mai.sublime-project"
 	],
 	"find":
 	{
-		"height": 36.0
+		"height": 34.0
 	},
 	"find_in_files":
 	{
 		"height": 100.0,
 		"where_history":
 		[
+			"<current file>,C:\\Users\\Administrator\\Google Drive\\12grade\\Blocs\\Blocs",
 			"<current file>",
 			"<current file>,C:\\xampp\\htdocs",
 			"<current file>",
@@ -427,6 +589,17 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"status",
+			"satus",
+			"shuffle",
+			"type",
+			"upgrade",
+			"upgra",
+			"Bgspri",
+			"bgspri",
+			"size",
+			"displayHeight",
+			"displayWidth",
 			"destroy",
 			"maxenem",
 			"maxe",
@@ -543,18 +716,7 @@
 			"dropdown",
 			"width",
 			"slides",
-			"slide",
-			"canvas",
-			"particle",
-			"dropdow",
-			"41",
-			"dropdown",
-			"dropdo",
-			"subcatego",
-			"shadow",
-			"white",
-			"dropdown",
-			"nav"
+			"slide"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -562,6 +724,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"sHeight",
+			"sWidth",
 			"Lato",
 			"stripeCount",
 			"ctx",
@@ -585,32 +749,32 @@
 			[
 				{
 					"buffer": 0,
-					"file": "Enemy_Sticky.pde",
+					"file": "Blocs.pde",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3432,
+						"buffer_size": 4527,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								350,
-								350
+								2307,
+								2307
 							]
 						],
 						"settings":
 						{
 							"bs_sintax": "processing",
-							"buffer_scroll_name": "6ca7b910",
+							"buffer_scroll_name": "8a5baab5",
 							"spell_check": false,
-							"syntax": "Packages/Processing/Syntax/Processing.tmLanguage",
+							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1305.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -618,27 +782,28 @@
 				},
 				{
 					"buffer": 1,
-					"file": "Thing.pde",
+					"file": "InputController.pde",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 288,
+						"buffer_size": 835,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								285,
-								249
+								228,
+								228
 							]
 						],
 						"settings":
 						{
-							"bs_sintax": "processing",
-							"buffer_scroll_name": "0ea15fbf",
+							"auto_name": "class InputController{",
+							"bs_sintax": "plain text",
+							"buffer_scroll_name": "7803431a",
 							"spell_check": false,
-							"syntax": "Packages/Processing/Syntax/Processing.tmLanguage"
+							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -649,56 +814,93 @@
 				},
 				{
 					"buffer": 2,
-					"file": "Missile.pde",
+					"file": "Player.pde",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 838,
+						"buffer_size": 5394,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								300,
-								300
+								0,
+								0
 							]
 						],
 						"settings":
 						{
 							"bs_sintax": "processing",
-							"buffer_scroll_name": "cf12c140",
-							"syntax": "Packages/Processing/Syntax/Processing.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"buffer_scroll_name": "b1c2d98c",
+							"spell_check": false,
+							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2307.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
+					"file": "Camera.pde",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2443,
+						"buffer_size": 230,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2443,
-								2443
+								99,
+								99
 							]
 						],
 						"settings":
 						{
-							"bs_sintax": "plain text",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"word_wrap": true
+							"bs_sintax": "processing",
+							"buffer_scroll_name": "25997f22",
+							"spell_check": false,
+							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "EnemyController.pde",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1864,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"bs_sintax": "processing",
+							"buffer_scroll_name": "8138fa71",
+							"spell_check": false,
+							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -708,94 +910,61 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "Enemy.pde",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3735,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3256,
-								3256
-							]
-						],
-						"settings":
-						{
-							"bs_sintax": "processing",
-							"buffer_scroll_name": "527d47e2",
-							"spell_check": false,
-							"syntax": "Packages/Processing/Syntax/Processing.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1836.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
 					"buffer": 5,
-					"file": "Blocs.pde",
+					"file": "BgSprite.pde",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4332,
+						"buffer_size": 732,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								780,
-								780
+								533,
+								533
 							]
 						],
 						"settings":
 						{
 							"bs_sintax": "processing",
-							"buffer_scroll_name": "8a5baab5",
+							"buffer_scroll_name": "baa4487c",
 							"spell_check": false,
-							"syntax": "Packages/Processing/Syntax/Processing.tmLanguage",
+							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 162.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
 					"buffer": 6,
-					"file": "EnemyController.pde",
+					"file": "Missile.pde",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 913,
+						"buffer_size": 849,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								359,
-								363
+								0,
+								0
 							]
 						],
 						"settings":
 						{
 							"bs_sintax": "processing",
-							"buffer_scroll_name": "8138fa71",
+							"buffer_scroll_name": "cf12c140",
 							"spell_check": false,
-							"syntax": "Packages/Processing/Syntax/Processing.tmLanguage",
+							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
@@ -807,35 +976,99 @@
 				},
 				{
 					"buffer": 7,
-					"file": "Player.pde",
+					"file": "Enemy_Sticky.pde",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4854,
+						"buffer_size": 3742,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1690,
-								1690
+								0,
+								0
 							]
 						],
 						"settings":
 						{
 							"bs_sintax": "processing",
-							"buffer_scroll_name": "b1c2d98c",
+							"buffer_scroll_name": "6ca7b910",
 							"spell_check": false,
-							"syntax": "Packages/Processing/Syntax/Processing.tmLanguage",
+							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1052.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "things to fix",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 841,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								383,
+								383
+							]
+						],
+						"settings":
+						{
+							"auto_name": "things to fix",
+							"bs_sintax": "plain text",
+							"buffer_scroll_name": "6b4eabce",
+							"spell_check": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "devlog",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 665,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								665,
+								665
+							]
+						],
+						"settings":
+						{
+							"auto_name": "devlog",
+							"bs_sintax": "plain text",
+							"buffer_scroll_name": "769b0645",
+							"spell_check": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -843,7 +1076,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 26.0
+		"height": 27.0
 	},
 	"input":
 	{
@@ -880,11 +1113,11 @@
 	{
 		"height": 0.0
 	},
-	"pinned_build_system": "",
+	"pinned_build_system": "Packages/Processing/Build Systems/Processing.sublime-build",
 	"project": "Blocs.sublime-project",
 	"replace":
 	{
-		"height": 48.0
+		"height": 50.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -894,20 +1127,40 @@
 		"selected_items":
 		[
 			[
-				"missi",
-				"Missile.pde"
+				"enem",
+				"Enemy.pde"
 			],
 			[
-				"pla",
-				"Player.pde"
+				"cam",
+				"Camera.pde"
+			],
+			[
+				"enemyco",
+				"EnemyController.pde"
+			],
+			[
+				"bgsp",
+				"BgSprite.pde"
+			],
+			[
+				"camer",
+				"Camera.pde"
+			],
+			[
+				"missile",
+				"Missile.pde"
 			],
 			[
 				"play",
 				"Player.pde"
 			],
 			[
-				"enem",
-				"Enemy.pde"
+				"missi",
+				"Missile.pde"
+			],
+			[
+				"pla",
+				"Player.pde"
 			],
 			[
 				"thing",

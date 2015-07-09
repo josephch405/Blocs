@@ -1,12 +1,12 @@
-class Missile extends Thing{
+class Missile_kill extends Thing{
 
 	int type = 0;
 	int[] dir;
-	int size = sHeight/55;
+	int size = 20;
 	int[] fillColor;
 	//dir: up, left, down, right
 
-	Missile(int _xPos, int _yPos, int[] _dir){
+	Missile_kill(int _xPos, int _yPos, int[] _dir){
   		xPos = _xPos;
 		yPos = _yPos;
 		dir = _dir;
@@ -25,8 +25,8 @@ class Missile extends Thing{
 
 	void calculate(){
 		if (active){
-			xPos += dir[0]*size*2;
-			yPos += dir[1]*size*2;
+			xPos += dir[0];
+			yPos += dir[1];
 		}
 		if (xPos < -10 || xPos > sWidth + 10 ||yPos < -10 || yPos > sHeight + 10){
 			destroy();
