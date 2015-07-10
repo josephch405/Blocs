@@ -6,12 +6,12 @@ class Missile extends Thing{
 	int[] fillColor;
 	//dir: up, left, down, right
 
-	Missile(int _xPos, int _yPos, int[] _dir){
+	Missile(int _xPos, int _yPos, int[] _dir, int _type){
   		xPos = _xPos;
 		yPos = _yPos;
 		dir = _dir;
   		active = true;
-  		setType();
+  		setType(_type);
 	}
 
 	void drawOut(){
@@ -37,7 +37,10 @@ class Missile extends Thing{
 		active = false;
 	}
 
-	void setType(){
+	void setType(int _type){
+		type = _type;
+		fillColor = missileColors[type];
+		/*	old type generation, didn't take player rotation into account
 		type = 3;
 		if (dir[1] == 0 && dir[0] < 0){
 			type = 1;
@@ -48,6 +51,6 @@ class Missile extends Thing{
 		else if (dir[1] < 0){
 			type = 0;
 		}
-		fillColor = missileColors[type];
+		fillColor = missileColors[type];*/
 	}
 }

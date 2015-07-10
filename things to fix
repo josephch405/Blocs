@@ -20,13 +20,16 @@ unify more processes
 consider array-fying position and velocity?
 
 features
-	bomb mechanism
+	rotating colors?						e, q
+
+	bomb mechanism							space bar 			radius - 5x
 		ammo system?
-	light beam
-	jump mechanism/stealth mode
+	light beam								f 					width, length - 5x
+	jump mechanism/stealth mode				u					
+	slow mo  								r 					time - 5x
+
 	own minions/towers etc
 	swarm vs sticky
-	slow mo
 	refactor upgrades
 		self upgrade
 		bomb

@@ -19,10 +19,9 @@ boolean gameIsEnd = false;
 int spritesPerLayer = 10;
 int marginSize = 20;
 float maxEnemies = 10;
-int normalEnemies, stickyEnemies = 0;
 
 //lists of variables
-char[] keyMapping = {'w','a','s','d','i','j','k','l','z','x','c',' ', 'p'};    //movement 4x, shooting 4x, upgrade 3x, bomb(alt 1), pause
+char[] keyMapping = {'w','a','s','d','i','j','k','l','z','x','c',' ', 'q', 'e', 'p'};    //movement 4x, shooting 4x, upgrade 3x, bomb(alt 1), pause
 int[][] moveDirs = {{0,-4},{-4,0},{0,4},{4,0}};
 int[][] missileDirs = {{0,-1},{-1,0},{0,1},{1,0}};
 int[][] missileColors = {{0,0,255}, {255,0,0}, {255,255,0}, {0,255,0}};
@@ -43,7 +42,7 @@ void setup(){
   for (int i = 0; i < bgSprites.length; i++){
     bgSprites[i] = new BgSprite(-floor(1+i/spritesPerLayer));
   }
-  downKeys = new boolean[13];
+  downKeys = new boolean[keyMapping.length];
   for (int i = 0; i < downKeys.length; i++){
     downKeys[i] = false;
   }
@@ -70,7 +69,7 @@ void calculations(){
   }
   
   enemyController.update();
-  for (int i = 0; i < missiles.size (); i++) {
+  for (int i = 0; i < missiles.size(); i++) {
     if (!missiles.get(i).active) {
       missiles.remove(i);
       i--;
@@ -82,7 +81,6 @@ void calculations(){
 
 void drawCanvas(){
   fill(255);
-  console.log(bgSprites);
   for (int i = bgSprites.length-1; i >= 0; i--){
     bgSprites[i].paint();
   }
@@ -180,6 +178,7 @@ void drawUI(){
   }
   text(frameRate, 40, 80);
   text(maxEnemies, 40, 120);
+  text(enemies.size(), 40, 200);
 
   rectMode(CENTER);
 }
@@ -270,7 +269,7 @@ class Enemy extends Thing {
     yVel = (-dir+1)%2;
     xVel *= random(size/20, size/10);
     yVel *= random(size/20, size/10);
-    type = (dir+1+floor(random(3)))%4;
+    type = floor(random(4));//(dir+1+floor(random(3)))%4;
     fillColor = missileColors[type];
     active = true;
   }
@@ -288,7 +287,6 @@ class Enemy extends Thing {
       //destroy on leaving active area
       if (xPos < -50 || xPos > sWidth + 50 ||yPos < -50 || yPos > sHeight + 50) {
         destroy();
-        normalEnemies -= 1;
       }
     }
     if (!collisionCheck_player()) {
@@ -324,7 +322,6 @@ class Enemy extends Thing {
     if (isCollided(playerPos, player.playerSize())) {
       damagePlayer(200);
       destroyWithAnim();
-      normalEnemies -= 1;
       return true;
     }
     return false;
@@ -343,7 +340,6 @@ class Enemy extends Thing {
           addGold(goldWorth);
           destroyWithAnim();
           maxEnemies += .4;
-          normalEnemies -= 1;
           return true;
         }
       }
@@ -380,7 +376,6 @@ class Enemy extends Thing {
         parent.childList.get(parent.childList.size()-1).type = type;
         parent.childList.get(parent.childList.size()-1).fillColor = missileColors[type];;
         enemies.remove(i);
-        normalEnemies -= 1;
         i--;
         counter += 1;
       }
@@ -433,7 +428,7 @@ class EnemyController {
       maxEnemies = enemyLimit;
     }
 
-    if (normalEnemies < floor(maxEnemies)) {
+    if (enemies.size() < floor(maxEnemies)) {
       release(floor(random(0, 4)));
     }
     if (enemies_sticky.size() < floor((maxEnemies-10)/3)) {
@@ -469,13 +464,11 @@ class EnemyController {
   void release(int dir) {
     int[] position = randomCoord(dir);
     enemies.add(new Enemy(position[0], position[1], 100, dir));
-    normalEnemies += 1;
   }
 
   void release_sticky(int dir) {
     int[] position = randomCoord(dir);
     enemies_sticky.add(new Enemy_Sticky(position[0], position[1], 100, dir));
-    stickyEnemies += 1;
   }
 
   int[] randomCoord(int dir) {
@@ -612,7 +605,6 @@ class Enemy_Sticky extends Thing {
       Enemy child = childList.get(i);
       child.destroyWithAnim();
     }
-    stickyEnemies -= 1;
   }
 
   int collisionCheck_enemies() {
@@ -629,7 +621,6 @@ class Enemy_Sticky extends Thing {
         finalCoords[1] += stickyCoords[1];
         childList.get(childList.size()-1).stickTo(this, finalCoords);
         enemies.remove(i);
-        normalEnemies -= 1;
         i--;
         counter += 1;
       }
@@ -693,19 +684,18 @@ class InputController{
 		player.updateShooting(_shootingArray);
 		player.updateUpgrades(_upgradesArray);
 		player.updateAbilities(_abilitiesArray);
-
 	}
 
 	void update(){
 		arrayCopy(downKeys, 0, _movementArray, 0, 4);
 		arrayCopy(downKeys, 4, _shootingArray, 0, 4);
 		arrayCopy(downKeys, 8, _upgradesArray, 0, 3);
-		arrayCopy(downKeys, 11, _abilitiesArray, 0, 1);
+		arrayCopy(downKeys, 11, _abilitiesArray, 0, 3);
 		checkPause();
 	}
 
 	void checkPause(){
-		if (!downKeys[12]){
+		if (!downKeys[14]){
 			pauseBuffer = false;
 		}
 		else if (!pauseBuffer){
@@ -730,12 +720,12 @@ class Missile extends Thing{
 	int[] fillColor;
 	//dir: up, left, down, right
 
-	Missile(int _xPos, int _yPos, int[] _dir){
+	Missile(int _xPos, int _yPos, int[] _dir, int _type){
   		xPos = _xPos;
 		yPos = _yPos;
 		dir = _dir;
   		active = true;
-  		setType();
+  		setType(_type);
 	}
 
 	void drawOut(){
@@ -761,7 +751,10 @@ class Missile extends Thing{
 		active = false;
 	}
 
-	void setType(){
+	void setType(int _type){
+		type = _type;
+		fillColor = missileColors[type];
+		/*	old type generation, didn't take player rotation into account
 		type = 3;
 		if (dir[1] == 0 && dir[0] < 0){
 			type = 1;
@@ -772,7 +765,7 @@ class Missile extends Thing{
 		else if (dir[1] < 0){
 			type = 0;
 		}
-		fillColor = missileColors[type];
+		fillColor = missileColors[type];*/
 	}
 }
 class Missile_kill extends Thing{
@@ -829,15 +822,15 @@ class Missile_kill extends Thing{
 	}
 }
 class Player extends Thing {
-  int HP = 10000;                 //health of player, restorable?
-  int HP_max = 10000;             //health of player, UPGRADABLE
-  int regenSpeed = 2;
-  float xVel = 0, yVel = 0;
+  int HP, HP_max = 10000;
+  int regenSpeed = 4;
+  int rotate_displacement = 0;     //clockwise
+  float xVel, yVel = 0;
   int gold = 0;
-  boolean[] movement;
-  boolean[] shooting;
-  boolean[] upgrades;
-  boolean[] abilities;
+  boolean[] movement, shooting, upgrades, abilities;
+  int rotate_lock = 0;
+  int rotate_speed = 3;
+  int rotate_lockFull = 30;
 
   //agility traits
   int agility = 0;
@@ -882,8 +875,8 @@ class Player extends Thing {
     HP = _HP;
   }
 
-  void fire(int[] dir) {
-    missiles.add(new Missile((int)xPos, (int)yPos, dir));
+  void fire(int[] dir, int _type) {
+    missiles.add(new Missile((int)xPos, (int)yPos, dir, _type));
     powerPool -= powerPool_missile;
   }
 
@@ -892,77 +885,11 @@ class Player extends Thing {
     if (HP <= 0) {
       gameEnd();
     }
-    //incrementing cooldowns
-    if (coolDown > 0) {
-      coolDown -= coolDown_rate();
-    } else if (coolDown < 0) {
-      coolDown = 0;
-    }
-    if (upgradeCoolDown > 0) {
-      upgradeCoolDown -= upgradeCoolDown_rate;
-    }
-    //movement
-    for (int i = 0; i < 4; i++) {
-      if (movement[i]) {
-        xVel += moveDirs[i][0];
-        yVel += moveDirs[i][1];
-      }
-    }
-
-    //fire
-    if (powerPool <= 0) {
-      locked = true;
-    }
-    if (coolDown == 0 && !locked) {
-      int[] missileVel = {
-        0, 0
-      };
-      for (int i = 0; i < 4; i++) {
-        if (shooting[i]) {
-          missileVel[0] += missileDirs[i][0];
-          missileVel[1] += missileDirs[i][1];
-        }
-      }
-
-      if (missileVel[0] != 0 || missileVel [1] != 0) {
-        fire(missileVel);
-        coolDown = coolDown_interval;
-      };
-    };
-
-    //upgrading handler
-    if (upgradeCoolDown == 0) {
-      for (int i = 0; i < 3; i++) {
-        if (upgrades[i]) {
-          //TODO: pseudocode for upgrade
-          if (agility < 7) {
-            agility += 1;
-          }
-          if (power < 7) {
-            power += 1;
-          }
-          upgradeCoolDown = upgradeCoolDown_interval;
-        }
-      };
-    };
-
-    //powerpool handling
-    if (powerPool<powerPool_max()) {
-      powerPool += powerPool_restore();
-    }
-    if (powerPool >= powerPool_max()) {
-      if (HP < HP_max){
-        HP += regenSpeed;
-      }
-      if (locked) {
-        locked = false;
-      }
-    }
-    cap();
-    xPos += xVel;
-    yPos += yVel;
-    xVel *= .8;
-    yVel *= .8;
+    calculate_movement();
+    calculate_abilities();
+    calculate_missileShooting();
+    calculate_upgrades();
+    calculate_powerPool();
   }
 
   //draws out player square
@@ -977,18 +904,7 @@ class Player extends Thing {
       fill(255, 0, 0);
     }
     rect(xPos, yPos, playerSize(), playerSize());
-
-    //drawing four colored sides
-    strokeWeight(2);
-    fillWithArray(missileColors[0]);
-    rect(xPos, yPos - playerSize()*3/5, playerSize(), playerSize()/6);
-    fillWithArray(missileColors[1]);
-    rect(xPos - playerSize()*3/5, yPos, playerSize()/6, playerSize());
-    fillWithArray(missileColors[2]);
-    rect(xPos, yPos + playerSize()*3/5, playerSize(), playerSize()/6);
-    fillWithArray(missileColors[3]);
-    rect(xPos + playerSize()*3/5, yPos, playerSize()/6, playerSize());
-
+    drawSides();
     //drawing power pool
     fill(255);
     int temp = playerSize()*powerPool / powerPool_max();
@@ -1014,6 +930,134 @@ class Player extends Thing {
     if (abs(yVel) > maxVel()) {
       yVel = maxVel()*yVel/abs(yVel);
     }
+  }
+
+  void calculate_abilities(){
+    if (abilities[0]){
+
+    }
+
+    //rotation
+    if (rotate_lock <= 0){
+      if (abilities[1]){
+        rotate_displacement = (rotate_displacement+3)%4;
+        rotate_lock = rotate_lockFull;
+        powerPool *= .8;
+      }
+      else if (abilities[2]){
+        rotate_displacement = (rotate_displacement+1)%4;
+        rotate_lock = rotate_lockFull;
+        powerPool *= .8;
+      }
+    }
+    else{
+      rotate_lock -= rotate_speed;
+    }
+  }
+
+  void calculate_movement(){
+    for (int i = 0; i < 4; i++) {
+      if (movement[i]) {
+        xVel += moveDirs[i][0];
+        yVel += moveDirs[i][1];
+      }
+    }
+    xPos += xVel;
+    yPos += yVel;
+    xVel *= .8;
+    yVel *= .8;
+    cap();
+  }
+
+  void calculate_missileShooting(){
+    if (coolDown > 0) {
+      coolDown -= coolDown_rate();
+    } else if (coolDown < 0) {
+      coolDown = 0;
+    }
+    if (powerPool <= 0) {
+      locked = true;
+    }
+    if (coolDown == 0 && !locked) {
+      int[] missileVel = {
+        0, 0
+      };
+      for (int i = 0; i < 4; i++) {
+        if (shooting[i]) {
+          missileVel[0] += missileDirs[i][0];
+          missileVel[1] += missileDirs[i][1];
+        }
+      }
+
+      if (missileVel[0] != 0 || missileVel [1] != 0) {
+        fire(missileVel, getMissileType(missileVel));
+        coolDown = coolDown_interval;
+      };
+    };
+  }
+
+  void calculate_upgrades(){
+    if (upgradeCoolDown > 0) {
+      upgradeCoolDown -= upgradeCoolDown_rate;
+    }
+    if (upgradeCoolDown == 0) {
+      for (int i = 0; i < 3; i++) {
+        if (upgrades[i]) {
+          //TODO: pseudocode for upgrade
+          if (agility < 7) {
+            agility += 1;
+          }
+          if (power < 7) {
+            power += 1;
+          }
+          upgradeCoolDown = upgradeCoolDown_interval;
+        }
+      }
+    }
+  }
+
+  void calculate_powerPool(){
+    if (powerPool<powerPool_max()) {
+      powerPool += powerPool_restore();
+    }
+    if (powerPool >= powerPool_max()) {
+      if (HP < HP_max){
+        HP += regenSpeed;
+      }
+      if (locked) {
+        locked = false;
+      }
+    }
+  }
+
+  void drawSides(){
+    strokeWeight(2);
+    fillWithArray(missileColors[rotate_displacement%4]);
+    rect(xPos, yPos - playerSize()*3/5, playerSize(), playerSize()/6);
+    fillWithArray(missileColors[(1+rotate_displacement)%4]);
+    rect(xPos - playerSize()*3/5, yPos, playerSize()/6, playerSize());
+    fillWithArray(missileColors[(2+rotate_displacement)%4]);
+    rect(xPos, yPos + playerSize()*3/5, playerSize(), playerSize()/6);
+    fillWithArray(missileColors[(3+rotate_displacement)%4]);
+    rect(xPos + playerSize()*3/5, yPos, playerSize()/6, playerSize());
+  }
+
+  int getMissileType(int[] _dir){
+    if (_dir[1] == 0){
+      if(_dir[0]>0){
+        return (3+rotate_displacement)%4;
+        //right
+      }
+      return (1+rotate_displacement)%4;
+      //left
+    }
+    //must have yvel at this point
+    if (_dir[1] > 0){
+      return (2+rotate_displacement)%4;
+      //down
+    }
+    return (rotate_displacement)%4;
+    //up
   }
 
   //functions that return stats based on agl, pow etc.

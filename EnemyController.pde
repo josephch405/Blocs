@@ -1,7 +1,7 @@
 class EnemyController {
 
   int[][] releaseZones;
-  int enemyLimit = 20;
+  int enemyLimit = 30;
 
   EnemyController() {
     releaseZones = new int[][] {
@@ -28,7 +28,7 @@ class EnemyController {
       maxEnemies = enemyLimit;
     }
 
-    if (normalEnemies < floor(maxEnemies)) {
+    if (enemies.size() < floor(maxEnemies)) {
       release(floor(random(0, 4)));
     }
     if (enemies_sticky.size() < floor((maxEnemies-10)/3)) {
@@ -64,13 +64,11 @@ class EnemyController {
   void release(int dir) {
     int[] position = randomCoord(dir);
     enemies.add(new Enemy(position[0], position[1], 100, dir));
-    normalEnemies += 1;
   }
 
   void release_sticky(int dir) {
     int[] position = randomCoord(dir);
     enemies_sticky.add(new Enemy_Sticky(position[0], position[1], 100, dir));
-    stickyEnemies += 1;
   }
 
   int[] randomCoord(int dir) {

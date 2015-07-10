@@ -122,7 +122,6 @@ class Enemy_Sticky extends Thing {
       Enemy child = childList.get(i);
       child.destroyWithAnim();
     }
-    stickyEnemies -= 1;
   }
 
   int collisionCheck_enemies() {
@@ -139,7 +138,6 @@ class Enemy_Sticky extends Thing {
         finalCoords[1] += stickyCoords[1];
         childList.get(childList.size()-1).stickTo(this, finalCoords);
         enemies.remove(i);
-        normalEnemies -= 1;
         i--;
         counter += 1;
       }

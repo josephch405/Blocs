@@ -9,6 +9,12 @@ devlog
 -implemented health regen
 -set limit for sticky childlist size
 
+7/10
+-added rotation function: q, e to rotate
+-compartamentalized a lot of player functions - now a lot cleaner
+-fixed enemy limits to correspond directly to array length and not a counter
+-
+
 tomorrow:
 -implement proper upgrading - batch upgrading for now
 	-add new function() that handles upgrading
@@ -20,4 +26,7 @@ tomorrow:
 	-for each in array, remove object
 		-go backwards
 -bomb mechanism
+	-5 tiered
+	-
 -restart mechanism
+-proper menu

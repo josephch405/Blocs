@@ -19,10 +19,9 @@ boolean gameIsEnd = false;
 int spritesPerLayer = 10;
 int marginSize = 20;
 float maxEnemies = 10;
-int normalEnemies, stickyEnemies = 0;
 
 //lists of variables
-char[] keyMapping = {'w','a','s','d','i','j','k','l','z','x','c',' ', 'p'};    //movement 4x, shooting 4x, upgrade 3x, bomb(alt 1), pause
+char[] keyMapping = {'w','a','s','d','i','j','k','l','z','x','c',' ', 'q', 'e', 'p'};    //movement 4x, shooting 4x, upgrade 3x, bomb(alt 1), pause
 int[][] moveDirs = {{0,-4},{-4,0},{0,4},{4,0}};
 int[][] missileDirs = {{0,-1},{-1,0},{0,1},{1,0}};
 int[][] missileColors = {{0,0,255}, {255,0,0}, {255,255,0}, {0,255,0}};
@@ -43,7 +42,7 @@ void setup(){
   for (int i = 0; i < bgSprites.length; i++){
     bgSprites[i] = new BgSprite(-floor(1+i/spritesPerLayer));
   }
-  downKeys = new boolean[13];
+  downKeys = new boolean[keyMapping.length];
   for (int i = 0; i < downKeys.length; i++){
     downKeys[i] = false;
   }
@@ -70,7 +69,7 @@ void calculations(){
   }
   
   enemyController.update();
-  for (int i = 0; i < missiles.size (); i++) {
+  for (int i = 0; i < missiles.size(); i++) {
     if (!missiles.get(i).active) {
       missiles.remove(i);
       i--;
@@ -179,6 +178,7 @@ void drawUI(){
   }
   text(frameRate, 40, 80);
   text(maxEnemies, 40, 120);
+  text(enemies.size(), 40, 200);
 
   rectMode(CENTER);
 }

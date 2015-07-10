@@ -20,7 +20,7 @@ class Enemy extends Thing {
     yVel = (-dir+1)%2;
     xVel *= random(size/20, size/10);
     yVel *= random(size/20, size/10);
-    type = (dir+1+floor(random(3)))%4;
+    type = floor(random(4));//(dir+1+floor(random(3)))%4;
     fillColor = missileColors[type];
     active = true;
   }
@@ -38,7 +38,6 @@ class Enemy extends Thing {
       //destroy on leaving active area
       if (xPos < -50 || xPos > sWidth + 50 ||yPos < -50 || yPos > sHeight + 50) {
         destroy();
-        normalEnemies -= 1;
       }
     }
     if (!collisionCheck_player()) {
@@ -74,7 +73,6 @@ class Enemy extends Thing {
     if (isCollided(playerPos, player.playerSize())) {
       damagePlayer(200);
       destroyWithAnim();
-      normalEnemies -= 1;
       return true;
     }
     return false;
@@ -93,7 +91,6 @@ class Enemy extends Thing {
           addGold(goldWorth);
           destroyWithAnim();
           maxEnemies += .4;
-          normalEnemies -= 1;
           return true;
         }
       }
@@ -130,7 +127,6 @@ class Enemy extends Thing {
         parent.childList.get(parent.childList.size()-1).type = type;
         parent.childList.get(parent.childList.size()-1).fillColor = missileColors[type];;
         enemies.remove(i);
-        normalEnemies -= 1;
         i--;
         counter += 1;
       }
