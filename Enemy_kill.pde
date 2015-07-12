@@ -1,4 +1,4 @@
-class Enemy_kill extends Thing {
+class Enemy_kill extends Actor {
   int[] fillColor;
   int size = 40;
   int timer = 10;

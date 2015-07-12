@@ -15,7 +15,7 @@ import java.io.IOException;
 public class Blocs extends PApplet {
 
 //objects
-int sWidth = 800;
+int sWidth = 960;
 int sHeight = 600;
 Player player;// = new Player(sWidth/2, sHeight/2, 100);;
 EnemyController enemyController = new EnemyController();
@@ -23,10 +23,11 @@ InputController inputController;// = new InputController();
 Camera playerCam;
 
 //lists of objects
-ArrayList<Missile> missiles = new ArrayList<Missile>();
-ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-ArrayList<Enemy_Sticky> enemies_sticky = new ArrayList<Enemy_Sticky>();
-ArrayList<Enemy_kill> enemies_kill = new ArrayList<Enemy_kill>();
+ArrayList<Actor> missiles = new ArrayList<Actor>();
+ArrayList<Actor> bombs = new ArrayList<Actor>();
+ArrayList<Actor> enemies = new ArrayList<Actor>();
+ArrayList<Actor> enemies_sticky = new ArrayList<Actor>();
+ArrayList<Actor> enemies_kill = new ArrayList<Actor>();
 BgSprite[] bgSprites;
 
 //variables
@@ -46,7 +47,7 @@ boolean[] downKeys;
 public void setup(){
   //init variables
   frameRate(30);
-  size(800,600);
+  size(960,600);
   rectMode(CENTER);
   strokeWeight(10);
   //init objects
@@ -85,14 +86,9 @@ public void calculations(){
   }
   
   enemyController.update();
-  for (int i = 0; i < missiles.size(); i++) {
-    if (!missiles.get(i).active) {
-      missiles.remove(i);
-      i--;
-    } else {
-      missiles.get(i).calculate();
-    }
-  }
+
+  calculateActorArray(missiles);
+  calculateActorArray(bombs);
 }
 
 public void drawCanvas(){
@@ -100,20 +96,30 @@ public void drawCanvas(){
   for (int i = bgSprites.length-1; i >= 0; i--){
     bgSprites[i].paint();
   }
-  for(int i = 0; i < enemies_kill.size(); i++){
-    enemies_kill.get(i).drawOut();
-  }
-  for(int i = 0; i < enemies.size(); i++){
-    enemies.get(i).drawOut();
-  }
-  for(int i = 0; i < enemies_sticky.size(); i++){
-    enemies_sticky.get(i).drawOut();
-  }
-  for(int i = 0; i < missiles.size(); i++){
-    missiles.get(i).drawOut();
-  }
+  drawActorArray(enemies_kill);
+  drawActorArray(enemies);
+  drawActorArray(enemies_sticky);
+  drawActorArray(missiles);
+  drawActorArray(bombs);
   player.drawOut();
   drawUI();
+}
+
+public void drawActorArray(ArrayList<Actor> _array){
+  for(int i = 0; i < _array.size(); i++){
+    _array.get(i).drawOut();
+  }
+}
+
+public void calculateActorArray(ArrayList<Actor> _array){
+  for (int i = 0; i < _array.size(); i++) {
+    if (!_array.get(i).active) {
+      _array.remove(i);
+      i--;
+    } else {
+      _array.get(i).calculate();
+    }
+  }
 }
 
 public int findInKeyMapping(char input){
@@ -192,9 +198,9 @@ public void drawUI(){
     fill(0);
     text("PAUSED", 40, 40);
   }
-  text(frameRate, 40, 80);
-  text(maxEnemies, 40, 120);
-  text(enemies.size(), 40, 200);
+  text("framrate: " + frameRate, 40, 80);
+  text("bomb lock: " + player.bombLock, 40, 120);
+  text("rot lock: " + player.rotate_lock, 40, 160);
 
   rectMode(CENTER);
 }
@@ -216,7 +222,40 @@ public void togglePause(){
 public void fillWithArray(int[] temp){
   fill(temp[0], temp[1], temp[2]);
 }
-class BgSprite extends Thing {
+abstract class Actor{
+	float xPos, yPos, xVel, yVel = 0;
+	boolean active = false;
+  	int goldWorth = 30;
+  	int size = 40;
+
+
+  	Actor(){
+  		active = true;
+  	}
+
+  	public void calculate(){
+
+  	}
+
+  	public void drawOut(){
+
+  	}
+
+	public void move(int dx, int dy){
+	  	xPos += dx;
+	  	yPos += dy;
+  	}
+
+  	public void setPosition(int _x, int _y){
+	  	xPos = _x;
+	  	yPos = _y;
+  	}
+
+	public void destroy(){
+		active = false;
+	}
+}
+class BgSprite extends Actor {
   float depth = 0, xLength = 100, yLength = 100, initDepth = 1;
 
   BgSprite(int _depth){
@@ -249,7 +288,61 @@ class BgSprite extends Thing {
     yPos = random(sHeight);
   }
 }
-class Camera extends Thing{
+class Bomb extends Actor{
+	int type = 0;
+	int[] dir;
+	int size = 0;
+	int[] fillColor;
+	int timeOut = 30;
+	//could alternatively use levels that controlled size and timeout
+
+	Bomb(int _xPos, int _yPos, int _type, int _size, int _timeOut){
+  		xPos = _xPos;
+		yPos = _yPos;
+		size = _size;
+		timeOut = _timeOut;
+  		active = true;
+  		setType(_type);
+	}
+
+	public void drawOut(){
+		strokeWeight(size/50);
+		stroke(0, timeOut*255/30);
+		fill(fillColor[0], fillColor[1], fillColor[2], timeOut*255/30);
+		if (active){
+			ellipseMode(CENTER);
+  			ellipse(xPos, yPos, size, size);
+  		}
+	}
+
+	public void calculate(){
+		if (active){
+			size *= .98f;
+			timeOut -= 1;
+		}
+		if (timeOut <= 0){
+			destroy();
+		}
+	}
+
+	public void setType(int _type){
+		type = _type;
+		fillColor = missileColors[type];
+		/*	old type generation, didn't take player rotation into account
+		type = 3;
+		if (dir[1] == 0 && dir[0] < 0){
+			type = 1;
+		}
+		else if (dir[1] > 0){
+			type = 2;
+		}
+		else if (dir[1] < 0){
+			type = 0;
+		}
+		fillColor = missileColors[type];*/
+	}
+}
+class Camera extends Actor{
   
   Camera (int _xPos, int _yPos){
     xPos = _xPos;
@@ -263,12 +356,11 @@ class Camera extends Thing{
     yPos = (_yPos - sWidth)/3;;
   }
 }
-class Enemy extends Thing {
+class Enemy extends Actor {
   int type = 0;
   int dir = 0;
   int path = 0;
   int[] fillColor;
-  float xVel = 0, yVel = 0;
   int size = sHeight/24;
   int[] stickyCoords = {
     0, 0
@@ -306,11 +398,14 @@ class Enemy extends Thing {
       }
     }
     if (!collisionCheck_player()) {
-      collisionCheck_missiles();
+      if (!collisionCheck_bombs()){
+        collisionCheck_missiles();
+      }
     }
   }
 
   public void destroyWithAnim() {
+    addGold(goldWorth);
     active = false;
     enemies_kill.add(new Enemy_kill(floor(xPos), floor(yPos), fillColor, size));
   }
@@ -346,16 +441,29 @@ class Enemy extends Thing {
   //checks and handles collision with missiles
   public boolean collisionCheck_missiles() {
     for (int i = 0; i < missiles.size (); i++) {
-      Missile missile = missiles.get(i);
+      Missile missile = (Missile)missiles.get(i);
       float[] missilePos = {
         missile.xPos, missile.yPos
       };
       if (isCollided(missilePos, missile.size)) {
         missiles.get(i).destroy();
         if (missile.type == type) {
-          addGold(goldWorth);
           destroyWithAnim();
           maxEnemies += .4f;
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  public boolean collisionCheck_bombs() {
+    for (int i = 0; i < bombs.size (); i++) {
+      Bomb bomb = (Bomb)bombs.get(i);
+      if (bomb.type == type) {
+        if (isCollided_bomb(bomb)) {
+          destroyWithAnim();
+          maxEnemies += .2f;
           return true;
         }
       }
@@ -379,12 +487,12 @@ class Enemy extends Thing {
   public int collisionCheck_enemies() {
     int counter = 0;
     for (int i = 0; i < enemies.size (); i++) {
-      Enemy _minion = enemies.get(i);
+      Enemy _minion = (Enemy)enemies.get(i);
       float[] _minion_pos = {
         _minion.xPos, _minion.yPos
       };
       if (isCollided(_minion_pos, _minion.size)) {
-        parent.childList.add(enemies.get(i));
+        parent.childList.add((Enemy)enemies.get(i));
         int[] finalCoords = collision_position(round(_minion.xPos), round(_minion.yPos));
         finalCoords[0] += stickyCoords[0];
         finalCoords[1] += stickyCoords[1];
@@ -412,12 +520,21 @@ class Enemy extends Thing {
     }
     return result;
   }
+
+  public boolean isCollided_bomb(Bomb bomb) {
+    int dist = floor(sqrt(sq(xPos - bomb.xPos) + sq(yPos - bomb.yPos)));
+    if (dist < size/2 + bomb.size/2){
+      return true;
+    }
+    return false;
+  }
 }
 
 class EnemyController {
 
   int[][] releaseZones;
-  int enemyLimit = 20;
+  int enemyLimit = 30;
+  int stickyTimer = 100;
 
   EnemyController() {
     releaseZones = new int[][] {
@@ -448,7 +565,13 @@ class EnemyController {
       release(floor(random(0, 4)));
     }
     if (enemies_sticky.size() < floor((maxEnemies-10)/3)) {
-      release_sticky(floor(random(0, 4)));
+      if (stickyTimer > 0){
+        stickyTimer -= 1;
+      }
+      else{
+        release_sticky(floor(random(0, 4)));
+        stickyTimer = 100;
+      }
     }
     for (int i = 0; i < enemies.size (); i++) {
       if (!enemies.get(i).active) {
@@ -497,7 +620,7 @@ class EnemyController {
   }
 }
 
-class Enemy_Sticky extends Thing {
+class Enemy_Sticky extends Actor {
   int dir = 0;
   int path = 0;
   int[] fillColor = {
@@ -600,7 +723,7 @@ class Enemy_Sticky extends Thing {
 
   public boolean collisionCheck_missiles() {
     for (int i = 0; i < missiles.size (); i++) {
-      Missile missile = missiles.get(i);
+      Missile missile = (Missile)missiles.get(i);
       float[] missilePos = {
         missile.xPos, missile.yPos
       };
@@ -626,12 +749,12 @@ class Enemy_Sticky extends Thing {
   public int collisionCheck_enemies() {
     int counter = 0;
     for (int i = 0; i < enemies.size (); i++) {
-      Enemy _minion = enemies.get(i);
+      Enemy _minion = (Enemy)enemies.get(i);
       float[] _minion_pos = {
         _minion.xPos, _minion.yPos
       };
       if (isCollided(_minion_pos, _minion.size)) {
-        childList.add(enemies.get(i));
+        childList.add((Enemy)enemies.get(i));
         int[] finalCoords = collision_position(round(_minion.xPos), round(_minion.yPos));
         finalCoords[0] += stickyCoords[0];
         finalCoords[1] += stickyCoords[1];
@@ -659,7 +782,7 @@ class Enemy_Sticky extends Thing {
   }
 }
 
-class Enemy_kill extends Thing {
+class Enemy_kill extends Actor {
   int[] fillColor;
   int size = 40;
   int timer = 10;
@@ -728,8 +851,7 @@ class Layer{
     
   }
 }
-class Missile extends Thing{
-
+class Missile extends Actor{
 	int type = 0;
 	int[] dir;
 	int size = sHeight/55;
@@ -740,6 +862,8 @@ class Missile extends Thing{
   		xPos = _xPos;
 		yPos = _yPos;
 		dir = _dir;
+		xVel = dir[0]*size*2;
+		yVel = dir[1]*size*2;
   		active = true;
   		setType(_type);
 	}
@@ -755,16 +879,12 @@ class Missile extends Thing{
 
 	public void calculate(){
 		if (active){
-			xPos += dir[0]*size*2;
-			yPos += dir[1]*size*2;
+			xPos += xVel;
+			yPos += yVel;
 		}
 		if (xPos < -10 || xPos > sWidth + 10 ||yPos < -10 || yPos > sHeight + 10){
 			destroy();
 		}
-	}
-
-	public void destroy(){
-		active = false;
 	}
 
 	public void setType(int _type){
@@ -784,80 +904,28 @@ class Missile extends Thing{
 		fillColor = missileColors[type];*/
 	}
 }
-class Missile_kill extends Thing{
 
-	int type = 0;
-	int[] dir;
-	int size = 20;
-	int[] fillColor;
-	//dir: up, left, down, right
-
-	Missile_kill(int _xPos, int _yPos, int[] _dir){
-  		xPos = _xPos;
-		yPos = _yPos;
-		dir = _dir;
-  		active = true;
-  		setType();
-	}
-
-	public void drawOut(){
-		strokeWeight(2);
-		stroke(0);
-		fill(fillColor[0], fillColor[1], fillColor[2]);
-		if (active){
-  			rect(xPos, yPos, size, size);
-  		}
-	}
-
-	public void calculate(){
-		if (active){
-			xPos += dir[0];
-			yPos += dir[1];
-		}
-		if (xPos < -10 || xPos > sWidth + 10 ||yPos < -10 || yPos > sHeight + 10){
-			destroy();
-		}
-	}
-
-	public void destroy(){
-		active = false;
-	}
-
-	public void setType(){
-		type = 3;
-		if (dir[1] == 0 && dir[0] < 0){
-			type = 1;
-		}
-		else if (dir[1] > 0){
-			type = 2;
-		}
-		else if (dir[1] < 0){
-			type = 0;
-		}
-		fillColor = missileColors[type];
-	}
-}
-class Player extends Thing {
+class Player extends Actor {
   int HP, HP_max = 10000;
-  int regenSpeed = 2;
+  int regenSpeed = 4;
   int rotate_displacement = 0;     //clockwise
-  float xVel, yVel = 0;
   int gold = 0;
   boolean[] movement, shooting, upgrades, abilities;
   int rotate_lock = 0;
-  int rotate_speed = 3;
-  int rotate_lockFull = 30;
+  int rotate_speed = 1;
+  int rotate_lockFull = 3;
+  boolean bombPrimed = false;
 
   //agility traits
   int agility = 0;
   int[] agilityCosts = {
-    100, 120, 140, 180, 220, 260, 300, -1
+    100, 120, 140, 180, -1
   };
   int[] maxVels = {
-    7, 8, 9, 11, 13, 15, 19, 23
+    7, 8, 9, 11, 13
   };
   int[] playerSizes = {
-    60, 56, 52, 48, 43, 37, 30, 20
+    60, 56, 52, 48, 43
   };
 
   //power traits
@@ -867,9 +935,9 @@ class Player extends Thing {
   };
   int powerPool = 300;          //
   int[] powerPool_restores = {
-    3, 3, 4, 4, 5, 5, 6, 7
+    3, 4, 5, 5, 6, 6, 7, 7
   };    //UPGRADABLE
-  int powerPool_missile = 60;
+  int powerPool_missile = 50;
   int[] powerPool_maxs = {
     300, 340, 380, 440, 500, 560, 620, 680
   };           //UPGRADABLE
@@ -885,6 +953,9 @@ class Player extends Thing {
   int upgradeCoolDown_rate = 1;
   int upgradeCoolDown_interval = 10;
 
+  //bomb
+  int bombLock = 60;
+
   Player(int _xPos, int _yPos, int _HP) {
     xPos = _xPos;
     yPos = _yPos;
@@ -896,21 +967,32 @@ class Player extends Thing {
     powerPool -= powerPool_missile;
   }
 
+  public void fire_bomb(int _type) {
+    bombs.add(new Bomb((int)xPos, (int)yPos, _type, size*5, 30));
+    //powerPool -= powerPool_missile;
+  }
+
   //calculates player events during loop
   public void calculate() {
     if (HP <= 0) {
       gameEnd();
     }
     calculate_movement();
-    calculate_abilities();
-    calculate_missileShooting();
-    calculate_upgrades();
-    calculate_powerPool();
-  }
+    if (!calculate_abilities()){
+      calculate_missileShooting();}
+      calculate_upgrades();
+      calculate_powerPool();
+    }
 
   //draws out player square
   public void drawOut() {
     //drawing main square - red if locked, black if not
+    pushMatrix();
+    translate(xPos, yPos);
+    if (rotate_lock != 0){
+      pushMatrix();
+      rotate(rotate_lock * PI/6);
+    }
     strokeWeight(playerSize()/8);
     if (!locked) {
       stroke(0);
@@ -919,12 +1001,24 @@ class Player extends Thing {
       stroke(255, 0, 0);
       fill(255, 0, 0);
     }
-    rect(xPos, yPos, playerSize(), playerSize());
+    rect(0, 0, playerSize(), playerSize());
     drawSides();
     //drawing power pool
     fill(255);
     int temp = playerSize()*powerPool / powerPool_max();
-    rect(xPos, yPos, temp, temp);
+    rect(0, 0, temp, temp);
+    if (rotate_lock != 0){
+      popMatrix();
+    }
+    popMatrix();
+
+    if (bombPrimed){
+      stroke(0);
+      fill(255);
+      triangle(xPos, yPos+size/10, xPos+size/6, yPos + size/3, xPos-size/6, yPos + size/3);  
+      rect(xPos, yPos - size/7, size/3, size/1.8f, size/10);    
+    }
+
   }
 
   //caps player within display boundaries, considering UI clipping
@@ -948,27 +1042,47 @@ class Player extends Thing {
     }
   }
 
-  public void calculate_abilities(){
+  public boolean calculate_abilities(){
+    bombPrimed = false;
+    if (bombLock > 0){
+      bombLock -= 1;
+    }
     if (abilities[0]){
-
+      int dir = -1;
+      for (int i = 0; i < 4; i++) {
+        if (shooting[i]) {
+          dir = i;
+        }
+      }
+      if (bombLock == 0){
+        bombPrimed = true;
+        if (dir >= 0){
+          fire_bomb((dir+rotate_displacement)%4);
+          bombLock = 60;
+        }
+      }
+      return true;
     }
 
     //rotation
-    if (rotate_lock <= 0){
+    if (rotate_lock == 0){
       if (abilities[1]){
         rotate_displacement = (rotate_displacement+3)%4;
         rotate_lock = rotate_lockFull;
         powerPool *= .8f;
+        return true;
       }
       else if (abilities[2]){
         rotate_displacement = (rotate_displacement+1)%4;
-        rotate_lock = rotate_lockFull;
+        rotate_lock = -rotate_lockFull;
         powerPool *= .8f;
+        return true;
       }
     }
     else{
-      rotate_lock -= rotate_speed;
+      rotate_lock -= rotate_speed * (rotate_lock/abs(rotate_lock));
     }
+    return false;
   }
 
   public void calculate_movement(){
@@ -1020,7 +1134,7 @@ class Player extends Thing {
       for (int i = 0; i < 3; i++) {
         if (upgrades[i]) {
           //TODO: pseudocode for upgrade
-          if (agility < 7) {
+          if (agility < 4) {
             agility += 1;
           }
           if (power < 7) {
@@ -1049,13 +1163,13 @@ class Player extends Thing {
   public void drawSides(){
     strokeWeight(2);
     fillWithArray(missileColors[rotate_displacement%4]);
-    rect(xPos, yPos - playerSize()*3/5, playerSize(), playerSize()/6);
+    rect(0, 0 - playerSize()*3/5, playerSize(), playerSize()/6);
     fillWithArray(missileColors[(1+rotate_displacement)%4]);
-    rect(xPos - playerSize()*3/5, yPos, playerSize()/6, playerSize());
+    rect(0 - playerSize()*3/5, 0, playerSize()/6, playerSize());
     fillWithArray(missileColors[(2+rotate_displacement)%4]);
-    rect(xPos, yPos + playerSize()*3/5, playerSize(), playerSize()/6);
+    rect(0, 0 + playerSize()*3/5, playerSize(), playerSize()/6);
     fillWithArray(missileColors[(3+rotate_displacement)%4]);
-    rect(xPos + playerSize()*3/5, yPos, playerSize()/6, playerSize());
+    rect(0 + playerSize()*3/5, 0, playerSize()/6, playerSize());
   }
 
   public int getMissileType(int[] _dir){
@@ -1112,28 +1226,6 @@ class Player extends Thing {
   }
 }
 
-class Thing{
-	
-	float xPos = 0, yPos = 0;
-	boolean active = false;
-  	int goldWorth = 30;
-  	int size = 40;
-
-	public void move(int dx, int dy){
-	  	xPos += dx;
-	  	yPos += dy;
-  	}
-
-  	public void setPosition(int _x, int _y){
-	  	xPos = _x;
-	  	yPos = _y;
-  	}
-
-	public void destroy(){
-		active = false;
-	}
-
-}
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "--full-screen", "--bgcolor=#666666", "--hide-stop", "Blocs" };
     if (passedArgs != null) {

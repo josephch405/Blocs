@@ -13,12 +13,17 @@ devlog
 -added rotation function: q, e to rotate
 -compartamentalized a lot of player functions - now a lot cleaner
 -fixed enemy limits to correspond directly to array length and not a counter
--
+
+7/11
+-added bombs
+-objects now as arrays of actors - for calc and draw functions with classed parameters
+
+7/12
+-animated rotations
+-increase display size
 
 tomorrow:
 -implement proper upgrading - batch upgrading for now
-	-add new function() that handles upgrading
-	-subtract from gold
 -implement connectCheck for sticky on destroy
 	-on enemy destruction, toggle parent function/flag
 	-build findMinionAtLocation(), returns object

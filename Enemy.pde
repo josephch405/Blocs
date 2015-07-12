@@ -1,9 +1,8 @@
-class Enemy extends Thing {
+class Enemy extends Actor {
   int type = 0;
   int dir = 0;
   int path = 0;
   int[] fillColor;
-  float xVel = 0, yVel = 0;
   int size = sHeight/24;
   int[] stickyCoords = {
     0, 0
@@ -41,11 +40,14 @@ class Enemy extends Thing {
       }
     }
     if (!collisionCheck_player()) {
-      collisionCheck_missiles();
+      if (!collisionCheck_bombs()){
+        collisionCheck_missiles();
+      }
     }
   }
 
   void destroyWithAnim() {
+    addGold(goldWorth);
     active = false;
     enemies_kill.add(new Enemy_kill(floor(xPos), floor(yPos), fillColor, size));
   }
@@ -81,16 +83,29 @@ class Enemy extends Thing {
   //checks and handles collision with missiles
   boolean collisionCheck_missiles() {
     for (int i = 0; i < missiles.size (); i++) {
-      Missile missile = missiles.get(i);
+      Missile missile = (Missile)missiles.get(i);
       float[] missilePos = {
         missile.xPos, missile.yPos
       };
       if (isCollided(missilePos, missile.size)) {
         missiles.get(i).destroy();
         if (missile.type == type) {
-          addGold(goldWorth);
           destroyWithAnim();
           maxEnemies += .4;
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  boolean collisionCheck_bombs() {
+    for (int i = 0; i < bombs.size (); i++) {
+      Bomb bomb = (Bomb)bombs.get(i);
+      if (bomb.type == type) {
+        if (isCollided_bomb(bomb)) {
+          destroyWithAnim();
+          maxEnemies += .2;
           return true;
         }
       }
@@ -114,12 +129,12 @@ class Enemy extends Thing {
   int collisionCheck_enemies() {
     int counter = 0;
     for (int i = 0; i < enemies.size (); i++) {
-      Enemy _minion = enemies.get(i);
+      Enemy _minion = (Enemy)enemies.get(i);
       float[] _minion_pos = {
         _minion.xPos, _minion.yPos
       };
       if (isCollided(_minion_pos, _minion.size)) {
-        parent.childList.add(enemies.get(i));
+        parent.childList.add((Enemy)enemies.get(i));
         int[] finalCoords = collision_position(round(_minion.xPos), round(_minion.yPos));
         finalCoords[0] += stickyCoords[0];
         finalCoords[1] += stickyCoords[1];
@@ -146,6 +161,14 @@ class Enemy extends Thing {
       result[1] = deltaY/abs(deltaY);
     }
     return result;
+  }
+
+  boolean isCollided_bomb(Bomb bomb) {
+    int dist = floor(sqrt(sq(xPos - bomb.xPos) + sq(yPos - bomb.yPos)));
+    if (dist < size/2 + bomb.size/2){
+      return true;
+    }
+    return false;
   }
 }
 

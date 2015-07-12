@@ -1,35 +1,36 @@
-class Missile extends Actor{
+class Bomb extends Actor{
 	int type = 0;
 	int[] dir;
-	int size = sHeight/55;
+	int size = 0;
 	int[] fillColor;
-	//dir: up, left, down, right
+	int timeOut = 30;
+	//could alternatively use levels that controlled size and timeout
 
-	Missile(int _xPos, int _yPos, int[] _dir, int _type){
+	Bomb(int _xPos, int _yPos, int _type, int _size, int _timeOut){
   		xPos = _xPos;
 		yPos = _yPos;
-		dir = _dir;
-		xVel = dir[0]*size*2;
-		yVel = dir[1]*size*2;
+		size = _size;
+		timeOut = _timeOut;
   		active = true;
   		setType(_type);
 	}
 
 	void drawOut(){
-		strokeWeight(2);
-		stroke(0);
-		fill(fillColor[0], fillColor[1], fillColor[2]);
+		strokeWeight(size/50);
+		stroke(0, timeOut*255/30);
+		fill(fillColor[0], fillColor[1], fillColor[2], timeOut*255/30);
 		if (active){
-  			rect(xPos, yPos, size, size);
+			ellipseMode(CENTER);
+  			ellipse(xPos, yPos, size, size);
   		}
 	}
 
 	void calculate(){
 		if (active){
-			xPos += xVel;
-			yPos += yVel;
+			size *= .98;
+			timeOut -= 1;
 		}
-		if (xPos < -10 || xPos > sWidth + 10 ||yPos < -10 || yPos > sHeight + 10){
+		if (timeOut <= 0){
 			destroy();
 		}
 	}

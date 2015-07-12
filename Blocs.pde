@@ -1,5 +1,5 @@
 //objects
-int sWidth = 800;
+int sWidth = 960;
 int sHeight = 600;
 Player player;// = new Player(sWidth/2, sHeight/2, 100);;
 EnemyController enemyController = new EnemyController();
@@ -7,10 +7,11 @@ InputController inputController;// = new InputController();
 Camera playerCam;
 
 //lists of objects
-ArrayList<Missile> missiles = new ArrayList<Missile>();
-ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-ArrayList<Enemy_Sticky> enemies_sticky = new ArrayList<Enemy_Sticky>();
-ArrayList<Enemy_kill> enemies_kill = new ArrayList<Enemy_kill>();
+ArrayList<Actor> missiles = new ArrayList<Actor>();
+ArrayList<Actor> bombs = new ArrayList<Actor>();
+ArrayList<Actor> enemies = new ArrayList<Actor>();
+ArrayList<Actor> enemies_sticky = new ArrayList<Actor>();
+ArrayList<Actor> enemies_kill = new ArrayList<Actor>();
 BgSprite[] bgSprites;
 
 //variables
@@ -30,7 +31,7 @@ boolean[] downKeys;
 void setup(){
   //init variables
   frameRate(30);
-  size(800,600);
+  size(960,600);
   rectMode(CENTER);
   strokeWeight(10);
   //init objects
@@ -69,14 +70,9 @@ void calculations(){
   }
   
   enemyController.update();
-  for (int i = 0; i < missiles.size(); i++) {
-    if (!missiles.get(i).active) {
-      missiles.remove(i);
-      i--;
-    } else {
-      missiles.get(i).calculate();
-    }
-  }
+
+  calculateActorArray(missiles);
+  calculateActorArray(bombs);
 }
 
 void drawCanvas(){
@@ -84,20 +80,30 @@ void drawCanvas(){
   for (int i = bgSprites.length-1; i >= 0; i--){
     bgSprites[i].paint();
   }
-  for(int i = 0; i < enemies_kill.size(); i++){
-    enemies_kill.get(i).drawOut();
-  }
-  for(int i = 0; i < enemies.size(); i++){
-    enemies.get(i).drawOut();
-  }
-  for(int i = 0; i < enemies_sticky.size(); i++){
-    enemies_sticky.get(i).drawOut();
-  }
-  for(int i = 0; i < missiles.size(); i++){
-    missiles.get(i).drawOut();
-  }
+  drawActorArray(enemies_kill);
+  drawActorArray(enemies);
+  drawActorArray(enemies_sticky);
+  drawActorArray(missiles);
+  drawActorArray(bombs);
   player.drawOut();
   drawUI();
+}
+
+void drawActorArray(ArrayList<Actor> _array){
+  for(int i = 0; i < _array.size(); i++){
+    _array.get(i).drawOut();
+  }
+}
+
+void calculateActorArray(ArrayList<Actor> _array){
+  for (int i = 0; i < _array.size(); i++) {
+    if (!_array.get(i).active) {
+      _array.remove(i);
+      i--;
+    } else {
+      _array.get(i).calculate();
+    }
+  }
 }
 
 int findInKeyMapping(char input){
@@ -176,9 +182,9 @@ void drawUI(){
     fill(0);
     text("PAUSED", 40, 40);
   }
-  text(frameRate, 40, 80);
-  text(maxEnemies, 40, 120);
-  text(enemies.size(), 40, 200);
+  text("framrate: " + frameRate, 40, 80);
+  text("bomb lock: " + player.bombLock, 40, 120);
+  text("rot lock: " + player.rotate_lock, 40, 160);
 
   rectMode(CENTER);
 }

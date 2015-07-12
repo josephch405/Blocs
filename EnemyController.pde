@@ -2,6 +2,7 @@ class EnemyController {
 
   int[][] releaseZones;
   int enemyLimit = 30;
+  int stickyTimer = 100;
 
   EnemyController() {
     releaseZones = new int[][] {
@@ -32,7 +33,13 @@ class EnemyController {
       release(floor(random(0, 4)));
     }
     if (enemies_sticky.size() < floor((maxEnemies-10)/3)) {
-      release_sticky(floor(random(0, 4)));
+      if (stickyTimer > 0){
+        stickyTimer -= 1;
+      }
+      else{
+        release_sticky(floor(random(0, 4)));
+        stickyTimer = 100;
+      }
     }
     for (int i = 0; i < enemies.size (); i++) {
       if (!enemies.get(i).active) {

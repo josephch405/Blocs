@@ -1,4 +1,4 @@
-class Camera extends Thing{
+class Camera extends Actor{
   
   Camera (int _xPos, int _yPos){
     xPos = _xPos;

@@ -1,4 +1,4 @@
-class BgSprite extends Thing {
+class BgSprite extends Actor {
   float depth = 0, xLength = 100, yLength = 100, initDepth = 1;
 
   BgSprite(int _depth){

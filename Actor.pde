@@ -1,9 +1,21 @@
-class Thing{
-	
-	float xPos = 0, yPos = 0;
+abstract class Actor{
+	float xPos, yPos, xVel, yVel = 0;
 	boolean active = false;
   	int goldWorth = 30;
   	int size = 40;
+
+
+  	Actor(){
+  		active = true;
+  	}
+
+  	void calculate(){
+
+  	}
+
+  	void drawOut(){
+
+  	}
 
 	void move(int dx, int dy){
 	  	xPos += dx;
@@ -18,5 +30,4 @@ class Thing{
 	void destroy(){
 		active = false;
 	}
-
 }

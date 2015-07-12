@@ -1,4 +1,4 @@
-class Enemy_Sticky extends Thing {
+class Enemy_Sticky extends Actor {
   int dir = 0;
   int path = 0;
   int[] fillColor = {
@@ -101,7 +101,7 @@ class Enemy_Sticky extends Thing {
 
   boolean collisionCheck_missiles() {
     for (int i = 0; i < missiles.size (); i++) {
-      Missile missile = missiles.get(i);
+      Missile missile = (Missile)missiles.get(i);
       float[] missilePos = {
         missile.xPos, missile.yPos
       };
@@ -127,12 +127,12 @@ class Enemy_Sticky extends Thing {
   int collisionCheck_enemies() {
     int counter = 0;
     for (int i = 0; i < enemies.size (); i++) {
-      Enemy _minion = enemies.get(i);
+      Enemy _minion = (Enemy)enemies.get(i);
       float[] _minion_pos = {
         _minion.xPos, _minion.yPos
       };
       if (isCollided(_minion_pos, _minion.size)) {
-        childList.add(enemies.get(i));
+        childList.add((Enemy)enemies.get(i));
         int[] finalCoords = collision_position(round(_minion.xPos), round(_minion.yPos));
         finalCoords[0] += stickyCoords[0];
         finalCoords[1] += stickyCoords[1];
