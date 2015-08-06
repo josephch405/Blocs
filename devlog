@@ -22,16 +22,23 @@ devlog
 -animated rotations
 -increase display size
 
-tomorrow:
--implement proper upgrading - batch upgrading for now
--implement connectCheck for sticky on destroy
-	-on enemy destruction, toggle parent function/flag
-	-build findMinionAtLocation(), returns object
-	-parent toggles all connected via a bool array
-	-for each in array, remove object
-		-go backwards
--bomb mechanism
-	-5 tiered
-	-
--restart mechanism
--proper menu
+7/15
+-fixed margins to be based on sHeight
+-starting prototyping a UI manager
+-fixed sticky enemy saturation and coord confliction
+
+7/16
+-moved and optimized UI and bar display
+-a clickable play button, replacing pause text
+-clickable pause button
+-balanced player speed, missile size
+-a working intro menu
+
+7/21
+-enemy stickies release children if link is destroyed
+
+8/6
+-added pickup system, somewhat integrated with abilities system
+-moved q and e to movement function/keys
+-restart screen functional
+-general refactoring

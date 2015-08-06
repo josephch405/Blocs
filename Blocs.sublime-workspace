@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"_set",
+				"_set2"
+			],
+			[
+				"input",
+				"inputController"
+			],
+			[
+				"REC",
+				"rectMode"
+			],
+			[
 				"enemi",
 				"enemies_kill"
 			],
@@ -26,10 +38,6 @@
 			[
 				"Enemy",
 				"EnemyController"
-			],
-			[
-				"input",
-				"inputList"
 			],
 			[
 				"body",
@@ -123,64 +131,79 @@
 			"file": "Blocs.pde",
 			"settings":
 			{
-				"buffer_size": 4616,
+				"buffer_size": 5906,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "EnemyController.pde",
+			"file": "UIManager.pde",
 			"settings":
 			{
-				"buffer_size": 1953,
-				"line_ending": "Unix"
+				"buffer_size": 4608,
+				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "InputController.pde",
+			"file": "PowerupController.pde",
 			"settings":
 			{
-				"buffer_size": 834,
-				"line_ending": "Windows",
-				"name": "class InputController{"
+				"buffer_size": 1073,
+				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "Player.pde",
 			"settings":
 			{
-				"buffer_size": 7393,
+				"buffer_size": 8131,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "devlog",
+			"settings":
+			{
+				"buffer_size": 1127,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "things to fix",
+			"settings":
+			{
+				"buffer_size": 729,
+				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "Bomb.pde",
 			"settings":
 			{
-				"buffer_size": 1022,
+				"buffer_size": 773,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "Missile.pde",
+			"file": "InputController.pde",
 			"settings":
 			{
-				"buffer_size": 984,
-				"line_ending": "Unix"
+				"buffer_size": 810,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Powerup.pde",
+			"settings":
+			{
+				"buffer_size": 1590,
+				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "Enemy.pde",
 			"settings":
 			{
-				"buffer_size": 4459,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Enemy_Sticky.pde",
-			"settings":
-			{
-				"buffer_size": 3713,
+				"buffer_size": 4464,
 				"line_ending": "Unix"
 			}
 		}
@@ -372,10 +395,22 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 381.0,
-		"last_filter": "ins",
+		"height": 207.0,
+		"last_filter": "println",
 		"selected_items":
 		[
+			[
+				"println",
+				"Snippet: println var"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
 			[
 				"ins",
 				"Package Control: Install Package"
@@ -425,30 +460,38 @@
 	],
 	"file_history":
 	[
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Bombs.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/EnemyController.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Missile.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Actor.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Camera.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Enemy_kill.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Missile_kill.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/BgSprite.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Enemy_Sticky.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/things to fix",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/UIComponent.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/devlog",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Player.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Enemy.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Blocs.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/BgSprite.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Blocs.java",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Enemy_Sticky.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/EnemyController.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Actor.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/UIManager.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/InputController.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Camera.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Powerup",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Thing.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/BgSprite.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Missile.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Bomb.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/things to fix",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Blocs.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Blocs.java",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Blocs.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/build-tmp/source/Blocs.java",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/web-export/Blocs.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Missile_kill.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Player.pde",
+		"/C/xampp/htdocs/UIManagaer.pde",
+		"/C/Users/Administrator/Desktop/playBloks.github.io/index.html",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Bombs.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Enemy_kill.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/BgSprite.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Enemy.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Enemy_Sticky.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Missile.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Missile_kill.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Player.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/build-tmp/source/Blocs.java",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Player.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/web-export/Blocs.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Camera.pde",
 		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Thing.pde",
@@ -544,15 +587,7 @@
 		"/C/Users/Administrator/Google Drive/11grade/Habivator/css/popup1.css",
 		"/C/Users/Administrator/Desktop/sa.txt",
 		"/C/Users/Administrator/Google Drive/11grade/code/lisp/main.js",
-		"/C/Users/Administrator/Google Drive/11grade/code/lisp/sampleInput.txt",
-		"/C/Users/Administrator/Google Drive/11grade/code/lisp/openThis.html",
-		"/C/Users/Administrator/AppData/Local/Google/Chrome/User Data/chrome_debug.log",
-		"/C/Users/Administrator/Google Drive/11grade/Habivator/roadmap",
-		"/C/Users/Administrator/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
-		"/C/Users/Administrator/Google Drive/11grade/code/cityTravel/main.js",
-		"/C/Users/Administrator/Documents/GitHub/2014-Aerial-Assist/src/com/team1160/assistant/OI.java",
-		"/C/Users/Administrator/Videos/4K Video Downloader/The skill of self confidence   Dr. Ivan Joseph   TEDxRyersonU.srt",
-		"/C/Users/Administrator/Desktop/Chart.js/Chart.min.js"
+		"/C/Users/Administrator/Google Drive/11grade/code/lisp/sampleInput.txt"
 	],
 	"find":
 	{
@@ -575,6 +610,74 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"vel",
+			"speed",
+			"upgrade",
+			"bomb",
+			"bomb_radii",
+			"agili",
+			"fire_b",
+			"bomb",
+			"upgradecooldown",
+			"abilities",
+			"fillcol",
+			"setfill",
+			"iscollided",
+			"collisioncheck_play",
+			"xSize",
+			"act",
+			"active",
+			"drawEnd",
+			"status",
+			"active",
+			"println",
+			"powerup",
+			"calculat",
+			"calculateactor",
+			"powerups",
+			"array",
+			"type",
+			"size",
+			"randomcoord",
+			"random",
+			"randomcoord",
+			"fillcolo",
+			"color",
+			"randomcoord",
+			"shuffle",
+			"shufflePo",
+			"bomblock",
+			"calculate_abili",
+			"size",
+			"activeind",
+			"text",
+			"bordered",
+			"initd",
+			"player",
+			"s_agilit",
+			"keymapping",
+			"downkey",
+			"agility",
+			"agility ",
+			"agility",
+			"connectInputsToPlayer",
+			"findInKeyMapping",
+			"minionvalid",
+			"minion",
+			"text",
+			"draw",
+			"drawBars",
+			"UI",
+			"moveDirs",
+			"vel",
+			"paused",
+			"click",
+			"marginSize",
+			"print",
+			"satura",
+			"coords",
+			"side",
+			"ui",
 			"draw",
 			"missile",
 			"active",
@@ -634,75 +737,7 @@
 			"field",
 			"youtube",
 			"bodycont",
-			"bodycontainer",
-			"css",
-			"import",
-			"fe",
-			"34",
-			"jquery",
-			"less",
-			"png",
-			"team",
-			"card",
-			"bootstrap.min.js",
-			"field",
-			"15hs",
-			"hs",
-			"2014",
-			"color",
-			"head.php",
-			"homepage.less",
-			";\n",
-			"css",
-			"less",
-			"back",
-			"font",
-			"backgroun",
-			"sscr",
-			"canvas",
-			"field",
-			"canvas",
-			"color",
-			"!important",
-			"color",
-			"dropdow",
-			"field",
-			"220px",
-			"category_navbar",
-			"type=\"text/c",
-			"style",
-			"navb",
-			"navbar",
-			"background-im",
-			"back",
-			"backgr",
-			"row",
-			"width",
-			"row",
-			"col-lg",
-			"contain",
-			"width",
-			"white",
-			"background-colo",
-			"back",
-			"navbar",
-			"nav",
-			"border",
-			"70px",
-			"border",
-			"row",
-			"z",
-			"index",
-			"z-index",
-			"over",
-			"display: blo",
-			"display",
-			"none",
-			"dropdown-men",
-			"display",
-			"font-family",
-			"font-famil",
-			"font"
+			"bodycontainer"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -710,6 +745,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"findKeyIndex",
+			"margin",
 			"sHeight",
 			"sWidth",
 			"Lato",
@@ -730,7 +767,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 5,
 			"sheets":
 			[
 				{
@@ -739,15 +776,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4616,
+						"buffer_size": 5906,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4355,
-								4355
+								943,
+								943
 							]
 						],
 						"settings":
@@ -760,75 +797,75 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2880.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "UIManager.pde",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4608,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3616,
+								3617
+							]
+						],
+						"settings":
+						{
+							"bs_sintax": "processing",
+							"buffer_scroll_name": "94696179",
+							"spell_check": false,
+							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2444.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "EnemyController.pde",
+					"buffer": 2,
+					"file": "PowerupController.pde",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1953,
+						"buffer_size": 1073,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								777,
-								777
+								362,
+								362
 							]
 						],
 						"settings":
 						{
-							"bs_sintax": "processing",
-							"buffer_scroll_name": "8138fa71",
+							"bs_sintax": "plain text",
+							"buffer_scroll_name": "556ed392",
 							"spell_check": false,
 							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 414.0,
+						"translation.y": 504.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "InputController.pde",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 834,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								668,
-								668
-							]
-						],
-						"settings":
-						{
-							"auto_name": "class InputController{",
-							"bs_sintax": "plain text",
-							"buffer_scroll_name": "7803431a",
-							"spell_check": false,
-							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -837,15 +874,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7393,
+						"buffer_size": 8131,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1998,
-								1998
+								488,
+								488
 							]
 						],
 						"settings":
@@ -858,64 +895,96 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1340.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "Bomb.pde",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1022,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								391,
-								391
-							]
-						],
-						"settings":
-						{
-							"bs_sintax": "processing",
-							"buffer_scroll_name": "5ffa1e6f",
-							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 414.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "Missile.pde",
+					"buffer": 4,
+					"file": "devlog",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 984,
+						"buffer_size": 1127,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								298,
-								298
+								1127,
+								1127
+							]
+						],
+						"settings":
+						{
+							"bs_sintax": "plain text",
+							"buffer_scroll_name": "769b0645",
+							"spell_check": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 540.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "things to fix",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 729,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								524,
+								524
+							]
+						],
+						"settings":
+						{
+							"bs_sintax": "plain text",
+							"buffer_scroll_name": "6b4eabce",
+							"spell_check": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "Bomb.pde",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 773,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								767,
+								767
 							]
 						],
 						"settings":
 						{
 							"bs_sintax": "processing",
-							"buffer_scroll_name": "cf12c140",
+							"buffer_scroll_name": "5ffa1e6f",
 							"spell_check": false,
 							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
 							"translate_tabs_to_spaces": false
@@ -928,20 +997,83 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "Enemy.pde",
+					"buffer": 7,
+					"file": "InputController.pde",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4459,
+						"buffer_size": 810,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4257,
-								4257
+								499,
+								499
+							]
+						],
+						"settings":
+						{
+							"bs_sintax": "processing",
+							"buffer_scroll_name": "7803431a",
+							"spell_check": false,
+							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "Powerup.pde",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1590,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1339,
+								1339
+							]
+						],
+						"settings":
+						{
+							"bs_sintax": "processing",
+							"buffer_scroll_name": "e1d565dc",
+							"spell_check": false,
+							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 468.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "Enemy.pde",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4464,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1451,
+								1451
 							]
 						],
 						"settings":
@@ -954,43 +1086,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 962.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "Enemy_Sticky.pde",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3713,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2598,
-								2598
-							]
-						],
-						"settings":
-						{
-							"bs_sintax": "processing",
-							"buffer_scroll_name": "6ca7b910",
-							"spell_check": false,
-							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
+					"stack_index": 9,
 					"type": "text"
 				}
 			]
@@ -1049,28 +1148,160 @@
 		"selected_items":
 		[
 			[
-				"mis",
-				"Missile.pde"
+				"devl",
+				"devlog"
 			],
 			[
-				"enemy",
+				"uic",
+				"UIComponent.pde"
+			],
+			[
+				"bom",
+				"Bomb.pde"
+			],
+			[
+				"contr",
+				"InputController.pde"
+			],
+			[
+				"play",
+				"Player.pde"
+			],
+			[
+				"enem",
+				"Enemy.pde"
+			],
+			[
+				"uicom",
+				"UIComponent.pde"
+			],
+			[
+				"uima",
+				"UIManager.pde"
+			],
+			[
+				"control",
 				"EnemyController.pde"
 			],
 			[
-				"sti",
+				"sticky",
 				"Enemy_Sticky.pde"
+			],
+			[
+				"actor",
+				"Actor.pde"
+			],
+			[
+				"enemycon",
+				"EnemyController.pde"
+			],
+			[
+				"enemys",
+				"Enemy_Sticky.pde"
+			],
+			[
+				"poweru",
+				"Powerup.pde"
+			],
+			[
+				"player",
+				"Player.pde"
+			],
+			[
+				"stik",
+				"Enemy_Sticky.pde"
+			],
+			[
+				"compo",
+				"UIComponent.pde"
+			],
+			[
+				"umanag",
+				"UIManager.pde"
+			],
+			[
+				"inpu",
+				"InputController.pde"
+			],
+			[
+				"thin",
+				"application.windows32\\source\\Thing.pde"
+			],
+			[
+				"bgspr",
+				"BgSprite.pde"
+			],
+			[
+				"camera",
+				"Camera.pde"
+			],
+			[
+				"thing",
+				"application.windows32\\source\\Thing.pde"
+			],
+			[
+				"missile",
+				"Missile.pde"
+			],
+			[
+				"uico",
+				"UIComponent.pde"
 			],
 			[
 				"stic",
 				"Enemy_Sticky.pde"
 			],
 			[
-				"missile",
-				"Missile_kill.pde"
+				"ene",
+				"Enemy.pde"
 			],
 			[
-				"enem",
-				"Enemy_kill.pde"
+				"input",
+				"InputController.pde"
+			],
+			[
+				"enemy",
+				"Enemy.pde"
+			],
+			[
+				"to",
+				"things to fix"
+			],
+			[
+				"devlo",
+				"devlog"
+			],
+			[
+				"missil",
+				"Missile.pde"
+			],
+			[
+				"pla",
+				"Player.pde"
+			],
+			[
+				"bomb",
+				"Bomb.pde"
+			],
+			[
+				"ui",
+				"UIManager.pde"
+			],
+			[
+				"bloc",
+				"Blocs.pde"
+			],
+			[
+				"fi",
+				"things to fix"
+			],
+			[
+				"mis",
+				"Missile.pde"
+			],
+			[
+				"sti",
+				"Enemy_Sticky.pde"
 			],
 			[
 				"cam",
@@ -1089,20 +1320,8 @@
 				"Camera.pde"
 			],
 			[
-				"play",
-				"Player.pde"
-			],
-			[
 				"missi",
 				"Missile.pde"
-			],
-			[
-				"pla",
-				"Player.pde"
-			],
-			[
-				"thing",
-				"Thing.pde"
 			],
 			[
 				"contro",

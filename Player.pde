@@ -4,50 +4,48 @@ class Player extends Actor {
   int rotate_displacement = 0;     //clockwise
   int gold = 0;
   boolean[] movement, shooting, upgrades, abilities;
+  int maxAbilityLevel = 6;
+  int[] stats = {0,0,0,0,0}; //agility, power, bomb, beserk, slowmo
+  int[] upgradeCosts = {100, 120, 160, 220, 300, 400, -1};
   int rotate_lock = 0;
   int rotate_speed = 1;
   int rotate_lockFull = 3;
-  boolean bombPrimed = false;
 
   //agility traits
-  int agility = 0;
-  int[] agilityCosts = {
-    100, 120, 140, 180, -1
-  };
   int[] maxVels = {
-    7, 8, 9, 11, 13
+    4, 6, 8, 11, 14, 17, 20
   };
   int[] playerSizes = {
-    60, 56, 52, 48, 43
+    66, 64, 61, 57, 52, 46, 40, 
   };
 
   //power traits
-  int power = 0;
-  int[] powerCosts = {
-    100, 120, 140, 180, 220, 260, 300, -1
-  };
   int powerPool = 300;          //
   int[] powerPool_restores = {
-    3, 4, 5, 5, 6, 6, 7, 7
+    3, 3, 4, 4, 5, 7, 9
   };    //UPGRADABLE
   int powerPool_missile = 50;
   int[] powerPool_maxs = {
-    300, 340, 380, 440, 500, 560, 620, 680
+    300, 330, 370, 440, 530, 630, 740
   };           //UPGRADABLE
 
   //shooting vars
   boolean locked = false;
   int coolDown = 200;            //UPGRADABLE?
   int[] coolDown_rates = {
-    20, 20, 30, 30, 30, 40, 40, 50
+    20, 24, 30, 38, 48, 60, 74
   };
   int coolDown_interval = 200;
-  int upgradeCoolDown = 10;            //UPGRADABLE?
+  int upgradeCoolDown = 2;            //UPGRADABLE?
   int upgradeCoolDown_rate = 1;
-  int upgradeCoolDown_interval = 10;
+  int upgradeCoolDown_interval = 2;
 
   //bomb
-  int bombLock = 60;
+  int[] bomb_sizes = new int[]{0, 6, 6, 8, 10, 12, 16};
+  boolean bombPrimed = false;
+  int bombTimeout = 10;
+
+  int[][] powerupLimits = new int[][]{{0, 1, 2, 2, 2, 3, 3},{0, 1, 2, 2, 2, 3, 3},{0, 1, 2, 2, 2, 3, 3}};
 
   Player(int _xPos, int _yPos, int _HP) {
     xPos = _xPos;
@@ -61,7 +59,7 @@ class Player extends Actor {
   }
 
   void fire_bomb(int _type) {
-    bombs.add(new Bomb((int)xPos, (int)yPos, _type, size*5, 30));
+    bombs.add(new Bomb((int)xPos, (int)yPos, _type, bomb_size() * margin, 30));
     //powerPool -= powerPool_missile;
   }
 
@@ -104,14 +102,12 @@ class Player extends Actor {
       popMatrix();
     }
     popMatrix();
-
     if (bombPrimed){
       stroke(0);
       fill(255);
       triangle(xPos, yPos+size/10, xPos+size/6, yPos + size/3, xPos-size/6, yPos + size/3);  
       rect(xPos, yPos - size/7, size/3, size/1.8, size/10);    
     }
-
   }
 
   //caps player within display boundaries, considering UI clipping
@@ -121,10 +117,11 @@ class Player extends Actor {
     } else if (xPos < playerSize()/2) {
       xPos = playerSize()/2;
     };
-    if (yPos > sHeight - 2*marginSize - playerSize()/2) {
-      yPos = sHeight - 2*marginSize - playerSize()/2;
-    } else if (yPos < marginSize + playerSize()/2) {
-      yPos = marginSize + playerSize()/2;
+
+    if (yPos > sHeight - margin - playerSize()/2) {
+      yPos = sHeight - margin - playerSize()/2;
+    } else if (yPos < margin/2 + playerSize()/2) {
+      yPos = margin/2 + playerSize()/2;
     };
 
     if (abs(xVel) > maxVel()) {
@@ -135,50 +132,50 @@ class Player extends Actor {
     }
   }
 
+/*
+**CALCULATE FUNCTIONS
+**
+*/
+
   boolean calculate_abilities(){
-    bombPrimed = false;
-    if (bombLock > 0){
-      bombLock -= 1;
+    if (bombTimeout > 0){
+      bombTimeout -= 1;
     }
-    if (abilities[0]){
+    bombPrimed = false;
+    if (abilities[0] && bombTimeout <= 0){
       int dir = -1;
       for (int i = 0; i < 4; i++) {
         if (shooting[i]) {
           dir = i;
         }
       }
-      if (bombLock == 0){
-        bombPrimed = true;
-        if (dir >= 0){
-          fire_bomb((dir+rotate_displacement)%4);
-          bombLock = 60;
-        }
-      }
-      return true;
-    }
-
-    //rotation
-    if (rotate_lock == 0){
-      if (abilities[1]){
-        rotate_displacement = (rotate_displacement+3)%4;
-        rotate_lock = rotate_lockFull;
-        powerPool *= .8;
+      bombPrimed = true;
+      if (dir >= 0 && powerupController.removeThisType(0) == true){
+        fire_bomb((dir+rotate_displacement)%4);
+        bombTimeout = 10;
         return true;
       }
-      else if (abilities[2]){
-        rotate_displacement = (rotate_displacement+1)%4;
-        rotate_lock = -rotate_lockFull;
-        powerPool *= .8;
-        return true;
-      }
-    }
-    else{
-      rotate_lock -= rotate_speed * (rotate_lock/abs(rotate_lock));
     }
     return false;
   }
 
   void calculate_movement(){
+    //rotation
+    if (rotate_lock == 0){
+      if (movement[4]){
+        rotate_displacement = (rotate_displacement+3)%4;
+        rotate_lock = rotate_lockFull;
+        powerPool *= .8;
+      }
+      else if (movement[5]){
+        rotate_displacement = (rotate_displacement+1)%4;
+        rotate_lock = -rotate_lockFull;
+        powerPool *= .8;
+      }
+    }
+    else{
+      rotate_lock -= rotate_speed * (rotate_lock/abs(rotate_lock));
+    }
     for (int i = 0; i < 4; i++) {
       if (movement[i]) {
         xVel += moveDirs[i][0];
@@ -187,8 +184,8 @@ class Player extends Actor {
     }
     xPos += xVel;
     yPos += yVel;
-    xVel *= .8;
-    yVel *= .8;
+    xVel *= .6;
+    yVel *= .6;
     cap();
   }
 
@@ -223,15 +220,15 @@ class Player extends Actor {
     if (upgradeCoolDown > 0) {
       upgradeCoolDown -= upgradeCoolDown_rate;
     }
-    if (upgradeCoolDown == 0) {
-      for (int i = 0; i < 3; i++) {
+    if (upgradeCoolDown <= 0) {
+      for (int i = 0; i < 5; i++) {
         if (upgrades[i]) {
-          //TODO: pseudocode for upgrade
-          if (agility < 4) {
-            agility += 1;
-          }
-          if (power < 7) {
-            power += 1;
+          if (stats[i] < maxAbilityLevel && gold >= upgradeCosts[stats[i]]) {
+            gold -= upgradeCosts[stats[i]];
+            stats[i] += 1;
+            if (i > 1){
+              powerupController.setTypeLimit(i-2, powerupLimits[i][stats[i]]);
+            }
           }
           upgradeCoolDown = upgradeCoolDown_interval;
         }
@@ -252,6 +249,7 @@ class Player extends Actor {
       }
     }
   }
+
 
   void drawSides(){
     strokeWeight(2);
@@ -283,39 +281,64 @@ class Player extends Actor {
     //up
   }
 
-  //functions that return stats based on agl, pow etc.
+/*
+**STAT BASED FUNCTIONS
+**
+*/
+
+  int s_agility(){
+    return stats[0];
+  }
+
+  int s_power(){
+    return stats[1];
+  }
+
+  int s_bomb(){
+    return stats[2];
+  }
+
+  int s_beserk(){
+    return stats[3];
+  }
+
+  int s_slowmo(){
+    return stats[4];
+  }
+
   int maxVel() {
-    return maxVels[agility];
+    return maxVels[s_agility()];
   }
   int playerSize() {
-    return playerSizes[agility]*sHeight/800;
+    return playerSizes[s_agility()]*margin/40;
   }
   int powerPool_restore() {
-    return powerPool_restores[power];
+    return powerPool_restores[s_power()];
   }
   int powerPool_max() {
-    return powerPool_maxs[power];
+    return powerPool_maxs[s_power()];
   }
   int coolDown_rate() {
-    return coolDown_rates[power];
+    return coolDown_rates[s_power()];
   }
   int agilityCost() {
-    return agilityCosts[agility];
+    return upgradeCosts[s_agility()];
   }
   int powerCost() {
-    return powerCosts[power];
+    return upgradeCosts[s_power()];
   }
-  void updateMovements(boolean[] input) {
-    movement = input;
+  int bombCost() {
+    return upgradeCosts[s_bomb()];
   }
-  void updateShooting(boolean[] input) {
-    shooting = input;
+  int bomb_size() {
+    return bomb_sizes[s_bomb()];
   }
-  void updateUpgrades(boolean[] input) {
-    upgrades = input;
-  }
-  void updateAbilities(boolean[] input) {
-    abilities = input;
+
+  void linkControlArrays(boolean[] _movement, boolean [] _shooting, boolean[] _upgrades, boolean[] _abilities) {
+    movement = _movement;
+    shooting = _shooting;
+    upgrades = _upgrades;
+    abilities = _abilities;
   }
 }
 

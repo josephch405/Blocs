@@ -9,10 +9,11 @@ class Enemy_Sticky extends Actor {
   };
   float xVel = 0, yVel = 0;
   boolean saturated = false;
+  boolean doCheck = false;
   ArrayList<Enemy> childList = new ArrayList<Enemy>();
 
   Enemy_Sticky(int _xPos, int _yPos, int _HP, int _dir) {
-    size = sHeight/24;
+    size = margin;
     xPos = _xPos;
     yPos = _yPos;
     dir = _dir;
@@ -36,8 +37,12 @@ class Enemy_Sticky extends Actor {
     xPos += xVel;
     yPos += yVel;   
 
-    if (xPos < -50 || xPos > sWidth + 50 ||yPos < -50 || yPos > sHeight + 50) {
-      shufflePosition();
+    if (outOfPlayArea(xPos, yPos)) {
+      int[] temp = shufflePosition();
+      xPos = temp[0];
+      yPos = temp[1];
+      dir = temp[2];
+      setVels();
     }
 
     if (!collisionCheck_player()) {
@@ -47,6 +52,7 @@ class Enemy_Sticky extends Actor {
       saturated = true;
     }
     else{
+      saturated = false;
       collisionCheck_enemies();
     }
 
@@ -57,27 +63,31 @@ class Enemy_Sticky extends Actor {
         i--;
       } else {
         child.calculate();
+        if (!child.active) {
+          childList.remove(i);
+          i--;
+        }
       }
+    }
+
+    if (doCheck){
+      doCheck = false;
+      minionValidCheck();
     }
   }
 
   void drawOut() {
     strokeWeight(2);
     stroke(0);
-    fill(fillColor[0], fillColor[1], fillColor[2]);
+    fill(100);
+    if (saturated){
+      fill(0);
+    }
     rect(xPos, yPos, size, size);
     for (int i = 0; i < childList.size (); i++) {
       Enemy child = childList.get(i);
       child.drawOut();
     }
-  }
-
-  void shufflePosition() {
-    dir = floor(random(0, 4));
-    int[] temp = enemyController.randomCoord(dir);
-    xPos = temp[0];
-    yPos = temp[1];
-    setVels();
   }
 
   boolean isCollided(float[] position, int _width) {
@@ -94,6 +104,7 @@ class Enemy_Sticky extends Actor {
     if (isCollided(playerPos, player.playerSize())) {
       damagePlayer(1000);
       destroy();
+      maxEnemies += .2;
       return true;
     }
     return false;
@@ -105,13 +116,51 @@ class Enemy_Sticky extends Actor {
       float[] missilePos = {
         missile.xPos, missile.yPos
       };
-      if (isCollided(missilePos, missile.size)) {
+      if (isCollided(missilePos, missile.size) && missile.active) {
         missiles.get(i).destroy();
         addGold(goldWorth);
         destroy();
         maxEnemies += .2;
         return true;
       }
+    }
+    return false;
+  }
+
+  void minionValidCheck() {
+    //resets all valid bits
+    for (int i = 0; i < childList.size(); i++){
+      childList.get(i).valid = false;
+    }
+    minionValidCheck_shotgun(new int[]{0,0});
+    for (int i = 0; i < childList.size(); i++){
+      if (childList.get(i).valid == false){
+        Enemy temp = childList.get(i);
+        enemies.add(temp);
+        childList.remove(i);
+        temp.unlinkWithParent();
+        i--;
+      }
+    }
+  }
+
+  void minionValidCheck_shotgun(int[] coords){
+    int counter = 0;
+    for (int i = 0; i < childList.size(); i++){
+      if (coords_nextTo(childList.get(i).stickyCoords, coords) && !childList.get(i).valid){
+        childList.get(i).valid = true;
+        minionValidCheck_shotgun(childList.get(i).stickyCoords);
+        counter++;
+        if (counter == 4){
+          return;
+        }
+      }
+    }
+  }
+
+  boolean coords_nextTo(int[] _set1, int[] _set2){
+    if (abs(_set1[0] - _set2[0]) + abs(_set1[1] - _set2[1]) == 1){
+      return true;
     }
     return false;
   }
@@ -157,6 +206,27 @@ class Enemy_Sticky extends Actor {
       result[1] = deltaY/abs(deltaY);
     }
     return result;
+  }
+
+  boolean isCoordFree(int[] pos){
+    for (int i = 0; i < childList.size(); i++){
+      int[] coords = childList.get(i).stickyCoords;
+      if (coords[0] == pos[0] && coords[1] == pos[1]){
+        return false;
+      }
+    }
+    return true;
+  }
+
+  boolean addToGroup(Enemy _minion, int[] finalCoords, int type){
+    if (isCoordFree(finalCoords)){
+      childList.add(_minion);
+      _minion.stickTo(this, finalCoords);
+      _minion.type = type;
+      _minion.fillColor = missileColors[type];
+      return true;
+    }
+    return false;
   }
 }
 

@@ -1,22 +1,16 @@
 things to fix
 
-performance dip
-	addressed by limiting objects
 bugtest enemy counting and streamline process
-	**increase margins for spawning
 	*destroyed by boundary
-		FIX: simply reroll vs creating new entity
+		or simply reroll vs creating new entity
 
-**buggy overlapping children under stickies
-
-unify more processes
-	can we move more things to thing? methods, etc.
-consider array-fying position and velocity?
+-restart mechanism
+-proper menu
 
 features
 	rotating colors?						e, q										oooooooooo
 
-	bomb mechanism							space bar 			radius - 5x				ooooo-----
+	bomb mechanism							space bar 			radius - 5x				ooooooo---
 		ammo system?																	----------
 	light beam								f 					width, length - 5x		----------
 	jump mechanism/stealth mode				u											----------

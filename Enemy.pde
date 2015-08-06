@@ -3,7 +3,8 @@ class Enemy extends Actor {
   int dir = 0;
   int path = 0;
   int[] fillColor;
-  int size = sHeight/24;
+  boolean valid = false;
+  int size = margin;
   int[] stickyCoords = {
     0, 0
   };
@@ -32,10 +33,9 @@ class Enemy extends Actor {
         collisionCheck_enemies();
       }
     } else {
-      xPos += xVel;
-      yPos += yVel;
-      //destroy on leaving active area
-      if (xPos < -50 || xPos > sWidth + 50 ||yPos < -50 || yPos > sHeight + 50) {
+      xPos += xVel * slowMoModifier;
+      yPos += yVel * slowMoModifier;
+      if (outOfPlayArea(xPos, yPos)) {
         destroy();
       }
     }
@@ -50,6 +50,14 @@ class Enemy extends Actor {
     addGold(goldWorth);
     active = false;
     enemies_kill.add(new Enemy_kill(floor(xPos), floor(yPos), fillColor, size));
+    if (isStickied()){
+      parent.doCheck = true;
+    }
+  }
+
+  void unlinkWithParent(){
+    parent = null;
+    stickyCoords = new int[]{0,0};
   }
 
   void drawOut() {
@@ -75,6 +83,7 @@ class Enemy extends Actor {
     if (isCollided(playerPos, player.playerSize())) {
       damagePlayer(200);
       destroyWithAnim();
+      maxEnemies += .4;
       return true;
     }
     return false;
@@ -87,7 +96,7 @@ class Enemy extends Actor {
       float[] missilePos = {
         missile.xPos, missile.yPos
       };
-      if (isCollided(missilePos, missile.size)) {
+      if (isCollided(missilePos, missile.size) && missile.active) {
         missiles.get(i).destroy();
         if (missile.type == type) {
           destroyWithAnim();
@@ -134,16 +143,14 @@ class Enemy extends Actor {
         _minion.xPos, _minion.yPos
       };
       if (isCollided(_minion_pos, _minion.size)) {
-        parent.childList.add((Enemy)enemies.get(i));
         int[] finalCoords = collision_position(round(_minion.xPos), round(_minion.yPos));
         finalCoords[0] += stickyCoords[0];
         finalCoords[1] += stickyCoords[1];
-        parent.childList.get(parent.childList.size()-1).stickTo(parent, finalCoords);
-        parent.childList.get(parent.childList.size()-1).type = type;
-        parent.childList.get(parent.childList.size()-1).fillColor = missileColors[type];;
-        enemies.remove(i);
-        i--;
-        counter += 1;
+        if(parent.addToGroup(_minion, finalCoords, type)){
+          enemies.remove(i);
+          i--;
+          counter += 1;
+        }
       }
     }
     return counter;
@@ -155,7 +162,10 @@ class Enemy extends Actor {
     };
     int deltaX = _x - round(xPos);
     int deltaY = _y - round(yPos);
-    if (abs(deltaY)<abs(deltaX)) {
+    if (deltaY == 0 && deltaX == 0){
+      result[0] = 1;
+    }
+    else if (abs(deltaY)<abs(deltaX)) {
       result[0] = deltaX/abs(deltaX);
     } else {
       result[1] = deltaY/abs(deltaY);

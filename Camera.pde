@@ -5,8 +5,6 @@ class Camera extends Actor{
     yPos = _yPos;
   }
   
-  Camera(){}
-  
   void update (int _xPos, int _yPos){
     xPos = (_xPos - sWidth)/3;
     yPos = (_yPos - sWidth)/3;;

@@ -1,7 +1,7 @@
 class Missile extends Actor{
 	int type = 0;
 	int[] dir;
-	int size = sHeight/55;
+	int size = sHeight/40;
 	int[] fillColor;
 	//dir: up, left, down, right
 

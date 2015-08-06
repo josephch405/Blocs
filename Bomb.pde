@@ -38,17 +38,5 @@ class Bomb extends Actor{
 	void setType(int _type){
 		type = _type;
 		fillColor = missileColors[type];
-		/*	old type generation, didn't take player rotation into account
-		type = 3;
-		if (dir[1] == 0 && dir[0] < 0){
-			type = 1;
-		}
-		else if (dir[1] > 0){
-			type = 2;
-		}
-		else if (dir[1] < 0){
-			type = 0;
-		}
-		fillColor = missileColors[type];*/
 	}
 }

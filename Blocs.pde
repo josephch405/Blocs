@@ -1,97 +1,120 @@
-//objects
+//variables
 int sWidth = 960;
 int sHeight = 600;
-Player player;// = new Player(sWidth/2, sHeight/2, 100);;
-EnemyController enemyController = new EnemyController();
+int margin = floor(sHeight * .05);
+int status = 0;
+//status: -1 -> main menu, 0 -> playing, 1 -> paused, 2 -> endgame, 3 -> help
+boolean gameIsEnd = false;
+int spritesPerLayer = 10;
+float maxEnemies, slowMoModifier;
+int[][] releaseZones;
+
+//objects
+Player player;
+UIManager uiManager = new UIManager();
+EnemyController enemyController;
+PowerupController powerupController;
 InputController inputController;// = new InputController();
 Camera playerCam;
 
 //lists of objects
-ArrayList<Actor> missiles = new ArrayList<Actor>();
-ArrayList<Actor> bombs = new ArrayList<Actor>();
-ArrayList<Actor> enemies = new ArrayList<Actor>();
-ArrayList<Actor> enemies_sticky = new ArrayList<Actor>();
-ArrayList<Actor> enemies_kill = new ArrayList<Actor>();
+ArrayList<Actor> missiles, bombs, enemies, enemies_sticky, enemies_kill, powerups;
 BgSprite[] bgSprites;
 
-//variables
-int status = 0; //status: 0 is playing, 1 is paused, 2 is endgame, -1 is main menu?
-boolean gameIsEnd = false;
-int spritesPerLayer = 10;
-int marginSize = 20;
-float maxEnemies = 10;
-
 //lists of variables
-char[] keyMapping = {'w','a','s','d','i','j','k','l','z','x','c',' ', 'q', 'e', 'p'};    //movement 4x, shooting 4x, upgrade 3x, bomb(alt 1), pause
-int[][] moveDirs = {{0,-4},{-4,0},{0,4},{4,0}};
-int[][] missileDirs = {{0,-1},{-1,0},{0,1},{1,0}};
-int[][] missileColors = {{0,0,255}, {255,0,0}, {255,255,0}, {0,255,0}};
+char[] keyMapping = {'w','a','s','d', 'q', 'e', //movement 6x
+                     'i','j','k','l',           //shooting 4x
+                     'z','x','c','v','b',       //upgrade 5x
+                     ' ','f','r',               //abilities 3x
+                     'p'};                      //pause
+int[][] moveDirs = {{0,-4},{-4,0},{0,4},{4,0}};                                 //for player
+int[][] missileDirs = {{0,-1},{-1,0},{0,1},{1,0}};                              //for missiles
+int[][] missileColors = {{0,0,255}, {255,0,0}, {255,255,0}, {0,255,0}};         //for missiles
+int[][] abilityColors = {{255,165,0}, {139,0,139}, {150,0,0}};         //for abilities
 boolean[] downKeys;
 
 void setup(){
-  //init variables
   frameRate(30);
-  size(960,600);
-  rectMode(CENTER);
-  strokeWeight(10);
-  //init objects
-  playerCam = new Camera(0,0);
-  player = new Player(sWidth/2, sHeight/2, 10000);
-  inputController = new InputController();
-  //init lists
+  //size(sWidth,sHeight);
+  size(960 ,600);
+
+  //init background
   bgSprites = new BgSprite[40];
   for (int i = 0; i < bgSprites.length; i++){
     bgSprites[i] = new BgSprite(-floor(1+i/spritesPerLayer));
   }
+  //init downkeys, based on keymapping
   downKeys = new boolean[keyMapping.length];
   for (int i = 0; i < downKeys.length; i++){
     downKeys[i] = false;
   }
+  //init objects
+  playerCam = new Camera(0,0);
+  inputController = new InputController();
+  //init lists
+  status = -1;
+  releaseZones = new int[][] {
+    {margin, -margin*4, sWidth - margin, -margin*2}, 
+    {-margin*4, margin, -margin*2, sHeight - margin}, 
+    {margin, sHeight+2*margin, sWidth - margin, sHeight+4*margin}, 
+    {sWidth+2*margin, margin, sWidth+4*margin, sHeight - margin}
+  };
 }
 
 void draw(){
   background(255);
-  stroke(120);
   inputController.update();
-  if (status < 1){
-    calculations();
+  uiManager.calculate();
+  switch (status){
+    case 0:
+      calculate_all();
+      break;
+    case 1:
+      break;
+    case 2:
+      break;
+    case -1:
+      calculate_bg();
+      break;
   }
-  drawCanvas();
-  fill(255);
+  draw_all();
 }
 
-void calculations(){
-  player.calculate();
+void gameInit(){
+  missiles = new ArrayList<Actor>();
+  bombs = new ArrayList<Actor>();
+  enemies = new ArrayList<Actor>();
+  enemies_sticky = new ArrayList<Actor>();
+  enemies_kill = new ArrayList<Actor>();
+  powerups = new ArrayList<Actor>();
+  enemyController = new EnemyController();
+  powerupController = new PowerupController();
+  status = 0;
+  maxEnemies = 10;
+  slowMoModifier = 1;
+  player = new Player(sWidth/2, sHeight/2, 10000);
+  inputController.connectInputsToPlayer();
+}
 
+/*
+**CALCULATION FUNCTIONS
+**
+*/
+
+void calculate_all(){
+  powerupController.update();
+  player.calculate();
   //calculate distance from center of player, feeds to camera thus updating bgsprites
   playerCam.update(floor(player.xPos)-sWidth/2, floor(player.yPos)-sHeight/2);
-  for (int i = bgSprites.length-1; i >= 0; i--){
-    bgSprites[i].wiggle();
-  }
-  
+  calculate_bg();
   enemyController.update();
-
   calculateActorArray(missiles);
   calculateActorArray(bombs);
 }
 
-void drawCanvas(){
-  fill(255);
+void calculate_bg(){
   for (int i = bgSprites.length-1; i >= 0; i--){
-    bgSprites[i].paint();
-  }
-  drawActorArray(enemies_kill);
-  drawActorArray(enemies);
-  drawActorArray(enemies_sticky);
-  drawActorArray(missiles);
-  drawActorArray(bombs);
-  player.drawOut();
-  drawUI();
-}
-
-void drawActorArray(ArrayList<Actor> _array){
-  for(int i = 0; i < _array.size(); i++){
-    _array.get(i).drawOut();
+    bgSprites[i].wiggle();
   }
 }
 
@@ -106,25 +129,87 @@ void calculateActorArray(ArrayList<Actor> _array){
   }
 }
 
-int findInKeyMapping(char input){
+/*
+**DRAW FUNCTIONS
+**
+*/
+
+void draw_all(){
+  fill(255);
+  stroke(120);
+  rectMode(CENTER);
+  for (int i = bgSprites.length-1; i >= 0; i--){
+    bgSprites[i].paint();
+  }
+  switch (status){
+    case 0:
+      draw_gameObjects();
+      break;
+    case 1:
+      draw_gameObjects();
+      break;
+    case 2:
+      draw_gameObjects();
+      break;
+    case -1:
+      break;
+  }  
+  uiManager.draw_ui();
+}
+
+void draw_gameObjects(){
+  drawActorArray(enemies_kill);
+  drawActorArray(enemies);
+  drawActorArray(enemies_sticky);
+  drawActorArray(missiles);
+  drawActorArray(bombs);
+  drawActorArray(powerups);
+  player.drawOut();
+}
+
+void drawActorArray(ArrayList<Actor> _array){
+  for(int i = 0; i < _array.size(); i++){
+    _array.get(i).drawOut();
+  }
+}
+
+/*
+**TRIGGER FUNCTIONS
+**
+*/
+
+void keyPressed() {
+  if (findKeyIndex(key) >= 0){
+    downKeys[findKeyIndex(key)] = true;
+  }
+}
+
+void keyReleased() {
+  if (findKeyIndex(key) >= 0){
+    downKeys[findKeyIndex(key)] = false;
+  }
+}
+
+void mousePressed(){
+  uiManager.clickEvent(new int[]{mouseX, mouseY});
+}
+
+void mouseMoved(){
+  uiManager.overEvent(new int[]{mouseX, mouseY});
+}
+
+/*
+**UTILITY FUNCTIONS
+**
+*/
+
+int findKeyIndex(char input){
   for (int i = 0; i < keyMapping.length; i++){
     if (keyMapping[i] == input){
       return i;
     }
   }
   return -1;
-}
-
-void keyPressed() {
-  if (findInKeyMapping(key) >= 0){
-    downKeys[findInKeyMapping(key)] = true;
-  }
-}
-
-void keyReleased() {
-  if (findInKeyMapping(key) >= 0){
-    downKeys[findInKeyMapping(key)] = false;
-  }
 }
 
 void gameEnd(){
@@ -137,56 +222,6 @@ void damagePlayer(int points){
 
 void addGold(int addThis){
   player.gold += addThis;
-}
-
-void drawUI(){
-  //player health bar
-  rectMode(CORNER);
-  stroke(0);
-  strokeWeight(2);
-  fill(255,0,0);
-  rect(0,0, sWidth, marginSize);
-  fill(0,255,0);
-  rect(0,0, sWidth*((float)player.HP/player.HP_max), marginSize);
-  
-  //
-  //upgrades bar
-  strokeWeight(2);
-  fill(255,255,255);
-  rect(0,sHeight-40, sWidth, 2*marginSize);
-  fill(0,0,0);
-
-  //gold
-  textSize(marginSize);
-  fill(255, 255, 0);
-  rect(10,sHeight-30, marginSize, marginSize);
-  fill(0, 0, 0);
-  text(player.gold, 50, sHeight-10);
-
-  //agility status
-  String tempText = "LV " + player.agility + " Agility ";
-  if (player.agilityCost() > 0){
-    tempText += "$" + player.agilityCost();
-  }
-  text(tempText, 100, sHeight-10);
-
-  //power status
-  tempText = "LV " + player.power + " Power ";
-  if (player.powerCost() > 0){
-    tempText += "$" + player.powerCost();
-  }
-  text(tempText, 300, sHeight-10);
-
-  //paused
-  if (status == 1){
-    fill(0);
-    text("PAUSED", 40, 40);
-  }
-  text("framrate: " + frameRate, 40, 80);
-  text("bomb lock: " + player.bombLock, 40, 120);
-  text("rot lock: " + player.rotate_lock, 40, 160);
-
-  rectMode(CENTER);
 }
 
 void pause(){
@@ -205,4 +240,30 @@ void togglePause(){
 
 void fillWithArray(int[] temp){
   fill(temp[0], temp[1], temp[2]);
+}
+
+boolean outOfPlayArea(float xPos, float yPos){
+  if (xPos < -5*margin || xPos > sWidth + 5*margin ||yPos < -5*margin || yPos > sHeight + 5*margin) {
+    return true;
+  }
+  return false;
+}
+
+int[] shufflePosition() {
+  int dir = floor(random(0, 4));
+  int[] temp = new int[3];
+  int[] temp2 = randomCoord(dir);
+  temp[0] = temp2[0];
+  temp[1] = temp2[1];
+  temp[2] = dir;
+  return temp;
+}
+
+int[] randomCoord(int dir) {
+  int tempX = floor(random(releaseZones[dir][0], releaseZones[dir][2]));
+  int tempY = floor(random(releaseZones[dir][1], releaseZones[dir][3]));
+  int[] temp = {
+    tempX, tempY
+  };
+  return temp;
 }
