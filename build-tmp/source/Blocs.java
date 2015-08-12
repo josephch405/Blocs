@@ -22,7 +22,7 @@ int status = 0;
 //status: -1 -> main menu, 0 -> playing, 1 -> paused, 2 -> endgame, 3 -> help
 boolean gameIsEnd = false;
 int spritesPerLayer = 10;
-float maxEnemies, slowMoModifier;
+float maxEnemies, slowMoModifier = 1;
 int[][] releaseZones;
 
 //objects
@@ -43,7 +43,7 @@ char[] keyMapping = {'w','a','s','d', 'q', 'e', //movement 6x
                      'z','x','c','v','b',       //upgrade 5x
                      ' ','f','r',               //abilities 3x
                      'p'};                      //pause
-int[][] moveDirs = {{0,-4},{-4,0},{0,4},{4,0}};                                 //for player
+int[][] moveDirs = {{0,-10},{-10,0},{0,10},{10,0}};                                 //for player
 int[][] missileDirs = {{0,-1},{-1,0},{0,1},{1,0}};                              //for missiles
 int[][] missileColors = {{0,0,255}, {255,0,0}, {255,255,0}, {0,255,0}};         //for missiles
 int[][] abilityColors = {{255,165,0}, {139,0,139}, {150,0,0}};         //for abilities
@@ -70,10 +70,10 @@ public void setup(){
   //init lists
   status = -1;
   releaseZones = new int[][] {
-    {margin, -margin*4, sWidth - margin, -margin*2}, 
-    {-margin*4, margin, -margin*2, sHeight - margin}, 
-    {margin, sHeight+2*margin, sWidth - margin, sHeight+4*margin}, 
-    {sWidth+2*margin, margin, sWidth+4*margin, sHeight - margin}
+    {margin, -margin*8, sWidth - margin, -margin*4}, 
+    {-margin*8, margin, -margin*4, sHeight - margin}, 
+    {margin, sHeight+4*margin, sWidth - margin, sHeight+8*margin}, 
+    {sWidth+4*margin, margin, sWidth+8*margin, sHeight - margin}
   };
 }
 
@@ -295,9 +295,12 @@ abstract class Actor{
 
 	public void calculate(){}
 	public void drawOut(){}
-	public void move(int dx, int dy){
+	public void move(float dx, float dy){
 		xPos += dx;
 		yPos += dy;
+	}
+	public void moveByVel(){
+		move(xVel*slowMoModifier, yVel*slowMoModifier);
 	}
 	public void setPosition(int _x, int _y){
 		xPos = _x;
@@ -327,7 +330,7 @@ class BgSprite extends Actor {
   }
   
   public void wiggle(){
-    xPos -= 2;
+    xPos -= 2*slowMoModifier;
     if (xPos < -size*2){
       shuffle();
     }
@@ -427,8 +430,7 @@ class Enemy extends Actor {
         collisionCheck_enemies();
       }
     } else {
-      xPos += xVel * slowMoModifier;
-      yPos += yVel * slowMoModifier;
+      moveByVel();
       if (outOfPlayArea(xPos, yPos)) {
         destroy();
       }
@@ -626,7 +628,6 @@ class Enemy_Sticky extends Actor {
   int[] stickyCoords = {
     0, 0
   };
-  float xVel = 0, yVel = 0;
   boolean saturated = false;
   boolean doCheck = false;
   ArrayList<Enemy> childList = new ArrayList<Enemy>();
@@ -653,9 +654,8 @@ class Enemy_Sticky extends Actor {
   }
 
   public void calculate() {
-    xPos += xVel;
-    yPos += yVel;   
-
+    //moveByVel();
+    moveByVel();
     if (outOfPlayArea(xPos, yPos)) {
       int[] temp = shufflePosition();
       xPos = temp[0];
@@ -667,7 +667,7 @@ class Enemy_Sticky extends Actor {
     if (!collisionCheck_player()) {
       collisionCheck_missiles();
     }
-    if (childList.size() > 20){
+    if (childList.size() > 20 || !active){
       saturated = true;
     }
     else{
@@ -721,7 +721,7 @@ class Enemy_Sticky extends Actor {
       player.xPos, player.yPos
     };
     if (isCollided(playerPos, player.playerSize())) {
-      damagePlayer(1000);
+      damagePlayer(200);
       destroy();
       maxEnemies += .2f;
       return true;
@@ -786,9 +786,14 @@ class Enemy_Sticky extends Actor {
 
   public void destroy() {
     active = false;
-    for (int i = 0; i < childList.size (); i++) {
-      Enemy child = childList.get(i);
-      child.destroyWithAnim();
+    for (int i = 0; i < childList.size(); i++) {
+      Actor child = childList.get(i);
+      //child.destroyWithAnim();
+      enemies.add(child);
+      childList.remove(i);
+      Enemy temp = (Enemy)child;
+      temp.unlinkWithParent();
+      i--;
     }
   }
 
@@ -804,9 +809,12 @@ class Enemy_Sticky extends Actor {
         int[] finalCoords = collision_position(round(_minion.xPos), round(_minion.yPos));
         finalCoords[0] += stickyCoords[0];
         finalCoords[1] += stickyCoords[1];
-        childList.get(childList.size()-1).stickTo(this, finalCoords);
-        enemies.remove(i);
-        i--;
+
+        if (addToGroup(_minion, finalCoords, _minion.type)){
+          childList.get(childList.size()-1).stickTo(this, finalCoords);
+          enemies.remove(i);
+          i--;
+        }
         counter += 1;
       }
     }
@@ -945,8 +953,7 @@ class Missile extends Actor{
 
 	public void calculate(){
 		if (active){
-			xPos += xVel;
-			yPos += yVel;
+			move(xVel, yVel);
 		}
 		if (xPos < -10 || xPos > sWidth + 10 ||yPos < -10 || yPos > sHeight + 10){
 			destroy();
@@ -975,18 +982,18 @@ class Player extends Actor {
   int HP, HP_max = 10000;
   int regenSpeed = 4;
   int rotate_displacement = 0;     //clockwise
-  int gold = 0;
+  int gold = 10000;
   boolean[] movement, shooting, upgrades, abilities;
   int maxAbilityLevel = 6;
   int[] stats = {0,0,0,0,0}; //agility, power, bomb, beserk, slowmo
-  int[] upgradeCosts = {100, 120, 160, 220, 300, 400, -1};
+  int[] upgradeCosts = {100, 140, 200, 280, 380, 500, -1};
   int rotate_lock = 0;
   int rotate_speed = 1;
   int rotate_lockFull = 3;
 
   //agility traits
   int[] maxVels = {
-    4, 6, 8, 11, 14, 17, 20
+    2, 3, 4, 5, 6, 8, 10
   };
   int[] playerSizes = {
     66, 64, 61, 57, 52, 46, 40, 
@@ -1015,8 +1022,13 @@ class Player extends Actor {
 
   //bomb
   int[] bomb_sizes = new int[]{0, 6, 6, 8, 10, 12, 16};
-  boolean bombPrimed = false;
-  int bombTimeout = 10;
+  boolean bombPrimed = false, bombSwitch = false;
+
+  //slowMo
+  int[] slowMo_sizes = new int[]{0, 60, 70, 90, 110, 130, 160};
+  float[] slowMo_rates = new float[]{1, .8f, .7f, .6f, .4f, .2f, .05f};
+  int slowMo_counter = 0;
+  boolean slowMo_switch = false;
 
   int[][] powerupLimits = new int[][]{{0, 1, 2, 2, 2, 3, 3},{0, 1, 2, 2, 2, 3, 3},{0, 1, 2, 2, 2, 3, 3}};
 
@@ -1111,21 +1123,58 @@ class Player extends Actor {
 */
 
   public boolean calculate_abilities(){
-    if (bombTimeout > 0){
-      bombTimeout -= 1;
+    //if bomb button state is PRESSED
+    if(calculate_bomb()){
+      return true;
     }
-    bombPrimed = false;
-    if (abilities[0] && bombTimeout <= 0){
+
+    //calculating slowmo counter
+    if (slowMo_counter > 0){
+      slowMo_counter -= 1;
+      slowMoModifier = slowMo_rate();
+    }
+    else{
+      slowMo_counter = 0;
+      slowMoModifier = 1;
+    }
+
+    if (abilities[2]){
+     if(!slowMo_switch){
+        //execute slowmo
+        if (powerupController.removeThisType(2) == true){
+          slowMo_counter += slowMo_size();
+        }
+      }
+      slowMo_switch = true;
+    }
+    else {
+      slowMo_switch = false;
+    }
+
+    
+    return false;
+  }
+
+  public boolean calculate_bomb(){
+    if (abilities[0]){
+      if(!bombSwitch){
+        bombPrimed = !bombPrimed;
+      }
+      bombSwitch = true;
+    }
+    else {
+      bombSwitch = false;
+    }
+    if (bombPrimed){
       int dir = -1;
       for (int i = 0; i < 4; i++) {
         if (shooting[i]) {
           dir = i;
         }
       }
-      bombPrimed = true;
-      if (dir >= 0 && powerupController.removeThisType(0) == true){
+      if (dir >= 0 && powerupController.removeThisType(0)){
         fire_bomb((dir+rotate_displacement)%4);
-        bombTimeout = 10;
+        bombPrimed = false;
         return true;
       }
     }
@@ -1157,8 +1206,8 @@ class Player extends Actor {
     }
     xPos += xVel;
     yPos += yVel;
-    xVel *= .6f;
-    yVel *= .6f;
+    xVel *= .4f;
+    yVel *= .4f;
     cap();
   }
 
@@ -1200,7 +1249,7 @@ class Player extends Actor {
             gold -= upgradeCosts[stats[i]];
             stats[i] += 1;
             if (i > 1){
-              powerupController.setTypeLimit(i-2, powerupLimits[i][stats[i]]);
+              powerupController.setTypeLimit(i-2, powerupLimits[i-2][stats[i]]);
             }
           }
           upgradeCoolDown = upgradeCoolDown_interval;
@@ -1279,6 +1328,22 @@ class Player extends Actor {
     return stats[4];
   }
 
+  public int s_byIndex(int index){
+    switch (index){
+      case 0: 
+        return s_agility();
+      case 1: 
+        return s_power();
+      case 2: 
+        return s_bomb();
+      case 3: 
+        return s_beserk();
+      case 4: 
+        return s_slowmo();
+    }
+    return -1;
+  }
+
   public int maxVel() {
     return maxVels[s_agility()];
   }
@@ -1303,8 +1368,36 @@ class Player extends Actor {
   public int bombCost() {
     return upgradeCosts[s_bomb()];
   }
+  public int beserkCost() {
+    return upgradeCosts[s_beserk()];
+  }
+  public int slowmoCost() {
+    return upgradeCosts[s_slowmo()];
+  }
+  public int costByIndex(int index){
+    switch (index){
+      case 0: 
+        return agilityCost();
+      case 1: 
+        return powerCost();
+      case 2: 
+        return bombCost();
+      case 3: 
+        return beserkCost();
+      case 4: 
+        return slowmoCost();
+    }
+    return -1;
+  }
   public int bomb_size() {
     return bomb_sizes[s_bomb()];
+  }
+
+  public float slowMo_rate() {
+    return slowMo_rates[s_slowmo()];
+  }
+  public int slowMo_size() {
+    return slowMo_sizes[s_slowmo()];
   }
 
   public void linkControlArrays(boolean[] _movement, boolean [] _shooting, boolean[] _upgrades, boolean[] _abilities) {
@@ -1335,8 +1428,7 @@ class Powerup extends Actor{
 
 	public void calculate(){
 		if (!stickied){
-			xPos += xVel;
-			yPos += yVel;
+			moveByVel();
 
 			if (outOfPlayArea(xPos, yPos)) {
 				int[] temp = shufflePosition();
@@ -1624,29 +1716,35 @@ class UIManager{
 		fill(0, 0, 0);
 		text(player.gold, margin*5/3, sHeight-margin/3);
 
-		String tempText = "LV " + player.s_agility() + " Agility ";
-		if (player.agilityCost() > 0){
-			tempText += "$" + player.agilityCost();
-		}
-		text(tempText, margin*4, sHeight-margin/3);
-
-		tempText = "LV " + player.s_power() + " Power ";
-		if (player.powerCost() > 0){
-			tempText += "$" + player.powerCost();
-		}
-		text(tempText, margin*9, sHeight-margin/3);
-
-		tempText = "LV " + player.s_bomb() + " Bomb ";
-		if (player.bombCost() > 0){
-			tempText += "$" + player.bombCost();
-		}
-		text(tempText, margin*14, sHeight-margin/3);
+		drawUpgradeButton(0, "Agility", 0);
+		drawUpgradeButton(1, "Power", 5*margin);
+		drawUpgradeButton(2, "Bomb", 10*margin);
+		drawUpgradeButton(3, "Beserk", 15*margin);
+		drawUpgradeButton(4, "Slowmo", 20*margin);
 
 		//text("framrate: " + frameRate, 40, 80);
 		//text("bomb lock: " + player.bombLock, 40, 120);
 		//text("rot lock: " + player.rotate_lock, 40, 160);
 
 		rectMode(CENTER);
+	}
+
+	public void drawUpgradeButton(int s_index, String label, int offset){
+		//offsets are spaced by 5 margins
+		int level = player.s_byIndex(s_index);
+		int cost = player.costByIndex(s_index);
+		String tempText = "LV " + level + " " + label;
+		fill(255);
+		if (cost > 0){
+			tempText += "$" + cost;
+			if(player.gold >= cost){
+				fill(0,255, 0);
+			}
+		}
+		stroke(0);
+		rect(offset + margin*3.5f, sHeight-margin, margin*5 ,margin);
+		fill(0);
+		text(tempText, offset + margin*4, sHeight-margin/3);
 	}
 
 	public void drawPlayButton(UIComponent _compo){

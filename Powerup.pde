@@ -18,8 +18,7 @@ class Powerup extends Actor{
 
 	void calculate(){
 		if (!stickied){
-			xPos += xVel;
-			yPos += yVel;
+			moveByVel();
 
 			if (outOfPlayArea(xPos, yPos)) {
 				int[] temp = shufflePosition();

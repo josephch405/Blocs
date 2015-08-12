@@ -26,8 +26,7 @@ class Missile extends Actor{
 
 	void calculate(){
 		if (active){
-			xPos += xVel;
-			yPos += yVel;
+			move(xVel, yVel);
 		}
 		if (xPos < -10 || xPos > sWidth + 10 ||yPos < -10 || yPos > sHeight + 10){
 			destroy();

@@ -18,7 +18,7 @@ class BgSprite extends Actor {
   }
   
   void wiggle(){
-    xPos -= 2;
+    xPos -= 2*slowMoModifier;
     if (xPos < -size*2){
       shuffle();
     }

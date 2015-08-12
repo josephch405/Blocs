@@ -6,7 +6,7 @@ int status = 0;
 //status: -1 -> main menu, 0 -> playing, 1 -> paused, 2 -> endgame, 3 -> help
 boolean gameIsEnd = false;
 int spritesPerLayer = 10;
-float maxEnemies, slowMoModifier;
+float maxEnemies, slowMoModifier = 1;
 int[][] releaseZones;
 
 //objects
@@ -27,7 +27,7 @@ char[] keyMapping = {'w','a','s','d', 'q', 'e', //movement 6x
                      'z','x','c','v','b',       //upgrade 5x
                      ' ','f','r',               //abilities 3x
                      'p'};                      //pause
-int[][] moveDirs = {{0,-4},{-4,0},{0,4},{4,0}};                                 //for player
+int[][] moveDirs = {{0,-10},{-10,0},{0,10},{10,0}};                                 //for player
 int[][] missileDirs = {{0,-1},{-1,0},{0,1},{1,0}};                              //for missiles
 int[][] missileColors = {{0,0,255}, {255,0,0}, {255,255,0}, {0,255,0}};         //for missiles
 int[][] abilityColors = {{255,165,0}, {139,0,139}, {150,0,0}};         //for abilities
@@ -54,10 +54,10 @@ void setup(){
   //init lists
   status = -1;
   releaseZones = new int[][] {
-    {margin, -margin*4, sWidth - margin, -margin*2}, 
-    {-margin*4, margin, -margin*2, sHeight - margin}, 
-    {margin, sHeight+2*margin, sWidth - margin, sHeight+4*margin}, 
-    {sWidth+2*margin, margin, sWidth+4*margin, sHeight - margin}
+    {margin, -margin*8, sWidth - margin, -margin*4}, 
+    {-margin*8, margin, -margin*4, sHeight - margin}, 
+    {margin, sHeight+4*margin, sWidth - margin, sHeight+8*margin}, 
+    {sWidth+4*margin, margin, sWidth+8*margin, sHeight - margin}
   };
 }
 

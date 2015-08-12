@@ -42,3 +42,7 @@ devlog
 -moved q and e to movement function/keys
 -restart screen functional
 -general refactoring
+
+8/10
+-changed bomb to toggle
+-balanced player speed

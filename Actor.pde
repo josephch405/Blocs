@@ -10,9 +10,12 @@ abstract class Actor{
 
 	void calculate(){}
 	void drawOut(){}
-	void move(int dx, int dy){
+	void move(float dx, float dy){
 		xPos += dx;
 		yPos += dy;
+	}
+	void moveByVel(){
+		move(xVel*slowMoModifier, yVel*slowMoModifier);
 	}
 	void setPosition(int _x, int _y){
 		xPos = _x;

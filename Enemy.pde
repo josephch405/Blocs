@@ -33,8 +33,7 @@ class Enemy extends Actor {
         collisionCheck_enemies();
       }
     } else {
-      xPos += xVel * slowMoModifier;
-      yPos += yVel * slowMoModifier;
+      moveByVel();
       if (outOfPlayArea(xPos, yPos)) {
         destroy();
       }

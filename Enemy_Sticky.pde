@@ -7,7 +7,6 @@ class Enemy_Sticky extends Actor {
   int[] stickyCoords = {
     0, 0
   };
-  float xVel = 0, yVel = 0;
   boolean saturated = false;
   boolean doCheck = false;
   ArrayList<Enemy> childList = new ArrayList<Enemy>();
@@ -34,9 +33,8 @@ class Enemy_Sticky extends Actor {
   }
 
   void calculate() {
-    xPos += xVel;
-    yPos += yVel;   
-
+    //moveByVel();
+    moveByVel();
     if (outOfPlayArea(xPos, yPos)) {
       int[] temp = shufflePosition();
       xPos = temp[0];
@@ -48,7 +46,7 @@ class Enemy_Sticky extends Actor {
     if (!collisionCheck_player()) {
       collisionCheck_missiles();
     }
-    if (childList.size() > 20){
+    if (childList.size() > 20 || !active){
       saturated = true;
     }
     else{
@@ -102,7 +100,7 @@ class Enemy_Sticky extends Actor {
       player.xPos, player.yPos
     };
     if (isCollided(playerPos, player.playerSize())) {
-      damagePlayer(1000);
+      damagePlayer(200);
       destroy();
       maxEnemies += .2;
       return true;
@@ -167,9 +165,14 @@ class Enemy_Sticky extends Actor {
 
   void destroy() {
     active = false;
-    for (int i = 0; i < childList.size (); i++) {
-      Enemy child = childList.get(i);
-      child.destroyWithAnim();
+    for (int i = 0; i < childList.size(); i++) {
+      Actor child = childList.get(i);
+      //child.destroyWithAnim();
+      enemies.add(child);
+      childList.remove(i);
+      Enemy temp = (Enemy)child;
+      temp.unlinkWithParent();
+      i--;
     }
   }
 
@@ -185,9 +188,12 @@ class Enemy_Sticky extends Actor {
         int[] finalCoords = collision_position(round(_minion.xPos), round(_minion.yPos));
         finalCoords[0] += stickyCoords[0];
         finalCoords[1] += stickyCoords[1];
-        childList.get(childList.size()-1).stickTo(this, finalCoords);
-        enemies.remove(i);
-        i--;
+
+        if (addToGroup(_minion, finalCoords, _minion.type)){
+          childList.get(childList.size()-1).stickTo(this, finalCoords);
+          enemies.remove(i);
+          i--;
+        }
         counter += 1;
       }
     }

@@ -125,29 +125,35 @@ class UIManager{
 		fill(0, 0, 0);
 		text(player.gold, margin*5/3, sHeight-margin/3);
 
-		String tempText = "LV " + player.s_agility() + " Agility ";
-		if (player.agilityCost() > 0){
-			tempText += "$" + player.agilityCost();
-		}
-		text(tempText, margin*4, sHeight-margin/3);
-
-		tempText = "LV " + player.s_power() + " Power ";
-		if (player.powerCost() > 0){
-			tempText += "$" + player.powerCost();
-		}
-		text(tempText, margin*9, sHeight-margin/3);
-
-		tempText = "LV " + player.s_bomb() + " Bomb ";
-		if (player.bombCost() > 0){
-			tempText += "$" + player.bombCost();
-		}
-		text(tempText, margin*14, sHeight-margin/3);
+		drawUpgradeButton(0, "Agility", 0);
+		drawUpgradeButton(1, "Power", 5*margin);
+		drawUpgradeButton(2, "Bomb", 10*margin);
+		drawUpgradeButton(3, "Beserk", 15*margin);
+		drawUpgradeButton(4, "Slowmo", 20*margin);
 
 		//text("framrate: " + frameRate, 40, 80);
 		//text("bomb lock: " + player.bombLock, 40, 120);
 		//text("rot lock: " + player.rotate_lock, 40, 160);
 
 		rectMode(CENTER);
+	}
+
+	void drawUpgradeButton(int s_index, String label, int offset){
+		//offsets are spaced by 5 margins
+		int level = player.s_byIndex(s_index);
+		int cost = player.costByIndex(s_index);
+		String tempText = "LV " + level + " " + label;
+		fill(255);
+		if (cost > 0){
+			tempText += "$" + cost;
+			if(player.gold >= cost){
+				fill(0,255, 0);
+			}
+		}
+		stroke(0);
+		rect(offset + margin*3.5, sHeight-margin, margin*5 ,margin);
+		fill(0);
+		text(tempText, offset + margin*4, sHeight-margin/3);
 	}
 
 	void drawPlayButton(UIComponent _compo){

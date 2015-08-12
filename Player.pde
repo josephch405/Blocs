@@ -2,18 +2,18 @@ class Player extends Actor {
   int HP, HP_max = 10000;
   int regenSpeed = 4;
   int rotate_displacement = 0;     //clockwise
-  int gold = 0;
+  int gold = 10000;
   boolean[] movement, shooting, upgrades, abilities;
   int maxAbilityLevel = 6;
   int[] stats = {0,0,0,0,0}; //agility, power, bomb, beserk, slowmo
-  int[] upgradeCosts = {100, 120, 160, 220, 300, 400, -1};
+  int[] upgradeCosts = {100, 140, 200, 280, 380, 500, -1};
   int rotate_lock = 0;
   int rotate_speed = 1;
   int rotate_lockFull = 3;
 
   //agility traits
   int[] maxVels = {
-    4, 6, 8, 11, 14, 17, 20
+    2, 3, 4, 5, 6, 8, 10
   };
   int[] playerSizes = {
     66, 64, 61, 57, 52, 46, 40, 
@@ -42,8 +42,13 @@ class Player extends Actor {
 
   //bomb
   int[] bomb_sizes = new int[]{0, 6, 6, 8, 10, 12, 16};
-  boolean bombPrimed = false;
-  int bombTimeout = 10;
+  boolean bombPrimed = false, bombSwitch = false;
+
+  //slowMo
+  int[] slowMo_sizes = new int[]{0, 60, 70, 90, 110, 130, 160};
+  float[] slowMo_rates = new float[]{1, .8, .7, .6, .4, .2, .05};
+  int slowMo_counter = 0;
+  boolean slowMo_switch = false;
 
   int[][] powerupLimits = new int[][]{{0, 1, 2, 2, 2, 3, 3},{0, 1, 2, 2, 2, 3, 3},{0, 1, 2, 2, 2, 3, 3}};
 
@@ -138,21 +143,58 @@ class Player extends Actor {
 */
 
   boolean calculate_abilities(){
-    if (bombTimeout > 0){
-      bombTimeout -= 1;
+    //if bomb button state is PRESSED
+    if(calculate_bomb()){
+      return true;
     }
-    bombPrimed = false;
-    if (abilities[0] && bombTimeout <= 0){
+
+    //calculating slowmo counter
+    if (slowMo_counter > 0){
+      slowMo_counter -= 1;
+      slowMoModifier = slowMo_rate();
+    }
+    else{
+      slowMo_counter = 0;
+      slowMoModifier = 1;
+    }
+
+    if (abilities[2]){
+     if(!slowMo_switch){
+        //execute slowmo
+        if (powerupController.removeThisType(2) == true){
+          slowMo_counter += slowMo_size();
+        }
+      }
+      slowMo_switch = true;
+    }
+    else {
+      slowMo_switch = false;
+    }
+
+    
+    return false;
+  }
+
+  boolean calculate_bomb(){
+    if (abilities[0]){
+      if(!bombSwitch){
+        bombPrimed = !bombPrimed;
+      }
+      bombSwitch = true;
+    }
+    else {
+      bombSwitch = false;
+    }
+    if (bombPrimed){
       int dir = -1;
       for (int i = 0; i < 4; i++) {
         if (shooting[i]) {
           dir = i;
         }
       }
-      bombPrimed = true;
-      if (dir >= 0 && powerupController.removeThisType(0) == true){
+      if (dir >= 0 && powerupController.removeThisType(0)){
         fire_bomb((dir+rotate_displacement)%4);
-        bombTimeout = 10;
+        bombPrimed = false;
         return true;
       }
     }
@@ -184,8 +226,8 @@ class Player extends Actor {
     }
     xPos += xVel;
     yPos += yVel;
-    xVel *= .6;
-    yVel *= .6;
+    xVel *= .4;
+    yVel *= .4;
     cap();
   }
 
@@ -227,7 +269,7 @@ class Player extends Actor {
             gold -= upgradeCosts[stats[i]];
             stats[i] += 1;
             if (i > 1){
-              powerupController.setTypeLimit(i-2, powerupLimits[i][stats[i]]);
+              powerupController.setTypeLimit(i-2, powerupLimits[i-2][stats[i]]);
             }
           }
           upgradeCoolDown = upgradeCoolDown_interval;
@@ -306,6 +348,22 @@ class Player extends Actor {
     return stats[4];
   }
 
+  int s_byIndex(int index){
+    switch (index){
+      case 0: 
+        return s_agility();
+      case 1: 
+        return s_power();
+      case 2: 
+        return s_bomb();
+      case 3: 
+        return s_beserk();
+      case 4: 
+        return s_slowmo();
+    }
+    return -1;
+  }
+
   int maxVel() {
     return maxVels[s_agility()];
   }
@@ -330,8 +388,36 @@ class Player extends Actor {
   int bombCost() {
     return upgradeCosts[s_bomb()];
   }
+  int beserkCost() {
+    return upgradeCosts[s_beserk()];
+  }
+  int slowmoCost() {
+    return upgradeCosts[s_slowmo()];
+  }
+  int costByIndex(int index){
+    switch (index){
+      case 0: 
+        return agilityCost();
+      case 1: 
+        return powerCost();
+      case 2: 
+        return bombCost();
+      case 3: 
+        return beserkCost();
+      case 4: 
+        return slowmoCost();
+    }
+    return -1;
+  }
   int bomb_size() {
     return bomb_sizes[s_bomb()];
+  }
+
+  float slowMo_rate() {
+    return slowMo_rates[s_slowmo()];
+  }
+  int slowMo_size() {
+    return slowMo_sizes[s_slowmo()];
   }
 
   void linkControlArrays(boolean[] _movement, boolean [] _shooting, boolean[] _upgrades, boolean[] _abilities) {
