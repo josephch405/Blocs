@@ -3,6 +3,7 @@ class UIManager{
 	boolean[] active = {false, false, false, false, false, false};
 	int activeIndex = -1;
 	int overIndex = -1;
+	boolean tutorialOpen = false;
 	/*
 	**Components:
 	**	0: play button
@@ -17,10 +18,9 @@ class UIManager{
 	UIManager(){
 		components[0] = new UIComponent(new int[]{sWidth/2 - 3*margin,sHeight/2 - 3*margin} , new int[]{margin*6, margin*6}, 5);
 		components[1] = new UIComponent(new int[]{sWidth - floor(1.2*margin), floor(.2*margin)} , new int[]{margin, margin}, 5);
-		//placeholder for components
-		for (int i = 2; i < components.length; i++){
-			components[i] = new UIComponent();
-		}
+		components[2] = new UIComponent(new int[]{sWidth/2 - margin,sHeight/2 + 4*margin} , new int[]{margin*2, margin*2}, 5);
+		components[3] = new UIComponent(new int[]{(sWidth - 600)/2, (sHeight - 400)/2} , new int[]{600, 400}, 10);
+		components[4] = new UIComponent();
 		components[5] = new UIComponent(new int[]{sWidth/2 - 5*margin,sHeight/2 - 3*margin} , new int[]{margin*10, margin*6}, 5);
 	}
 
@@ -54,7 +54,7 @@ class UIManager{
 				break;
 			//game
 			case 1:
-				active = new boolean[]{true, false, false, false, false, false};
+				active = new boolean[]{true, false, true, false, false, false};
 				break;
 			//pause
 			case 2:
@@ -62,20 +62,35 @@ class UIManager{
 				break;
 			//end
 			case -1:
-				active = new boolean[]{true, false, false, false, false, false};
+				active = new boolean[]{true, false, true, false, false, false};
 				break;
 			//menu
+		}
+		if (tutorialOpen){
+			active[3] = true;
 		}
 		//processes active UI requests
 		switch (activeIndex){
 			case 0:
 				if (status == -1){
+					tutorialOpen = true;
 					gameInit();
+					status = 1;
+					break;
 				}
 				status = 0;
 				break;
 			case 1:
 				status = 1;
+				break;
+			case 2:
+				tutorialOpen = true;
+				break;
+			case 3:
+				tutorialOpen = false;
+				if (status == 1){
+					status = 0;
+				}
 				break;
 			case 5:
 				gameInit();
@@ -100,6 +115,12 @@ class UIManager{
 		if (active[1]){
 			drawPauseButton(components[1]);
 		}
+		if (active[2]){
+			drawTutorialButton(components[2]);
+		}
+		if (active[3]){
+			drawTutorial(components[3]);
+		}
 		if (active[5]){
 			drawEndgame(components[5]);
 		}
@@ -110,9 +131,9 @@ class UIManager{
 		stroke(0);
 		strokeWeight(2);
 		fill(255,0,0);
-		rect(0,0, sWidth, margin/2);
+		rect(0,0, sWidth, margin);
 		fill(0,255,0);
-		rect(0,0, sWidth*((float)player.HP/player.HP_max), margin/2);
+		rect(0,0, sWidth*((float)player.HP/player.HP_max), margin);
 
 		strokeWeight(2);
 		fill(255,255,255);
@@ -142,18 +163,27 @@ class UIManager{
 		//offsets are spaced by 5 margins
 		int level = player.s_byIndex(s_index);
 		int cost = player.costByIndex(s_index);
-		String tempText = "LV " + level + " " + label;
+		float factor = 1;
+		String tempText = "LV " + level + " ";
 		fill(255);
 		if (cost > 0){
 			tempText += "$" + cost;
 			if(player.gold >= cost){
+				factor = 1.5;
 				fill(0,255, 0);
 			}
 		}
 		stroke(0);
-		rect(offset + margin*3.5, sHeight-margin, margin*5 ,margin);
+		rect(offset + margin*3.5, sHeight-margin*factor, margin*5 ,margin*factor);
 		fill(0);
-		text(tempText, offset + margin*4, sHeight-margin/3);
+		image(powerupImages[s_index], offset + margin*3.7, sHeight-margin*factor, margin, margin);
+		text(tempText, offset + margin*5, sHeight-(factor - (float)2/3)*margin);
+		if (player.gold >= cost){
+			fill(255);
+			rect(offset + margin*3.5, sHeight-margin*(factor*3/2), margin*5 ,margin*factor/2);
+			fill(0);
+			text("Press " + (s_index+1) + " to upgrade", offset + margin*3.7, sHeight-(factor + .1)*margin);
+		}
 	}
 
 	void drawPlayButton(UIComponent _compo){
@@ -182,8 +212,24 @@ class UIManager{
 		rectMode(CORNER);
 		rect(_compo.xPos, _compo.yPos, _compo.xSize, _compo.ySize);
 		fill(0);
-		textSize(20);
-		text("HP == 0;\nRestart?", _compo.xPos+margin, _compo.yPos+margin, _compo.xSize, _compo.ySize);
+		textSize(32);
+		text("Score = " + score + "\nClick to restart", _compo.xPos+margin, _compo.yPos+margin, _compo.xSize, _compo.ySize);
 		fill(255);
+	}
+
+	void drawTutorialButton(UIComponent _compo){
+		ellipseMode(CORNER);
+		strokeWeight(margin/14);
+		fill(255);
+		stroke(0);
+		ellipse(_compo.xPos, _compo.yPos, _compo.xSize, _compo.ySize);
+		fill(0);
+		textSize(30);
+		text("?", _compo.xPos + _compo.xSize*.4, _compo.yPos + _compo.ySize*.6);
+	}
+
+	void drawTutorial(UIComponent _compo){
+		imageMode(CORNER);
+		image(tutorial_pic, _compo.xPos, _compo.yPos, _compo.xSize, _compo.ySize);
 	}
 }

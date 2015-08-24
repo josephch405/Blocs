@@ -3,11 +3,14 @@ int sWidth = 960;
 int sHeight = 600;
 int margin = floor(sHeight * .05);
 int status = 0;
+int score = 0;
 //status: -1 -> main menu, 0 -> playing, 1 -> paused, 2 -> endgame, 3 -> help
 boolean gameIsEnd = false;
 int spritesPerLayer = 10;
 float maxEnemies, slowMoModifier = 1;
 int[][] releaseZones;
+int[] bgColor = {255, 255, 255};
+float slowMoFraction = 0;
 
 //objects
 Player player;
@@ -16,15 +19,17 @@ EnemyController enemyController;
 PowerupController powerupController;
 InputController inputController;// = new InputController();
 Camera playerCam;
+PImage[] powerupImages = new PImage[5];
+PImage tutorial_pic;
 
 //lists of objects
-ArrayList<Actor> missiles, bombs, enemies, enemies_sticky, enemies_kill, powerups;
+ArrayList<Actor> missiles, bombs, enemies, enemies_sticky, enemies_kill, powerups, goldCoins;
 BgSprite[] bgSprites;
 
 //lists of variables
 char[] keyMapping = {'w','a','s','d', 'q', 'e', //movement 6x
                      'i','j','k','l',           //shooting 4x
-                     'z','x','c','v','b',       //upgrade 5x
+                     '1','2','3','4','5',       //upgrade 5x
                      ' ','f','r',               //abilities 3x
                      'p'};                      //pause
 int[][] moveDirs = {{0,-10},{-10,0},{0,10},{10,0}};                                 //for player
@@ -59,10 +64,16 @@ void setup(){
     {margin, sHeight+4*margin, sWidth - margin, sHeight+8*margin}, 
     {sWidth+4*margin, margin, sWidth+8*margin, sHeight - margin}
   };
+  powerupImages[0] = loadImage("agility.png");
+  powerupImages[1] = loadImage("power.png");
+  powerupImages[2] = loadImage("bomb.png");
+  powerupImages[3] = loadImage("berserk.png");
+  powerupImages[4] = loadImage("slowmo.png");
+  tutorial_pic = loadImage("tutorial.png");
 }
 
 void draw(){
-  background(255);
+  background(bgColor[0], bgColor[1], bgColor[2]);
   inputController.update();
   uiManager.calculate();
   switch (status){
@@ -86,10 +97,12 @@ void gameInit(){
   enemies = new ArrayList<Actor>();
   enemies_sticky = new ArrayList<Actor>();
   enemies_kill = new ArrayList<Actor>();
+  goldCoins = new ArrayList<Actor>();
   powerups = new ArrayList<Actor>();
   enemyController = new EnemyController();
   powerupController = new PowerupController();
   status = 0;
+  score = 0;
   maxEnemies = 10;
   slowMoModifier = 1;
   player = new Player(sWidth/2, sHeight/2, 10000);
@@ -115,6 +128,12 @@ void calculate_all(){
 void calculate_bg(){
   for (int i = bgSprites.length-1; i >= 0; i--){
     bgSprites[i].wiggle();
+  }
+  for (int i = 0; i < bgColor.length; i++){
+    bgColor[i] = ceil(bgColor[i]*1.05);
+  }
+  if (slowMoModifier != 1){
+    bgColor = new int[]{220 - floor(55*slowMoFraction), 255, 255};
   }
 }
 
@@ -158,6 +177,7 @@ void draw_all(){
 }
 
 void draw_gameObjects(){
+  drawActorArray(goldCoins);
   drawActorArray(enemies_kill);
   drawActorArray(enemies);
   drawActorArray(enemies_sticky);
@@ -217,11 +237,15 @@ void gameEnd(){
 }
 
 void damagePlayer(int points){
-  player.HP -= points;
+  if(player.berserk_counter <= 0){
+    player.HP -= points;
+    bgColor = new int[]{255, 180, 180};
+  }
 }
 
 void addGold(int addThis){
   player.gold += addThis;
+  score += addThis;
 }
 
 void pause(){

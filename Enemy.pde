@@ -49,6 +49,7 @@ class Enemy extends Actor {
     addGold(goldWorth);
     active = false;
     enemies_kill.add(new Enemy_kill(floor(xPos), floor(yPos), fillColor, size));
+    goldCoins.add(new GoldCoin(floor(xPos), floor(yPos)));
     if (isStickied()){
       parent.doCheck = true;
     }
@@ -80,7 +81,7 @@ class Enemy extends Actor {
       player.xPos, player.yPos
     };
     if (isCollided(playerPos, player.playerSize())) {
-      damagePlayer(200);
+      damagePlayer(400);
       destroyWithAnim();
       maxEnemies += .4;
       return true;
@@ -110,13 +111,13 @@ class Enemy extends Actor {
   boolean collisionCheck_bombs() {
     for (int i = 0; i < bombs.size (); i++) {
       Bomb bomb = (Bomb)bombs.get(i);
-      if (bomb.type == type) {
+      //if (bomb.type == type) {
         if (isCollided_bomb(bomb)) {
           destroyWithAnim();
           maxEnemies += .2;
           return true;
         }
-      }
+      //}
     }
     return false;
   }

@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"releas",
+				"releaseTimer"
+			],
+			[
 				"slowM",
 				"slowMo_counter"
 			],
@@ -135,56 +139,64 @@
 			"file": "Blocs.pde",
 			"settings":
 			{
-				"buffer_size": 5914,
+				"buffer_size": 6732,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Missile.pde",
-			"settings":
-			{
-				"buffer_size": 971,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Enemy_Sticky.pde",
-			"settings":
-			{
-				"buffer_size": 5593,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Enemy.pde",
-			"settings":
-			{
-				"buffer_size": 4409,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "BgSprite.pde",
-			"settings":
-			{
-				"buffer_size": 661,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "Actor.pde",
-			"settings":
-			{
-				"buffer_size": 427,
-				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "Player.pde",
 			"settings":
 			{
-				"buffer_size": 9809,
+				"buffer_size": 11458,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Bomb.pde",
+			"settings":
+			{
+				"buffer_size": 800,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Enemy.pde",
+			"settings":
+			{
+				"buffer_size": 4472,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "UIManager.pde",
+			"settings":
+			{
+				"buffer_size": 5821,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "things to fix",
+			"settings":
+			{
+				"buffer_size": 361,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "devlog",
+			"settings":
+			{
+				"buffer_size": 1354,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Powerup.pde",
+			"settings":
+			{
+				"buffer_size": 1548,
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -440,25 +452,29 @@
 	],
 	"file_history":
 	[
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/InputController.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/EnemyController.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Enemy.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Enemy_Sticky.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Powerup.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/UIManager.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/devlog",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/things to fix",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/PowerupController.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/GoldCoin.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Enemy_kill.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/EnemyController.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Powerup.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/UIComponent.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Player.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Bomb.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Actor.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Player.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/things to fix",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/devlog",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Gold.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/PowerupController.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Missile.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/BgSprite.pde",
+		"/C/Users/Administrator/Desktop/playBloks.github.io/Blocs.pde",
+		"/C/Users/Administrator/Desktop/playBloks.github.io/index.html",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/InputController.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/UIManager.pde",
+		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Bomb.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Camera.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Powerup",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Thing.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/BgSprite.pde",
-		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Missile.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Blocs.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Blocs.java",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Blocs.pde",
@@ -467,7 +483,6 @@
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Missile_kill.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Player.pde",
 		"/C/xampp/htdocs/UIManagaer.pde",
-		"/C/Users/Administrator/Desktop/playBloks.github.io/index.html",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/Bombs.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/BgSprite.pde",
 		"/C/Users/Administrator/Google Drive/12grade/Blocs/Blocs/application.windows32/source/Enemy.pde",
@@ -564,10 +579,7 @@
 		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/archivedTaskGroup.js",
 		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/archivedTask.js",
 		"/C/Users/Administrator/AppData/Local/Google/Chrome/User Data/Default/Extensions/nidmklgpplnfghikfnkbdgldlkdgddcn/0.55_0/js/archivedTaskGroup.js",
-		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/popup1.js",
-		"/C/Users/Administrator/Google Drive/11grade/Habivator/html/popup1.html",
-		"/C/Users/Administrator/Google Drive/11grade/Habivator/css/popup1.css",
-		"/C/Users/Administrator/Desktop/sa.txt"
+		"/C/Users/Administrator/Google Drive/11grade/Habivator/js/popup1.js"
 	],
 	"find":
 	{
@@ -590,6 +602,39 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"bombswi",
+			"bomb",
+			"berserk",
+			"beser",
+			"player",
+			"rotate_lock",
+			"calculate_abi",
+			"print",
+			"player",
+			"destroywithan",
+			"destroywi",
+			"destr",
+			"destroywit",
+			"player",
+			"missile",
+			"destroywi",
+			"enemies_kill",
+			"slowmo",
+			"backgrou",
+			"draw",
+			"player",
+			"calculate_abi",
+			"calculate",
+			"size",
+			"cap()",
+			"maxvel",
+			"sheight",
+			"player",
+			"timer",
+			"release",
+			"100",
+			"gold",
+			"player",
 			"addtogr",
 			"iscoordfree",
 			"slowMo",
@@ -684,40 +729,7 @@
 			"displayWidth",
 			"destroy",
 			"maxenem",
-			"maxe",
-			"destroy",
-			"final",
-			"fill",
-			"enemies",
-			"brawl",
-			"spotli",
-			"bio_data",
-			"talent",
-			"wetlab",
-			"abstrac",
-			"achie",
-			"human",
-			"Roboto",
-			"nav",
-			"px",
-			"260",
-			"Railway",
-			"back",
-			"bodyconta",
-			"container",
-			"24px",
-			"24",
-			"24px",
-			"h3",
-			"red",
-			"h4",
-			"10px",
-			"important",
-			"categor",
-			"intro_larg",
-			"50px ",
-			"spotligh",
-			"container"
+			"maxe"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -747,7 +759,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -756,99 +768,99 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5914,
+						"buffer_size": 6732,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								801,
-								801
+								5743,
+								5743
 							]
 						],
 						"settings":
 						{
 							"bs_sintax": "processing",
 							"buffer_scroll_name": "8a5baab5",
-							"color_scheme": "Packages/User/Color Highlighter/themes/Eightlime Dark (SL).tmTheme",
+							"color_scheme": "Packages/User/SublimeLinter/Eightlime Dark (SL).tmTheme",
 							"spell_check": false,
 							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3475.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "Missile.pde",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 971,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								536,
-								536
-							]
-						],
-						"settings":
-						{
-							"bs_sintax": "processing",
-							"buffer_scroll_name": "cf12c140",
-							"color_scheme": "Packages/User/Color Highlighter/themes/Eightlime Dark (SL).tmTheme",
-							"spell_check": false,
-							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 72.0,
+						"translation.y": 3986.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "Enemy_Sticky.pde",
+					"buffer": 1,
+					"file": "Player.pde",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5593,
+						"buffer_size": 11458,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4733,
-								4733
+								521,
+								521
 							]
 						],
 						"settings":
 						{
 							"bs_sintax": "processing",
-							"buffer_scroll_name": "6ca7b910",
-							"color_scheme": "Packages/User/Color Highlighter/themes/Eightlime Dark (SL).tmTheme",
+							"buffer_scroll_name": "b1c2d98c",
+							"color_scheme": "Packages/User/SublimeLinter/Eightlime Dark (SL).tmTheme",
 							"spell_check": false,
 							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3294.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Bomb.pde",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 800,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								772,
+								772
+							]
+						],
+						"settings":
+						{
+							"bs_sintax": "processing",
+							"buffer_scroll_name": "5ffa1e6f",
+							"color_scheme": "Packages/User/SublimeLinter/Eightlime Dark (SL).tmTheme",
+							"spell_check": false,
+							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -857,63 +869,62 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4409,
+						"buffer_size": 4472,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								929,
-								929
+								2953,
+								2953
 							]
 						],
 						"settings":
 						{
 							"bs_sintax": "processing",
 							"buffer_scroll_name": "527d47e2",
-							"color_scheme": "Packages/User/Color Highlighter/themes/Eightlime Dark (SL).tmTheme",
+							"color_scheme": "Packages/User/SublimeLinter/Eightlime Dark (SL).tmTheme",
 							"spell_check": false,
 							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1772.0,
+						"translation.y": 1268.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "BgSprite.pde",
+					"file": "UIManager.pde",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 661,
+						"buffer_size": 5821,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								518,
-								518
+								222,
+								222
 							]
 						],
 						"settings":
 						{
 							"bs_sintax": "processing",
-							"buffer_scroll_name": "baa4487c",
-							"color_scheme": "Packages/User/Color Highlighter/themes/Eightlime Dark (SL).tmTheme",
+							"buffer_scroll_name": "94696179",
+							"color_scheme": "Packages/User/SublimeLinter/Eightlime Dark (SL).tmTheme",
 							"spell_check": false,
 							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 72.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
@@ -921,28 +932,28 @@
 				},
 				{
 					"buffer": 5,
-					"file": "Actor.pde",
+					"file": "things to fix",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 427,
+						"buffer_size": 361,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								318,
-								318
+								185,
+								185
 							]
 						],
 						"settings":
 						{
-							"bs_sintax": "processing",
-							"buffer_scroll_name": "6c900673",
-							"color_scheme": "Packages/User/Color Highlighter/themes/Eightlime Dark (SL).tmTheme",
+							"bs_sintax": "plain text",
+							"buffer_scroll_name": "6b4eabce",
+							"color_scheme": "Packages/User/SublimeLinter/Eightlime Dark (SL).tmTheme",
 							"spell_check": false,
-							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
@@ -954,36 +965,67 @@
 				},
 				{
 					"buffer": 6,
-					"file": "Player.pde",
+					"file": "devlog",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9809,
+						"buffer_size": 1354,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1370,
-								1370
+								1354,
+								1354
+							]
+						],
+						"settings":
+						{
+							"bs_sintax": "plain text",
+							"buffer_scroll_name": "769b0645",
+							"color_scheme": "Packages/User/SublimeLinter/Eightlime Dark (SL).tmTheme",
+							"spell_check": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 720.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "Powerup.pde",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1548,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								937,
+								937
 							]
 						],
 						"settings":
 						{
 							"bs_sintax": "processing",
-							"buffer_scroll_name": "b1c2d98c",
-							"color_scheme": "Packages/User/Color Highlighter/themes/Eightlime Dark (SL).tmTheme",
+							"buffer_scroll_name": "e1d565dc",
+							"color_scheme": "Packages/User/SublimeLinter/Eightlime Dark (SL).tmTheme",
 							"spell_check": false,
 							"syntax": "Packages/Processing/Syntaxes/Processing.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 558.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 7,
 					"type": "text"
 				}
 			]
@@ -1042,8 +1084,60 @@
 		"selected_items":
 		[
 			[
+				"enemy",
+				"Enemy.pde"
+			],
+			[
+				"bomb",
+				"Bomb.pde"
+			],
+			[
+				"pla",
+				"Player.pde"
+			],
+			[
+				"thin",
+				"things to fix"
+			],
+			[
+				"devl",
+				"devlog"
+			],
+			[
+				"power",
+				"Powerup.pde"
+			],
+			[
+				"uim",
+				"UIManager.pde"
+			],
+			[
+				"uicon",
+				"UIComponent.pde"
+			],
+			[
+				"devlo",
+				"devlog"
+			],
+			[
+				"enemys",
+				"Enemy_Sticky.pde"
+			],
+			[
 				"enem",
 				"Enemy.pde"
+			],
+			[
+				"enemyki",
+				"Enemy_kill.pde"
+			],
+			[
+				"dev",
+				"devlog"
+			],
+			[
+				"actor",
+				"Actor.pde"
 			],
 			[
 				"stick",
@@ -1062,28 +1156,12 @@
 				"Powerup.pde"
 			],
 			[
-				"enemy",
-				"EnemyController.pde"
-			],
-			[
 				"enemi",
 				"Enemy_kill.pde"
 			],
 			[
-				"actor",
-				"Actor.pde"
-			],
-			[
 				"fi",
 				"things to fix"
-			],
-			[
-				"dev",
-				"devlog"
-			],
-			[
-				"devl",
-				"devlog"
 			],
 			[
 				"uic",
@@ -1122,10 +1200,6 @@
 				"EnemyController.pde"
 			],
 			[
-				"enemys",
-				"Enemy_Sticky.pde"
-			],
-			[
 				"poweru",
 				"Powerup.pde"
 			],
@@ -1148,10 +1222,6 @@
 			[
 				"inpu",
 				"InputController.pde"
-			],
-			[
-				"thin",
-				"application.windows32\\source\\Thing.pde"
 			],
 			[
 				"bgspr",
@@ -1186,20 +1256,8 @@
 				"things to fix"
 			],
 			[
-				"devlo",
-				"devlog"
-			],
-			[
 				"missil",
 				"Missile.pde"
-			],
-			[
-				"pla",
-				"Player.pde"
-			],
-			[
-				"bomb",
-				"Bomb.pde"
 			],
 			[
 				"ui",

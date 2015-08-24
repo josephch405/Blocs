@@ -1,7 +1,7 @@
 class PowerupController {
 
   int[] powerUpLimits;
-  int releaseTimer = 100;
+  int releaseTimer = 300;
   int tempCounter = 0;
 
   PowerupController() {
@@ -11,7 +11,13 @@ class PowerupController {
   void update() {
     for (int i = 0; i < 3; i ++){
       if (numOfThisType(i) < powerUpLimits[i]){
-        release(floor(random(1, 3)), i);
+        if (releaseTimer > 0){
+          releaseTimer -= 1;
+        }
+        else{
+          release(floor(random(1, 3)), i);
+          releaseTimer = 300;
+        }
       }
     }
     calculateActorArray(powerups);

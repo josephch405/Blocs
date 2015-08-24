@@ -37,6 +37,6 @@ class Bomb extends Actor{
 
 	void setType(int _type){
 		type = _type;
-		fillColor = missileColors[type];
+		fillColor = new int[]{255, 255, 255};//missileColors[type];
 	}
 }

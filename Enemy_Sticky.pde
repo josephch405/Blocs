@@ -100,7 +100,8 @@ class Enemy_Sticky extends Actor {
       player.xPos, player.yPos
     };
     if (isCollided(playerPos, player.playerSize())) {
-      damagePlayer(200);
+      damagePlayer(1000);
+      goldCoins.add(new GoldCoin(floor(xPos), floor(yPos)));
       destroy();
       maxEnemies += .2;
       return true;
@@ -117,6 +118,7 @@ class Enemy_Sticky extends Actor {
       if (isCollided(missilePos, missile.size) && missile.active) {
         missiles.get(i).destroy();
         addGold(goldWorth);
+        goldCoins.add(new GoldCoin(floor(xPos), floor(yPos)));
         destroy();
         maxEnemies += .2;
         return true;
@@ -225,6 +227,7 @@ class Enemy_Sticky extends Actor {
   }
 
   boolean addToGroup(Enemy _minion, int[] finalCoords, int type){
+    doCheck = true;
     if (isCoordFree(finalCoords)){
       childList.add(_minion);
       _minion.stickTo(this, finalCoords);

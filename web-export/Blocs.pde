@@ -566,6 +566,7 @@ class EnemyController {
 
   int enemyLimit = 40;
   int stickyTimer = 100;
+  int regularTimer = 5;
 
   EnemyController() {
   }
@@ -576,7 +577,13 @@ class EnemyController {
     }
 
     if (enemies.size() < floor(maxEnemies)) {
-      release(floor(random(0, 4)));
+      if (regularTimer > 0){
+        regularTimer -= 1;
+      }
+      else{
+        release(floor(random(0, 4)));;
+        regularTimer = 5;
+      }
     }
     if (enemies_sticky.size() < floor((maxEnemies-10)/3)) {
       if (stickyTimer > 0){
@@ -672,11 +679,7 @@ class Enemy_Sticky extends Actor {
         }
       }
     }
-
-    if (doCheck){
-      doCheck = false;
-      minionValidCheck();
-    }
+    minionValidCheck();
   }
 
   void drawOut() {
@@ -966,7 +969,7 @@ class Player extends Actor {
   int HP, HP_max = 10000;
   int regenSpeed = 4;
   int rotate_displacement = 0;     //clockwise
-  int gold = 10000;
+  int gold = 0;
   boolean[] movement, shooting, upgrades, abilities;
   int maxAbilityLevel = 6;
   int[] stats = {0,0,0,0,0}; //agility, power, bomb, beserk, slowmo
@@ -1469,7 +1472,7 @@ class Powerup extends Actor{
 class PowerupController {
 
   int[] powerUpLimits;
-  int releaseTimer = 100;
+  int releaseTimer = 300;
   int tempCounter = 0;
 
   PowerupController() {
@@ -1479,7 +1482,13 @@ class PowerupController {
   void update() {
     for (int i = 0; i < 3; i ++){
       if (numOfThisType(i) < powerUpLimits[i]){
-        release(floor(random(1, 3)), i);
+        if (releaseTimer > 0){
+          releaseTimer -= 1;
+        }
+        else{
+          release(floor(random(1, 3)), i);
+          releaseTimer = 300;
+        }
       }
     }
     calculateActorArray(powerups);

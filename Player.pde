@@ -2,10 +2,10 @@ class Player extends Actor {
   int HP, HP_max = 10000;
   int regenSpeed = 4;
   int rotate_displacement = 0;     //clockwise
-  int gold = 10000;
+  int gold = 0;
   boolean[] movement, shooting, upgrades, abilities;
   int maxAbilityLevel = 6;
-  int[] stats = {0,0,0,0,0}; //agility, power, bomb, beserk, slowmo
+  int[] stats = {0,0,0,0,0}; //agility, power, bomb, berserk, slowmo
   int[] upgradeCosts = {100, 140, 200, 280, 380, 500, -1};
   int rotate_lock = 0;
   int rotate_speed = 1;
@@ -13,16 +13,16 @@ class Player extends Actor {
 
   //agility traits
   int[] maxVels = {
-    2, 3, 4, 5, 6, 8, 10
+    14, 16, 18, 21, 24, 28, 33
   };
   int[] playerSizes = {
-    66, 64, 61, 57, 52, 46, 40, 
+    70, 67, 64, 60, 56, 50, 40, 
   };
 
   //power traits
   int powerPool = 300;          //
   int[] powerPool_restores = {
-    3, 3, 4, 4, 5, 7, 9
+    3, 3, 4, 4, 5, 6, 7
   };    //UPGRADABLE
   int powerPool_missile = 50;
   int[] powerPool_maxs = {
@@ -41,16 +41,22 @@ class Player extends Actor {
   int upgradeCoolDown_interval = 2;
 
   //bomb
-  int[] bomb_sizes = new int[]{0, 6, 6, 8, 10, 12, 16};
-  boolean bombPrimed = false, bombSwitch = false;
+  int[] bomb_sizes = new int[]{0, 8, 10, 10, 12, 12, 16};
+  boolean bombPrimed = false, bomb_switch = false;
 
   //slowMo
   int[] slowMo_sizes = new int[]{0, 60, 70, 90, 110, 130, 160};
-  float[] slowMo_rates = new float[]{1, .8, .7, .6, .4, .2, .05};
+  float[] slowMo_rates = new float[]{1, .5, .5, .4, .3, .2, 0};
   int slowMo_counter = 0;
   boolean slowMo_switch = false;
 
-  int[][] powerupLimits = new int[][]{{0, 1, 2, 2, 2, 3, 3},{0, 1, 2, 2, 2, 3, 3},{0, 1, 2, 2, 2, 3, 3}};
+  //berserk
+  int[] berserk_sizes = new int[]{0, 20, 30, 40, 50, 70, 90};
+  int berserk_counter = 0;
+  boolean berserk_switch = false;
+  float berserk_turning = 0;
+
+  int[][] powerupLimits = new int[][]{{0, 1, 1, 2, 2, 3, 3},{0, 1, 1, 1, 1, 2, 2},{0, 1, 1, 1, 1, 2, 2}};
 
   Player(int _xPos, int _yPos, int _HP) {
     xPos = _xPos;
@@ -63,8 +69,8 @@ class Player extends Actor {
     powerPool -= powerPool_missile;
   }
 
-  void fire_bomb(int _type) {
-    bombs.add(new Bomb((int)xPos, (int)yPos, _type, bomb_size() * margin, 30));
+  void fire_bomb() {
+    bombs.add(new Bomb((int)xPos, (int)yPos, -1, bomb_size() * margin, 30));
     //powerPool -= powerPool_missile;
   }
 
@@ -85,10 +91,25 @@ class Player extends Actor {
     //drawing main square - red if locked, black if not
     pushMatrix();
     translate(xPos, yPos);
-    if (rotate_lock != 0){
+
+    if (berserk_counter > 0){
+      float turnByThis = 1;
+      if(berserk_counter <= 30){
+        turnByThis *= (float)berserk_counter/30;
+      }
+      berserk_turning += turnByThis;
+      berserk_turning %= 12;
+      strokeWeight(0);
+      fill(255,255,0, 60*(turnByThis));
+      rect(0,0,sWidth*2,sHeight*2);
+      pushMatrix();
+      rotate(berserk_turning * PI/6);
+    }
+    else if (rotate_lock != 0){
       pushMatrix();
       rotate(rotate_lock * PI/6);
     }
+
     strokeWeight(playerSize()/8);
     if (!locked) {
       stroke(0);
@@ -103,20 +124,23 @@ class Player extends Actor {
     fill(255);
     int temp = playerSize()*powerPool / powerPool_max();
     rect(0, 0, temp, temp);
-    if (rotate_lock != 0){
+
+    if (rotate_lock != 0 || berserk_counter > 0){
       popMatrix();
     }
+
     popMatrix();
-    if (bombPrimed){
+
+    /*if (bombPrimed){
       stroke(0);
       fill(255);
       triangle(xPos, yPos+size/10, xPos+size/6, yPos + size/3, xPos-size/6, yPos + size/3);  
       rect(xPos, yPos - size/7, size/3, size/1.8, size/10);    
-    }
+    }*/
   }
 
   //caps player within display boundaries, considering UI clipping
-  void cap() {
+  void capPos() {
     if (xPos > sWidth - playerSize()/2) {
       xPos = sWidth - playerSize()/2;
     } else if (xPos < playerSize()/2) {
@@ -128,12 +152,14 @@ class Player extends Actor {
     } else if (yPos < margin/2 + playerSize()/2) {
       yPos = margin/2 + playerSize()/2;
     };
+  }
 
-    if (abs(xVel) > maxVel()) {
-      xVel = maxVel()*xVel/abs(xVel);
-    }
-    if (abs(yVel) > maxVel()) {
-      yVel = maxVel()*yVel/abs(yVel);
+  void capVel(){
+    float totalVel = pow(xVel,2) + pow(yVel, 2);
+    float max = pow(maxVel(), 2);
+    if (totalVel > max) {
+      xVel *=  max/totalVel;
+      yVel *=  max/totalVel;
     }
   }
 
@@ -147,36 +173,13 @@ class Player extends Actor {
     if(calculate_bomb()){
       return true;
     }
-
-    //calculating slowmo counter
-    if (slowMo_counter > 0){
-      slowMo_counter -= 1;
-      slowMoModifier = slowMo_rate();
-    }
-    else{
-      slowMo_counter = 0;
-      slowMoModifier = 1;
-    }
-
-    if (abilities[2]){
-     if(!slowMo_switch){
-        //execute slowmo
-        if (powerupController.removeThisType(2) == true){
-          slowMo_counter += slowMo_size();
-        }
-      }
-      slowMo_switch = true;
-    }
-    else {
-      slowMo_switch = false;
-    }
-
-    
+    calculate_slowMo();
+    calculate_berserk();
     return false;
   }
 
   boolean calculate_bomb(){
-    if (abilities[0]){
+    /*if (abilities[0]){
       if(!bombSwitch){
         bombPrimed = !bombPrimed;
       }
@@ -195,40 +198,106 @@ class Player extends Actor {
       if (dir >= 0 && powerupController.removeThisType(0)){
         fire_bomb((dir+rotate_displacement)%4);
         bombPrimed = false;
+        bgColor = new int[]{120,120,120};
         return true;
       }
+    }
+    return false;*/
+    if (abilities[0]){
+      if(!bomb_switch){
+        if (powerupController.removeThisType(0)){
+          fire_bomb();
+          bgColor = new int[]{120,120,120};
+          bomb_switch = true;
+          return true;
+        }
+      }
+    }
+    else{
+      bomb_switch = false;
     }
     return false;
   }
 
-  void calculate_movement(){
-    //rotation
-    if (rotate_lock == 0){
-      if (movement[4]){
-        rotate_displacement = (rotate_displacement+3)%4;
-        rotate_lock = rotate_lockFull;
-        powerPool *= .8;
-      }
-      else if (movement[5]){
-        rotate_displacement = (rotate_displacement+1)%4;
-        rotate_lock = -rotate_lockFull;
-        powerPool *= .8;
-      }
+  void calculate_slowMo(){
+    if (slowMo_counter > 0){
+      slowMo_counter -= 1;
+      slowMoModifier = slowMo_rate();
+      slowMoFraction = (float)slowMo_counter/slowMo_size();
     }
     else{
-      rotate_lock -= rotate_speed * (rotate_lock/abs(rotate_lock));
+      slowMo_counter = 0;
+      slowMoModifier = 1;
     }
+
+    if (abilities[2]){
+     if(!slowMo_switch){
+        //execute slowmo
+        if (powerupController.removeThisType(2) == true){
+          slowMo_counter += slowMo_size();
+        }
+      }
+      slowMo_switch = true;
+    }
+    else {
+      slowMo_switch = false;
+    }
+  }
+  void calculate_berserk(){
+    if (berserk_counter > 0){
+      berserk_counter -= 1;
+    }
+    else{
+      berserk_counter = 0;
+    }
+
+    if (abilities[1]){
+     if(!berserk_switch){
+        //execute slowmo
+        if (powerupController.removeThisType(1) == true){
+          berserk_counter += berserk_size();
+        }
+      }
+      berserk_switch = true;
+    }
+    else {
+      berserk_switch = false;
+    }
+  }
+  void calculate_movement(){
+    //rotation
+    if(berserk_counter > 0){
+    }
+    else{
+      if (rotate_lock == 0){
+        if (movement[4]){
+          rotate_displacement = (rotate_displacement+3)%4;
+          rotate_lock = rotate_lockFull;
+          powerPool *= .8;
+        }
+        else if (movement[5]){
+          rotate_displacement = (rotate_displacement+1)%4;
+          rotate_lock = -rotate_lockFull;
+          powerPool *= .8;
+        }
+      }
+      else{
+        rotate_lock -= rotate_speed * (rotate_lock/abs(rotate_lock));
+      }
+    }
+
     for (int i = 0; i < 4; i++) {
       if (movement[i]) {
         xVel += moveDirs[i][0];
         yVel += moveDirs[i][1];
       }
     }
+    capVel();
     xPos += xVel;
     yPos += yVel;
     xVel *= .4;
     yVel *= .4;
-    cap();
+    capPos();
   }
 
   void calculate_missileShooting(){
@@ -340,7 +409,7 @@ class Player extends Actor {
     return stats[2];
   }
 
-  int s_beserk(){
+  int s_berserk(){
     return stats[3];
   }
 
@@ -357,7 +426,7 @@ class Player extends Actor {
       case 2: 
         return s_bomb();
       case 3: 
-        return s_beserk();
+        return s_berserk();
       case 4: 
         return s_slowmo();
     }
@@ -388,8 +457,8 @@ class Player extends Actor {
   int bombCost() {
     return upgradeCosts[s_bomb()];
   }
-  int beserkCost() {
-    return upgradeCosts[s_beserk()];
+  int berserkCost() {
+    return upgradeCosts[s_berserk()];
   }
   int slowmoCost() {
     return upgradeCosts[s_slowmo()];
@@ -403,7 +472,7 @@ class Player extends Actor {
       case 2: 
         return bombCost();
       case 3: 
-        return beserkCost();
+        return berserkCost();
       case 4: 
         return slowmoCost();
     }
@@ -418,6 +487,9 @@ class Player extends Actor {
   }
   int slowMo_size() {
     return slowMo_sizes[s_slowmo()];
+  }
+  int berserk_size() {
+    return berserk_sizes[s_berserk()];
   }
 
   void linkControlArrays(boolean[] _movement, boolean [] _shooting, boolean[] _upgrades, boolean[] _abilities) {

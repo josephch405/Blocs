@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="600"
+   height="400"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="tutorial.svg"
+   inkscape:export-filename="C:\Users\Administrator\Google Drive\12grade\Blocs\Blocs\tutorial.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="158.82633"
+     inkscape:cy="165.13731"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="716"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2985"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-652.36218)">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:10;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect3207"
+       width="600"
+       height="400"
+       x="0"
+       y="0"
+       transform="translate(0,652.36218)" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Roboto;-inkscape-font-specification:Roboto"
+       x="20"
+       y="682.36218"
+       id="text2987"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2989"
+         x="20"
+         y="682.36218"
+         style="font-size:20px">WASD: Movement, Q/E: Rotate</tspan><tspan
+         sodipodi:role="line"
+         x="20"
+         y="707.36218"
+         id="tspan2991"
+         style="font-size:20px">IJKL: Shooting - hold to shoot</tspan><tspan
+         sodipodi:role="line"
+         x="20"
+         y="732.36218"
+         id="tspan2993"
+         style="font-size:20px" /></text>
+    <rect
+       style="fill:#ffff00;fill-opacity:1;stroke:none"
+       id="rect3017"
+       width="518"
+       height="100"
+       x="-530"
+       y="798.36218"
+       transform="scale(-1,1)" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Roboto;-inkscape-font-specification:Roboto"
+       x="74"
+       y="741.36218"
+       id="text2995"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2997"
+         x="74"
+         y="741.36218"
+         style="font-size:30px">Upgrades <tspan
+   style="font-size:20px"
+   id="tspan3205">- press number to buy:</tspan></tspan><tspan
+         sodipodi:role="line"
+         x="74"
+         y="769.94025"
+         id="tspan2999"
+         style="font-size:20px">1: Agility (-size, +speed)</tspan><tspan
+         sodipodi:role="line"
+         x="74"
+         y="794.94025"
+         id="tspan3001"
+         style="font-size:20px">2: Power (+shooting speed, +ammo pool)</tspan><tspan
+         sodipodi:role="line"
+         x="74"
+         y="819.94025"
+         id="tspan3007"
+         style="font-size:20px">3: Bomb - press [Space]</tspan><tspan
+         sodipodi:role="line"
+         x="74"
+         y="844.94025"
+         id="tspan3011"
+         style="font-size:20px">4: Berserk - press [F] </tspan><tspan
+         sodipodi:role="line"
+         x="74"
+         y="869.94025"
+         style="font-size:20px"
+         id="tspan3019">5: Slow-mo - press [R]</tspan><tspan
+         sodipodi:role="line"
+         x="74"
+         y="889.5871"
+         style="font-size:14px"
+         id="tspan3029">*3-5 are abilities, require upgrade once, <tspan
+   style="font-weight:bold"
+   id="tspan3143">collect powerup</tspan> to use</tspan><tspan
+         sodipodi:role="line"
+         x="74"
+         y="907.0871"
+         style="font-size:14px"
+         id="tspan3147" /><tspan
+         sodipodi:role="line"
+         x="74"
+         y="924.5871"
+         id="tspan3005"
+         style="font-size:20px" /><tspan
+         sodipodi:role="line"
+         x="74"
+         y="947.44025"
+         style="font-size:14px"
+         id="tspan3159">-Grey enemies killed and ONLY killed by bullet, any color</tspan><tspan
+         sodipodi:role="line"
+         x="74"
+         y="972.44025"
+         style="font-size:20px"
+         id="tspan3157" /></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Roboto;-inkscape-font-specification:Roboto"
+       x="452"
+       y="1000.3622"
+       id="text3031"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3033"
+         x="452"
+         y="1000.3622"
+         style="font-size:20px">Click to exit</tspan></text>
+    <image
+       y="738.36218"
+       x="27"
+       id="image3071"
+       xlink:href="file:///C:/Users/Administrator/Google%20Drive/12grade/Blocs/Blocs/agility.png"
+       height="30"
+       width="30" />
+    <image
+       y="828.36218"
+       x="27"
+       id="image3092"
+       xlink:href="file:///C:/Users/Administrator/Google%20Drive/12grade/Blocs/Blocs/berserk.png"
+       height="30"
+       width="30" />
+    <image
+       y="798.36218"
+       x="27"
+       id="image3114"
+       xlink:href="file:///C:/Users/Administrator/Google%20Drive/12grade/Blocs/Blocs/bomb.png"
+       height="30"
+       width="30" />
+    <image
+       y="768.36218"
+       x="27"
+       id="image3125"
+       xlink:href="file:///C:/Users/Administrator/Google%20Drive/12grade/Blocs/Blocs/power.png"
+       height="30"
+       width="30" />
+    <image
+       y="858.36218"
+       x="27"
+       id="image3136"
+       xlink:href="file:///C:/Users/Administrator/Google%20Drive/12grade/Blocs/Blocs/slowmo.png"
+       height="30"
+       width="30" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Roboto;-inkscape-font-specification:Roboto"
+       x="339"
+       y="46"
+       id="text3787"
+       sodipodi:linespacing="125%"
+       transform="translate(0,652.36218)"><tspan
+         sodipodi:role="line"
+         id="tspan3789"
+         x="339"
+         y="46"
+         style="font-size:20px">Health - regens slowly</tspan></text>
+    <g
+       id="g3813">
+      <path
+         sodipodi:nodetypes="ccc"
+         transform="translate(0,652.36218)"
+         inkscape:connector-curvature="0"
+         id="path3791"
+         d="m 425,30 0,-20 -10,10"
+         style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" />
+      <path
+         transform="translate(0,652.36218)"
+         inkscape:connector-curvature="0"
+         id="path3793"
+         d="M 435,20 425,10"
+         style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" />
+    </g>
+    <g
+       transform="matrix(-1,0,0,-1,472,1697.7244)"
+       id="g3813-7">
+      <path
+         sodipodi:nodetypes="ccc"
+         transform="translate(0,652.36218)"
+         inkscape:connector-curvature="0"
+         id="path3791-4"
+         d="m 425,30 0,-20 -10,10"
+         style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         transform="translate(0,652.36218)"
+         inkscape:connector-curvature="0"
+         id="path3793-0"
+         d="M 435,20 425,10"
+         style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Roboto;-inkscape-font-specification:Roboto"
+       x="17"
+       y="1000.3622"
+       id="text3841"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3843"
+         x="17"
+         y="1000.3622"
+         style="font-size:20px">Upgrades shown here</tspan></text>
+    <g
+       transform="matrix(-1,0,0,-1,600,1698.7244)"
+       id="g3813-7-9">
+      <path
+         sodipodi:nodetypes="ccc"
+         transform="translate(0,652.36218)"
+         inkscape:connector-curvature="0"
+         id="path3791-4-4"
+         d="m 425,30 0,-20 -10,10"
+         style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <path
+         transform="translate(0,652.36218)"
+         inkscape:connector-curvature="0"
+         id="path3793-0-8"
+         d="M 435,20 425,10"
+         style="fill:none;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+    </g>
+  </g>
+</svg>

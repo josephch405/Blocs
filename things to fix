@@ -4,32 +4,15 @@ bugtest enemy counting and streamline process
 	*destroyed by boundary
 		or simply reroll vs creating new entity
 
--restart mechanism
--proper menu
+beserk - scatter gun idea?
 
 release variety - color wall
 
-features
-	rotating colors?						e, q										oooooooooo
+plan out progrssion
 
-	bomb mechanism							space bar 			radius - 5x				ooooooo---
-		ammo system?																	----------
+features
 	light beam								f 					width, length - 5x		----------
 	jump mechanism/stealth mode				u											----------
-	slow mo  								r 					time - 5x				----------
+	berserk
 
 	own minions/towers etc
-	swarm vs sticky
-	upgrades																			----------
-		self upgrade
-		bomb
-		light beam
-		jumping/stealth
-		etc
-
-naming scheme
-	first - major overhaul
-		0 - alpha
-		1 - beta
-	second - major feature
-	third - minor fixes

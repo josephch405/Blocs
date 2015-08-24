@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="100"
+   height="100"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="bomb.svg"
+   inkscape:export-filename="C:\Users\Administrator\Google Drive\12grade\Blocs\bomb.png"
+   inkscape:export-xdpi="200"
+   inkscape:export-ydpi="200">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="-562.8749"
+     inkscape:cy="182.23489"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="716"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid2985"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-952.36218)">
+    <path
+       style="fill:#ff6600;fill-opacity:1;stroke:none"
+       d="M 50 10 C 43.094011 9.9999998 36.188021 11.771095 30 15.34375 L 37.5 28.34375 C 41.176573 26.217564 45.447496 25 50 25 C 54.552504 25 58.823427 26.217564 62.5 28.34375 L 70 15.34375 C 63.811979 11.771094 56.905989 10 50 10 z "
+       transform="translate(0,952.36218)"
+       id="path3800-48" />
+    <path
+       style="fill:#ff6600;fill-opacity:1;stroke:none"
+       d="M 84.65625 30 L 71.65625 37.5 C 73.782436 41.176573 75 45.447496 75 50 C 75 54.552504 73.782436 58.823427 71.65625 62.5 L 84.65625 70 C 91.801561 57.623958 91.801561 42.376043 84.65625 30 z "
+       transform="translate(0,952.36218)"
+       id="path3800-8" />
+    <path
+       style="fill:#ff6600;fill-opacity:1;stroke:none"
+       d="M 15.34375 30 C 8.1984386 42.376042 8.1984392 57.623957 15.34375 70 L 28.34375 62.5 C 26.217564 58.823427 25 54.552504 25 50 C 25 45.447496 26.217564 41.176573 28.34375 37.5 L 15.34375 30 z "
+       transform="translate(0,952.36218)"
+       id="path3800-2" />
+    <path
+       style="fill:#ff6600;fill-opacity:1;stroke:none"
+       d="M 37.5 71.65625 L 30 84.65625 C 42.376042 91.801561 57.623957 91.801561 70 84.65625 L 62.5 71.65625 C 58.823427 73.782436 54.552504 75 50 75 C 45.447496 75 41.176573 73.782436 37.5 71.65625 z "
+       transform="translate(0,952.36218)"
+       id="path3800" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ff6600;fill-opacity:1;stroke:none"
+       id="path3798"
+       sodipodi:cx="50"
+       sodipodi:cy="50"
+       sodipodi:rx="10"
+       sodipodi:ry="10"
+       d="m 60,50 c 0,5.522847 -4.477153,10 -10,10 -5.522847,0 -10,-4.477153 -10,-10 0,-5.522847 4.477153,-10 10,-10 5.522847,0 10,4.477153 10,10 z"
+       transform="matrix(2,0,0,2,-50,902.36218)" />
+  </g>
+</svg>

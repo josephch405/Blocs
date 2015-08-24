@@ -5,7 +5,7 @@ class Powerup extends Actor{
 	float dist = 2, angle = 0, dist_vel = 0, dist_vel_max = 0, angle_vel = .1;
 
 	Powerup(int _xPos, int _yPos, int _dir, int _type) {
-		size = margin*3/4;
+		size = margin;
 		xPos = _xPos;
 		yPos = _yPos;
 		dir = _dir;
@@ -39,11 +39,10 @@ class Powerup extends Actor{
 	}
 
 	void drawOut() {
-		ellipseMode(CENTER);
+		rectMode(CENTER);
 		strokeWeight(2);
 		stroke(0);
-		fillWithArray(abilityColors[type]);
-		ellipse(xPos, yPos, size, size);
+		image(powerupImages[type+2], xPos, yPos, size, size);
 	}
 
 	void setVels() {

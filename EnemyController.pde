@@ -2,6 +2,7 @@ class EnemyController {
 
   int enemyLimit = 40;
   int stickyTimer = 100;
+  int regularTimer = 2;
 
   EnemyController() {
   }
@@ -12,7 +13,13 @@ class EnemyController {
     }
 
     if (enemies.size() < floor(maxEnemies)) {
-      release(floor(random(0, 4)));
+      if (regularTimer > 0){
+        regularTimer -= 1;
+      }
+      else{
+        release(floor(random(0, 4)));;
+        regularTimer = 5;
+      }
     }
     if (enemies_sticky.size() < floor((maxEnemies-10)/3)) {
       if (stickyTimer > 0){
@@ -26,6 +33,7 @@ class EnemyController {
     calculateActorArray(enemies);
     calculateActorArray(enemies_sticky);
     calculateActorArray(enemies_kill);
+    calculateActorArray(goldCoins);
   }
 
   void release(int dir) {
