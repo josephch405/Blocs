@@ -108,6 +108,8 @@ class UIManager{
 	void draw_ui(){
 		if (status > -1){
 			drawBars();
+			//fill(0);
+			//text(maxEnemies, 20,20);
 		}
 		if (active[0]){
 			drawPlayButton(components[0]);
@@ -178,7 +180,7 @@ class UIManager{
 		fill(0);
 		image(powerupImages[s_index], offset + margin*3.7, sHeight-margin*factor, margin, margin);
 		text(tempText, offset + margin*5, sHeight-(factor - (float)2/3)*margin);
-		if (player.gold >= cost){
+		if (player.gold >= cost && cost > 0){
 			fill(255);
 			rect(offset + margin*3.5, sHeight-margin*(factor*3/2), margin*5 ,margin*factor/2);
 			fill(0);

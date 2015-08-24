@@ -83,7 +83,7 @@ class Enemy extends Actor {
     if (isCollided(playerPos, player.playerSize())) {
       damagePlayer(400);
       destroyWithAnim();
-      maxEnemies += .4;
+      maxEnemies += .3;
       return true;
     }
     return false;
@@ -100,7 +100,7 @@ class Enemy extends Actor {
         missiles.get(i).destroy();
         if (missile.type == type) {
           destroyWithAnim();
-          maxEnemies += .4;
+          maxEnemies += .1;
           return true;
         }
       }
@@ -114,7 +114,7 @@ class Enemy extends Actor {
       //if (bomb.type == type) {
         if (isCollided_bomb(bomb)) {
           destroyWithAnim();
-          maxEnemies += .2;
+          maxEnemies += .3;
           return true;
         }
       //}

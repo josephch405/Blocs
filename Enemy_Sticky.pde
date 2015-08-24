@@ -103,7 +103,7 @@ class Enemy_Sticky extends Actor {
       damagePlayer(1000);
       goldCoins.add(new GoldCoin(floor(xPos), floor(yPos)));
       destroy();
-      maxEnemies += .2;
+      maxEnemies += .3;
       return true;
     }
     return false;
@@ -187,7 +187,7 @@ class Enemy_Sticky extends Actor {
       };
       if (isCollided(_minion_pos, _minion.size)) {
         childList.add((Enemy)enemies.get(i));
-        int[] finalCoords = collision_position(round(_minion.xPos), round(_minion.yPos));
+        int[] finalCoords = collision_position(_minion.xPos, _minion.yPos);
         finalCoords[0] += stickyCoords[0];
         finalCoords[1] += stickyCoords[1];
 
@@ -202,16 +202,16 @@ class Enemy_Sticky extends Actor {
     return counter;
   }
 
-  int[] collision_position(int _x, int _y) {
+  int[] collision_position(float _x, float _y) {
     int[] result = {
       0, 0
     };
-    int deltaX = _x - round(xPos);
-    int deltaY = _y - round(yPos);
-    if (abs(deltaY)<abs(deltaX)) {
-      result[0] = deltaX/abs(deltaX);
-    } else {
-      result[1] = deltaY/abs(deltaY);
+    float deltaX = _x - xPos;
+    float deltaY = _y - yPos;
+    if (abs(deltaY)<abs(deltaX) && deltaX != 0) {
+      result[0] = (int)(deltaX/abs(deltaX));
+    } else if (deltaY != 0){
+      result[1] = (int)(deltaY/abs(deltaY));
     }
     return result;
   }

@@ -15,8 +15,8 @@ import java.io.IOException;
 public class Blocs extends PApplet {
 
 //variables
-int sWidth = 960;
-int sHeight = 600;
+int sWidth = 800;
+int sHeight = 560;
 int margin = floor(sHeight * .05f);
 int status = 0;
 int score = 0;
@@ -57,7 +57,7 @@ boolean[] downKeys;
 public void setup(){
   frameRate(30);
   //size(sWidth,sHeight);
-  size(960 ,600);
+  size(800 ,560);
 
   //init background
   bgSprites = new BgSprite[40];
@@ -504,7 +504,7 @@ class Enemy extends Actor {
     if (isCollided(playerPos, player.playerSize())) {
       damagePlayer(400);
       destroyWithAnim();
-      maxEnemies += .4f;
+      maxEnemies += .3f;
       return true;
     }
     return false;
@@ -521,7 +521,7 @@ class Enemy extends Actor {
         missiles.get(i).destroy();
         if (missile.type == type) {
           destroyWithAnim();
-          maxEnemies += .4f;
+          maxEnemies += .1f;
           return true;
         }
       }
@@ -535,7 +535,7 @@ class Enemy extends Actor {
       //if (bomb.type == type) {
         if (isCollided_bomb(bomb)) {
           destroyWithAnim();
-          maxEnemies += .2f;
+          maxEnemies += .3f;
           return true;
         }
       //}
@@ -605,9 +605,9 @@ class Enemy extends Actor {
 
 class EnemyController {
 
-  int enemyLimit = 40;
+  int enemyLimit = 80;
   int stickyTimer = 100;
-  int regularTimer = 2;
+  int regularTimer = 1;
 
   EnemyController() {
   }
@@ -623,7 +623,7 @@ class EnemyController {
       }
       else{
         release(floor(random(0, 4)));;
-        regularTimer = 5;
+        regularTimer = 3;
       }
     }
     if (enemies_sticky.size() < floor((maxEnemies-10)/3)) {
@@ -757,7 +757,7 @@ class Enemy_Sticky extends Actor {
       damagePlayer(1000);
       goldCoins.add(new GoldCoin(floor(xPos), floor(yPos)));
       destroy();
-      maxEnemies += .2f;
+      maxEnemies += .3f;
       return true;
     }
     return false;
@@ -841,7 +841,7 @@ class Enemy_Sticky extends Actor {
       };
       if (isCollided(_minion_pos, _minion.size)) {
         childList.add((Enemy)enemies.get(i));
-        int[] finalCoords = collision_position(round(_minion.xPos), round(_minion.yPos));
+        int[] finalCoords = collision_position(_minion.xPos, _minion.yPos);
         finalCoords[0] += stickyCoords[0];
         finalCoords[1] += stickyCoords[1];
 
@@ -856,16 +856,16 @@ class Enemy_Sticky extends Actor {
     return counter;
   }
 
-  public int[] collision_position(int _x, int _y) {
+  public int[] collision_position(float _x, float _y) {
     int[] result = {
       0, 0
     };
-    int deltaX = _x - round(xPos);
-    int deltaY = _y - round(yPos);
-    if (abs(deltaY)<abs(deltaX)) {
-      result[0] = deltaX/abs(deltaX);
-    } else {
-      result[1] = deltaY/abs(deltaY);
+    float deltaX = _x - xPos;
+    float deltaY = _y - yPos;
+    if (abs(deltaY)<abs(deltaX) && deltaX != 0) {
+      result[0] = (int)(deltaX/abs(deltaX));
+    } else if (deltaY != 0){
+      result[1] = (int)(deltaY/abs(deltaY));
     }
     return result;
   }
@@ -1836,6 +1836,8 @@ class UIManager{
 	public void draw_ui(){
 		if (status > -1){
 			drawBars();
+			//fill(0);
+			//text(maxEnemies, 20,20);
 		}
 		if (active[0]){
 			drawPlayButton(components[0]);
@@ -1906,7 +1908,7 @@ class UIManager{
 		fill(0);
 		image(powerupImages[s_index], offset + margin*3.7f, sHeight-margin*factor, margin, margin);
 		text(tempText, offset + margin*5, sHeight-(factor - (float)2/3)*margin);
-		if (player.gold >= cost){
+		if (player.gold >= cost && cost > 0){
 			fill(255);
 			rect(offset + margin*3.5f, sHeight-margin*(factor*3/2), margin*5 ,margin*factor/2);
 			fill(0);

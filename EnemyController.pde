@@ -1,8 +1,8 @@
 class EnemyController {
 
-  int enemyLimit = 40;
+  int enemyLimit = 80;
   int stickyTimer = 100;
-  int regularTimer = 2;
+  int regularTimer = 1;
 
   EnemyController() {
   }
@@ -18,7 +18,7 @@ class EnemyController {
       }
       else{
         release(floor(random(0, 4)));;
-        regularTimer = 5;
+        regularTimer = 3;
       }
     }
     if (enemies_sticky.size() < floor((maxEnemies-10)/3)) {
